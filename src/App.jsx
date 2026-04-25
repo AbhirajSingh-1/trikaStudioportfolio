@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home/Home';
 import AIAdvertising from './pages/AIAdvertising/AIAdvertising';
-import Visualization from './pages/3DVisualization/Visualization';
+import Visualization from './pages/3Dvisualization/Visualization';
 import DigitalMarketing from './pages/DigitalMarketing/DigitalMarketing';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
