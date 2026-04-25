@@ -29,7 +29,7 @@ const socials = [
     label: 'Instagram',
     href: 'https://instagram.com',
     icon: (
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.75">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.75">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -40,7 +40,7 @@ const socials = [
     label: 'LinkedIn',
     href: 'https://linkedin.com',
     icon: (
-      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
         <circle cx="4" cy="4" r="2"/>
       </svg>
@@ -50,7 +50,7 @@ const socials = [
     label: 'YouTube',
     href: 'https://youtube.com',
     icon: (
-      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
         <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
       </svg>
@@ -60,7 +60,7 @@ const socials = [
     label: 'Twitter / X',
     href: 'https://twitter.com',
     icon: (
-      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
       </svg>
     ),
@@ -72,59 +72,61 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative overflow-hidden border-t"
       style={{
-        background: 'linear-gradient(180deg, #020613 0%, #01040E 100%)',
-        borderColor: 'rgba(255,255,255,0.05)',
+        background: 'var(--text)',
+        borderTop: '1px solid rgba(253,252,248,0.08)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      {/* Orbs */}
-      <div
-        className="orb w-96 h-96 opacity-15 left-0 bottom-0 -translate-x-1/2 translate-y-1/2"
-        style={{ background: 'radial-gradient(circle, #4D7EF5, transparent)' }}
-      />
-      <div
-        className="orb w-72 h-72 opacity-10 right-0 top-0 translate-x-1/3 -translate-y-1/2"
-        style={{ background: 'radial-gradient(circle, #FF6B35, transparent)' }}
-      />
+      {/* Subtle orange glow top-left */}
+      <div style={{
+        position: 'absolute',
+        width: '400px', height: '300px',
+        background: 'radial-gradient(ellipse, rgba(201,72,27,0.12), transparent 70%)',
+        top: 0, left: 0,
+        transform: 'translate(-30%, -30%)',
+        pointerEvents: 'none',
+      }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8 sm:pb-10">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12 mb-12 sm:mb-16">
+      <div style={{
+        position: 'relative', zIndex: 1,
+        maxWidth: '1280px', margin: '0 auto',
+        padding: 'clamp(48px, 8vw, 80px) 24px 0',
+      }}>
 
-          {/* ── Brand column ── */}
-          <div className="col-span-2 lg:col-span-2">
+        {/* Top row: brand + links */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr 1fr 1fr',
+          gap: 'clamp(24px, 4vw, 64px)',
+          marginBottom: '56px',
+        }}
+        className="footer-grid"
+        >
+
+          {/* Brand */}
+          <div>
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2.5 mb-5 group"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: '20px', display: 'block' }}
             >
-              <Logo size={34} />
-              <div className="flex items-baseline">
-                <span
-                  className="text-lg font-black tracking-tight"
-                  style={{
-                    fontFamily: 'Syne, sans-serif',
-                    background: 'linear-gradient(135deg, #FF6B35 0%, #F5A623 60%, #FF3D00 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Trika
-                </span>
-                <span
-                  className="text-lg font-black tracking-tight text-white ml-1.5"
-                  style={{ fontFamily: 'Syne, sans-serif' }}
-                >
-                  Studio
-                </span>
-              </div>
+              <Logo size="md" dark={false} />
             </button>
 
-            <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-xs">
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '14px',
+              color: 'rgba(253,252,248,0.5)',
+              lineHeight: 1.75,
+              maxWidth: '300px',
+              marginBottom: '24px',
+            }}>
               AI-powered digital experiences that transform brands and accelerate growth. Where creativity meets cutting-edge technology.
             </p>
 
-            <div className="flex items-center gap-2.5">
+            {/* Socials */}
+            <div style={{ display: 'flex', gap: '10px' }}>
               {socials.map(({ label, href, icon }) => (
                 <a
                   key={label}
@@ -132,7 +134,26 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 hover:scale-110"
+                  style={{
+                    width: '36px', height: '36px',
+                    borderRadius: '10px',
+                    background: 'rgba(253,252,248,0.07)',
+                    border: '1px solid rgba(253,252,248,0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'rgba(253,252,248,0.5)',
+                    textDecoration: 'none',
+                    transition: 'all 0.25s ease',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'rgba(201,72,27,0.2)';
+                    e.currentTarget.style.borderColor = 'rgba(201,72,27,0.4)';
+                    e.currentTarget.style.color = '#C9481B';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(253,252,248,0.07)';
+                    e.currentTarget.style.borderColor = 'rgba(253,252,248,0.1)';
+                    e.currentTarget.style.color = 'rgba(253,252,248,0.5)';
+                  }}
                 >
                   {icon}
                 </a>
@@ -140,27 +161,47 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ── Link columns ── */}
+          {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4
-                className="text-white text-xs font-semibold mb-4 tracking-widest uppercase"
-                style={{ fontFamily: 'Syne, sans-serif' }}
-              >
+              <h4 style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '11px',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'rgba(253,252,248,0.35)',
+                marginBottom: '20px',
+              }}>
                 {title}
               </h4>
-              <ul className="space-y-2.5">
+              <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {links.map(({ label, path }) => (
                   <li key={label}>
                     {path ? (
                       <button
                         onClick={() => navigate(path)}
-                        className="text-slate-500 text-sm hover:text-slate-300 transition-colors duration-300 text-left"
+                        style={{
+                          background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: '14px',
+                          color: 'rgba(253,252,248,0.6)',
+                          transition: 'color 0.2s',
+                          textAlign: 'left',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#FDFCF8'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.6)'}
                       >
                         {label}
                       </button>
                     ) : (
-                      <span className="text-slate-600 text-sm">{label}</span>
+                      <span style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: '14px',
+                        color: 'rgba(253,252,248,0.35)',
+                      }}>
+                        {label}
+                      </span>
                     )}
                   </li>
                 ))}
@@ -169,19 +210,36 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* ── Bottom bar ── */}
-        <div
-          className="border-t pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ borderColor: 'rgba(255,255,255,0.05)' }}
-        >
-          <p className="text-slate-600 text-xs text-center sm:text-left">
-            © 2025 Trika Studio. All rights reserved. Crafted with precision & passion.
+        {/* Bottom bar */}
+        <div style={{
+          borderTop: '1px solid rgba(253,252,248,0.08)',
+          padding: '24px 0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px',
+        }}>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: '13px',
+            color: 'rgba(253,252,248,0.3)',
+          }}>
+            © 2025 Trika Studio. Crafted with precision & passion.
           </p>
-          <div className="flex items-center gap-4 sm:gap-6">
-            {['Privacy Policy', 'Terms of Service', 'Sitemap'].map((item) => (
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
               <span
                 key={item}
-                className="text-slate-600 text-xs hover:text-slate-400 cursor-pointer transition-colors"
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: '12px',
+                  color: 'rgba(253,252,248,0.28)',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'rgba(253,252,248,0.6)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.28)'}
               >
                 {item}
               </span>
@@ -189,6 +247,16 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Responsive */}
+      <style>{`
+        @media (max-width: 900px) {
+          .footer-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 540px) {
+          .footer-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </footer>
   );
 }

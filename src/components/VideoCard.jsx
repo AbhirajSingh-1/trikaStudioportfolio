@@ -1,35 +1,25 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-// Extract YouTube video ID from any YT URL format, or use directly if already an ID
 function parseVideoId(input) {
   if (!input) return '';
-  // Already a plain ID (no slashes or dots)
   if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
   try {
     const url = new URL(input);
-    // youtube.com/watch?v=ID
     if (url.searchParams.get('v')) return url.searchParams.get('v');
-    // youtu.be/ID
     if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('?')[0];
-    // youtube.com/embed/ID
     const embedMatch = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
     if (embedMatch) return embedMatch[1];
-    // youtube.com/shorts/ID
     const shortsMatch = url.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
     if (shortsMatch) return shortsMatch[1];
-  } catch {
-    // Not a URL — return as-is
-  }
+  } catch { /* not a URL */ }
   return input;
 }
 
 function VideoModal({ videoId, title, onClose }) {
-  // Close on Escape key
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
-    // Prevent body scroll while modal is open
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
@@ -41,50 +31,37 @@ function VideoModal({ videoId, title, onClose }) {
 
   return createPortal(
     <div
-      className="video-modal-backdrop"
       onClick={onClose}
       style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 99999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: 'fixed', inset: 0, zIndex: 99999,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '16px',
-        background: 'rgba(0,0,0,0.93)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
+        background: 'rgba(24,19,13,0.88)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
       }}
     >
       <div
         style={{
-          width: '100%',
-          maxWidth: '900px',
-          borderRadius: '20px',
-          overflow: 'hidden',
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
+          width: '100%', maxWidth: '920px',
+          borderRadius: '20px', overflow: 'hidden',
+          background: '#FDFCF8',
+          boxShadow: '0 40px 100px rgba(24,19,13,0.5)',
           animation: 'modal-pop 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards',
         }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         {/* Modal header */}
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '14px 20px',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid #E8E2D8',
+          background: '#FDFCF8',
         }}>
           <p style={{
-            color: '#F0F4FF',
-            fontFamily: 'Syne, sans-serif',
-            fontWeight: 600,
-            fontSize: '14px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 500, fontSize: '14px', color: '#18130D',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             maxWidth: 'calc(100% - 48px)',
           }}>
             {title}
@@ -92,29 +69,24 @@ function VideoModal({ videoId, title, onClose }) {
           <button
             onClick={onClose}
             style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '8px',
-              background: 'rgba(255,255,255,0.08)',
-              border: 'none',
+              width: '32px', height: '32px', borderRadius: '8px',
+              background: '#F4EFE6',
+              border: '1px solid #E8E2D8',
               cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              transition: 'background 0.2s',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, transition: 'background 0.2s',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+            onMouseEnter={e => e.currentTarget.style.background = '#E8E2D8'}
+            onMouseLeave={e => e.currentTarget.style.background = '#F4EFE6'}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Video iframe */}
-        <div style={{ aspectRatio: '16/9', width: '100%' }}>
+        {/* Video */}
+        <div style={{ aspectRatio: '16/9', width: '100%', background: '#18130D' }}>
           <iframe
             src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
             title={title}
@@ -127,7 +99,7 @@ function VideoModal({ videoId, title, onClose }) {
 
       <style>{`
         @keyframes modal-pop {
-          from { opacity: 0; transform: scale(0.92) translateY(12px); }
+          from { opacity: 0; transform: scale(0.94) translateY(10px); }
           to   { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
@@ -136,27 +108,26 @@ function VideoModal({ videoId, title, onClose }) {
   );
 }
 
-export default function VideoCard({ videoId, title, description }) {
+export default function VideoCard({ videoId, title, description, accentColor }) {
   const [modalOpen, setModalOpen] = useState(false);
   const id = parseVideoId(videoId);
-
-  // Use maxresdefault, fall back to hqdefault
   const [thumbSrc, setThumbSrc] = useState(`https://img.youtube.com/vi/${id}/maxresdefault.jpg`);
 
   return (
     <>
       <div
-        className="glass-card rounded-2xl overflow-hidden hover-lift group cursor-pointer"
+        className="media-card group cursor-pointer"
         onClick={() => setModalOpen(true)}
+        style={{ borderRadius: '16px', overflow: 'hidden' }}
       >
         {/* Thumbnail */}
-        <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
+        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
           <img
             src={thumbSrc}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease', display: 'block' }}
+            className="group-hover:scale-105"
             onError={() => {
-              // fallback: maxres → hqdefault → placeholder div
               if (thumbSrc.includes('maxresdefault')) {
                 setThumbSrc(`https://img.youtube.com/vi/${id}/hqdefault.jpg`);
               } else {
@@ -165,69 +136,105 @@ export default function VideoCard({ videoId, title, description }) {
             }}
           />
 
-          {/* Placeholder when no thumbnail loads */}
           {!thumbSrc && (
-            <div
-              className="w-full h-full flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1A0533 100%)' }}
-            >
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="4" fill="rgba(77,126,245,0.15)" stroke="rgba(77,126,245,0.3)" strokeWidth="1" />
-                <path d="M8 5v14l11-7z" fill="#4D7EF5" />
+            <div style={{
+              width: '100%', height: '100%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'linear-gradient(135deg, #F4EFE6, #E8E2D8)',
+            }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="4" fill="rgba(201,72,27,0.1)" stroke="rgba(201,72,27,0.2)" />
+                <path d="M8 5v14l11-7z" fill="#C9481B" />
               </svg>
             </div>
           )}
 
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          {/* Gradient */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(24,19,13,0.6) 0%, transparent 60%)',
+            opacity: 0, transition: 'opacity 0.3s ease',
+          }} className="group-hover:opacity-100" />
 
           {/* Play button */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
               style={{
-                background: 'rgba(255,255,255,0.15)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                border: '1.5px solid rgba(255,255,255,0.3)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                width: '52px', height: '52px', borderRadius: '50%',
+                background: 'rgba(255,255,255,0.95)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 20px rgba(24,19,13,0.25)',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               }}
+              className="group-hover:scale-110 group-hover:shadow-lg"
             >
-              {/* YouTube play icon */}
-              <svg width="28" height="28" viewBox="0 0 68 48" fill="none">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#FF0000"/>
-                <path d="M45 24L27 14v20l18-10z" fill="white"/>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill={accentColor || '#C9481B'}>
+                <path d="M5 3l14 9-14 9z"/>
               </svg>
             </div>
           </div>
 
-          {/* YouTube badge */}
-          <div className="absolute bottom-3 right-3">
-            <span className="text-xs text-white bg-black/70 px-2 py-0.5 rounded font-medium">YouTube</span>
+          {/* YT badge */}
+          <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+            <span style={{
+              background: '#FF0000',
+              color: '#fff',
+              fontSize: '10px', fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif",
+              padding: '3px 8px', borderRadius: '4px',
+              letterSpacing: '0.04em',
+            }}>YT</span>
           </div>
         </div>
 
-        {/* Card info */}
-        <div className="p-4">
-          <h4
-            className="text-white text-sm font-semibold mb-1 line-clamp-2 group-hover:text-blue-400 transition-colors duration-300"
-            style={{ fontFamily: 'Syne, sans-serif' }}
-          >
+        {/* Info */}
+        <div style={{ padding: '14px 16px 16px' }}>
+          <h4 style={{
+            fontFamily: "'Cormorant Garant', serif",
+            fontWeight: 600, fontSize: '1rem', lineHeight: 1.3,
+            color: '#18130D',
+            marginBottom: '6px',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            transition: 'color 0.2s',
+          }} className="group-hover:text-orange">
             {title}
           </h4>
           {description && (
-            <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{description}</p>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '12px', color: '#7A7068', lineHeight: 1.6,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}>
+              {description}
+            </p>
           )}
+          <div style={{
+            marginTop: '12px',
+            display: 'flex', alignItems: 'center', gap: '5px',
+            color: accentColor || '#C9481B',
+            fontSize: '11px', fontWeight: 500,
+            fontFamily: "'DM Sans', sans-serif",
+            letterSpacing: '0.03em',
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 3l14 9-14 9z"/>
+            </svg>
+            <span>Watch video</span>
+          </div>
         </div>
       </div>
 
-      {/* Portal modal — renders directly in document.body, immune to parent transforms */}
       {modalOpen && (
-        <VideoModal
-          videoId={id}
-          title={title}
-          onClose={() => setModalOpen(false)}
-        />
+        <VideoModal videoId={id} title={title} onClose={() => setModalOpen(false)} />
       )}
     </>
   );

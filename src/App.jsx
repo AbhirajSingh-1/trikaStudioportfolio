@@ -31,13 +31,12 @@ function AppInner() {
     <div
       className="min-h-screen"
       style={{
-        background: '#04081A',
+        background: 'var(--bg)',
         overflowX: 'hidden',
         width: '100%',
         maxWidth: '100vw',
       }}
     >
-      <div className="grain" aria-hidden="true" />
       <ScrollToTop />
       <Header />
       <main style={{ overflowX: 'hidden' }}>
