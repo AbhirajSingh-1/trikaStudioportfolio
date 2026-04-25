@@ -24,20 +24,15 @@ const aiAvatarVideos = [
 ];
 
 const capabilities = [
-  { icon: '🎬', label: 'Text-to-Video', color: '#3B82F6' },
-  { icon: '🤖', label: 'AI Avatars', color: '#8B5CF6' },
-  { icon: '✨', label: 'AI Upscaling', color: '#F59E0B' },
-  { icon: '🎨', label: 'Style Transfer', color: '#EC4899' },
-  { icon: '🗣️', label: 'Voice Cloning', color: '#10B981' },
-  { icon: '🌐', label: 'Multilingual', color: '#C9481B' },
+  { icon: '🎬', label: 'Text-to-Video' },
+  { icon: '🤖', label: 'AI Avatars' },
+  { icon: '✨', label: 'AI Upscaling' },
+  { icon: '🎨', label: 'Style Transfer' },
+  { icon: '🗣️', label: 'Voice Cloning' },
+  { icon: '🌐', label: 'Multilingual' },
 ];
 
-const stats = [
-  { value: '10+', label: 'AI Video Campaigns', sub: 'delivered this quarter' },
-  { value: '120+', label: 'Languages', sub: 'for AI Avatar delivery' },
-  { value: '70%', label: 'Cost Reduction', sub: 'vs traditional production' },
-  { value: '48h', label: 'Turnaround', sub: 'from brief to final cut' },
-];
+ 
 
 export default function AIAdvertising() {
   const navigate = useNavigate();
@@ -47,45 +42,29 @@ export default function AIAdvertising() {
 
       {/* ── HERO ── */}
       <section className="page-hero">
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '760px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ marginBottom: '20px', display: 'inline-flex' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto' }}>
+          <span className="section-tag" style={{ marginBottom: '18px', display: 'inline-flex' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} className="animate-pulse" />
             AI-Powered Creative
           </span>
-          <h1 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontWeight: 700,
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            lineHeight: 1.06,
-            color: 'var(--text)',
-            marginBottom: '20px',
-          }}>
+          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
             AI <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Advertising</em>
           </h1>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-            color: 'var(--text-muted)',
-            lineHeight: 1.75,
-            maxWidth: '580px',
-            margin: '0 auto 36px',
-          }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(0.88rem, 1.8vw, 1rem)', color: 'var(--text-muted)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto 28px' }}>
             We harness the power of generative AI to create advertising content that was previously impossible — at the speed of thought and the scale of machines.
           </p>
 
           {/* Capability chips */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
-            {capabilities.map(({ icon, label, color }) => (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center' }}>
+            {capabilities.map(({ icon, label }) => (
               <div key={label} style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
-                padding: '8px 16px',
+                display: 'flex', alignItems: 'center', gap: '7px',
+                padding: '7px 14px',
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 borderRadius: '99px',
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: '13px',
-                fontWeight: 500,
-                color: 'var(--text)',
+                fontSize: '12.5px', fontWeight: 500, color: 'var(--text)',
                 boxShadow: 'var(--shadow-sm)',
               }}>
                 <span>{icon}</span>
@@ -96,126 +75,132 @@ export default function AIAdvertising() {
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
-      <section style={{ background: 'var(--text)', padding: '40px 24px' }}>
-        <div style={{
-          maxWidth: '1100px', margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: '24px',
-          textAlign: 'center',
-        }}>
-          {stats.map(({ value, label, sub }) => (
-            <div key={label}>
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 4vw, 2.8rem)', color: '#C9481B', lineHeight: 1 }}>
-                {value}
-              </div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.8)', fontWeight: 500, marginTop: '4px' }}>{label}</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(253,252,248,0.4)', marginTop: '2px' }}>{sub}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+       
 
       {/* ── AI VIDEOS SECTION ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-          {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '36px' }}>
             <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>AI Videos</span>
-              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1 }}>
+              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>AI Videos</span>
+              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1 }}>
                 Generative AI Video Production
               </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px', maxWidth: '480px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '6px', maxWidth: '460px' }}>
                 From concept to final cut — fully AI-driven campaigns for brands of every scale.
               </p>
             </div>
-            <button className="btn-outline" onClick={() => navigate('/contact')}>Start a Project →</button>
+            <button className="btn-outline" style={{ flexShrink: 0 }} onClick={() => navigate('/contact')}>Start a Project →</button>
           </div>
 
-          {/* Featured video + 3-col grid layout */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-
-            {/* Top row: 1 large + 2 stacked */}
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }} className="ai-top-grid">
-              {/* Featured */}
-              <VideoCard key={aiVideos[0].id} {...aiVideos[0]} />
-              {/* Two stacked */}
-              <div style={{ display: 'grid', gap: '16px', gridTemplateRows: '1fr 1fr' }}>
-                <VideoCard key={aiVideos[1].id} {...aiVideos[1]} />
-                <VideoCard key={aiVideos[2].id} {...aiVideos[2]} />
+          {/* ─── DESKTOP LAYOUT ─── */}
+          <div className="ai-videos-desktop">
+            {/* Top: large featured + 2 stacked */}
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px', marginBottom: '14px' }} className="ai-top-grid">
+              <VideoCard {...aiVideos[0]} />
+              <div style={{ display: 'grid', gap: '14px' }}>
+                <VideoCard {...aiVideos[1]} />
+                <VideoCard {...aiVideos[2]} />
               </div>
             </div>
-
-            {/* Bottom row: 4 equal */}
-            <div className="video-grid-4">
+            {/* Bottom: 4-col */}
+            <div className="video-grid-4" style={{ marginBottom: '14px' }}>
               {aiVideos.slice(3, 7).map(v => <VideoCard key={v.id} {...v} />)}
             </div>
-
-            {/* Last row: 3 equal */}
+            {/* Last row: 3-col */}
             <div className="video-grid-3">
               {aiVideos.slice(7).map(v => <VideoCard key={v.id} {...v} />)}
             </div>
           </div>
 
+          {/* ─── MOBILE / TABLET LAYOUT ─── */}
+          <div className="ai-videos-mobile">
+            {/* Horizontal scroll showcase strip — featured */}
+            <div style={{ marginBottom: '16px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '10px' }}>Featured</p>
+              <VideoCard {...aiVideos[0]} />
+            </div>
+
+            {/* Horizontal scroll strip */}
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '10px' }}>
+              More AI Campaigns
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              overflowX: 'auto',
+              paddingBottom: '10px',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              marginBottom: '16px',
+              marginLeft: '-24px',
+              marginRight: '-24px',
+              paddingLeft: '24px',
+              paddingRight: '24px',
+            }}>
+              {aiVideos.slice(1).map(v => (
+                <div key={v.id} style={{ flexShrink: 0, width: '280px', scrollSnapAlign: 'start' }}>
+                  <VideoCard {...v} />
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Info card */}
-          <div style={{
-            marginTop: '40px',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderLeft: '4px solid var(--orange)',
-            borderRadius: '16px',
-            padding: '28px 32px',
-          }}>
-            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.4rem', color: 'var(--text)', marginBottom: '10px' }}>
+          <div style={{ marginTop: '36px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid var(--orange)', borderRadius: '14px', padding: '24px 28px' }}>
+            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.3rem', color: 'var(--text)', marginBottom: '8px' }}>
               What is AI Video Creation?
             </h3>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
-              AI video creation uses generative models — including text-to-video, image-to-video, and NeRF-based rendering — to produce cinematic advertising content from simple text prompts or reference imagery. At Trika Studio, we fine-tune these models on your brand guidelines to ensure every frame is on-brand, on-budget, and ahead of schedule. Studio-quality ad films at a fraction of traditional production cost.
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+              AI video creation uses generative models — including text-to-video, image-to-video, and NeRF-based rendering — to produce cinematic advertising content from simple text prompts. At Trika Studio, we fine-tune these models on your brand guidelines to ensure every frame is on-brand, on-budget, and ahead of schedule.
             </p>
           </div>
         </div>
       </section>
 
       {/* ── AI AVATAR SECTION ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-          {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '36px' }}>
             <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>AI Avatars</span>
-              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1 }}>
+              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>AI Avatars</span>
+              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1 }}>
                 Photorealistic Digital Humans
               </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px', maxWidth: '480px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '6px', maxWidth: '440px' }}>
                 Scale your content across 120+ languages with AI-powered brand spokespersons.
               </p>
             </div>
           </div>
 
-          {/* Grid: 3 columns */}
-          <div className="video-grid-3">
+          {/* Desktop: 3-col grid */}
+          <div className="video-grid-3 ai-avatar-desktop">
             {aiAvatarVideos.map(v => (
               <VideoCard key={v.id} {...v} accentColor="#7C3AED" />
             ))}
           </div>
 
+          {/* Mobile: horizontal scroll */}
+          <div className="ai-avatar-mobile">
+            <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '10px', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', marginLeft: '-24px', marginRight: '-24px', paddingLeft: '24px', paddingRight: '24px' }}>
+              {aiAvatarVideos.map(v => (
+                <div key={v.id} style={{ flexShrink: 0, width: '280px', scrollSnapAlign: 'start' }}>
+                  <VideoCard {...v} accentColor="#7C3AED" />
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Info card */}
-          <div style={{
-            marginTop: '40px',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderLeft: '4px solid #7C3AED',
-            borderRadius: '16px',
-            padding: '28px 32px',
-          }}>
-            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.4rem', color: 'var(--text)', marginBottom: '10px' }}>
+          <div style={{ marginTop: '32px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid #7C3AED', borderRadius: '14px', padding: '24px 28px' }}>
+            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.3rem', color: 'var(--text)', marginBottom: '8px' }}>
               What are AI Avatars?
             </h3>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
               AI Avatars are photorealistic, fully customizable digital human presenters that deliver your brand message with natural expressions, lip-sync, and voice — without any camera crew. Create a custom avatar from a single photo, then generate thousands of personalized video messages across 120+ languages.
             </p>
           </div>
@@ -223,24 +208,37 @@ export default function AIAdvertising() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: '#FDFCF8', lineHeight: 1.1, marginBottom: '16px' }}>
-            Ready to create your<br />
+      <section style={{ background: 'var(--text)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', color: '#FDFCF8', lineHeight: 1.1, marginBottom: '14px' }}>
+            Ready to create your{' '}
             <em style={{ color: '#C9481B', fontStyle: 'italic' }}>own AI campaign?</em>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', color: 'rgba(253,252,248,0.55)', marginBottom: '32px', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'rgba(253,252,248,0.5)', marginBottom: '28px', lineHeight: 1.7 }}>
             Join 40+ brands already using Trika Studio's AI production pipeline.
           </p>
-          <button className="btn-primary" style={{ padding: '14px 36px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
+          <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
             Start Your Project →
           </button>
         </div>
       </section>
 
-      {/* Responsive */}
       <style>{`
+        /* Desktop shows grid layouts, hides scroll strips */
+        .ai-videos-desktop { display: block; }
+        .ai-videos-mobile  { display: none; }
+        .ai-avatar-desktop { display: grid; }
+        .ai-avatar-mobile  { display: none; }
+
+        /* Hide horizontal scroll scrollbar */
+        .ai-videos-mobile div::-webkit-scrollbar,
+        .ai-avatar-mobile div::-webkit-scrollbar { display: none; }
+
         @media (max-width: 768px) {
+          .ai-videos-desktop { display: none !important; }
+          .ai-videos-mobile  { display: block !important; }
+          .ai-avatar-desktop { display: none !important; }
+          .ai-avatar-mobile  { display: block !important; }
           .ai-top-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

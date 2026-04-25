@@ -7,7 +7,7 @@ const navLinks = [
   { label: 'AI Advertising', path: '/ai-advertising' },
   { label: '3D Visualization', path: '/3d-visualization' },
   { label: 'Digital Marketing', path: '/digital-marketing' },
-  { label: 'About', path: '/about' },
+  { label: 'About Us', path: '/about' },
   { label: 'Contact', path: '/contact' },
 ];
 
@@ -18,7 +18,7 @@ export default function Header() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -32,28 +32,27 @@ export default function Header() {
 
   return (
     <>
-      <header
-        style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0,
-          zIndex: 50,
-          /* Clean fade-in white background — no blur box */
-          backgroundColor: scrolled ? 'rgba(253,252,248,0.97)' : 'transparent',
-          borderBottom: scrolled ? '1px solid #E8E2D8' : '1px solid transparent',
-          transition: 'background-color 0.4s ease, border-color 0.4s ease',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            padding: '0 24px',
-            height: '68px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
+      <header style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0,
+        zIndex: 100,
+        backgroundColor: scrolled ? 'rgba(253,252,248,0.97)' : 'rgba(253,252,248,0.85)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: scrolled ? '1px solid #E8E2D8' : '1px solid rgba(232,226,216,0.5)',
+        transition: 'all 0.35s ease',
+        boxShadow: scrolled ? '0 2px 20px rgba(24,19,13,0.07)' : 'none',
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 24px',
+          height: '68px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '20px',
+        }}>
           {/* Logo */}
           <button
             onClick={() => navigate('/')}
@@ -63,15 +62,8 @@ export default function Header() {
             <Logo size="md" dark={true} />
           </button>
 
-          {/* Desktop nav */}
-          <nav
-            style={{
-              display: 'none',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-            className="lg:flex"
-          >
+          {/* Desktop nav — KEY FIX: use className only, no inline display style */}
+          <nav className="hidden lg:flex" style={{ alignItems: 'center', gap: '2px', flex: 1, justifyContent: 'center' }}>
             {navLinks.map(({ label, path }) => (
               <NavLink
                 key={path}
@@ -79,35 +71,44 @@ export default function Header() {
                 end={path === '/'}
                 style={({ isActive }) => ({
                   position: 'relative',
-                  padding: '6px 14px',
-                  borderRadius: '6px',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
+                  padding: '7px 13px',
+                  borderRadius: '8px',
+                  fontSize: '0.84rem',
+                  fontWeight: isActive ? 500 : 400,
                   fontFamily: "'DM Sans', sans-serif",
-                  color: isActive ? '#C9481B' : '#7A7068',
+                  color: isActive ? '#C9481B' : '#5A524A',
                   textDecoration: 'none',
-                  transition: 'color 0.2s',
                   whiteSpace: 'nowrap',
                   letterSpacing: '0.01em',
+                  transition: 'color 0.2s, background 0.2s',
+                  background: isActive ? 'rgba(201,72,27,0.06)' : 'transparent',
                 })}
-                className="hover:text-[#18130D]"
+                onMouseEnter={e => {
+                  if (!e.currentTarget.dataset.active) {
+                    e.currentTarget.style.color = '#18130D';
+                    e.currentTarget.style.background = 'rgba(24,19,13,0.04)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  const isActive = e.currentTarget.getAttribute('aria-current') === 'page';
+                  e.currentTarget.style.color = isActive ? '#C9481B' : '#5A524A';
+                  e.currentTarget.style.background = isActive ? 'rgba(201,72,27,0.06)' : 'transparent';
+                }}
               >
                 {({ isActive }) => (
                   <>
                     {label}
                     {isActive && (
-                      <span
-                        style={{
-                          position: 'absolute',
-                          bottom: '-1px',
-                          left: '14px',
-                          right: '14px',
-                          height: '1.5px',
-                          background: '#C9481B',
-                          borderRadius: '99px',
-                          animation: 'underline-grow 0.25s ease forwards',
-                        }}
-                      />
+                      <span style={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        left: '13px',
+                        right: '13px',
+                        height: '1.5px',
+                        background: '#C9481B',
+                        borderRadius: '99px',
+                        animation: 'underline-grow 0.25s ease forwards',
+                      }} />
                     )}
                   </>
                 )}
@@ -115,11 +116,12 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* CTA */}
-          <div className="hidden lg:flex items-center gap-3" style={{ flexShrink: 0 }}>
+          {/* Desktop CTA */}
+          <div className="hidden lg:flex" style={{ alignItems: 'center', flexShrink: 0 }}>
             <button
               onClick={() => navigate('/contact')}
               className="btn-primary"
+              style={{ padding: '10px 22px', fontSize: '0.84rem' }}
             >
               Get Started →
             </button>
@@ -129,75 +131,81 @@ export default function Header() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
+            className="lg:hidden"
             style={{
               background: 'none',
-              border: 'none',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
               cursor: 'pointer',
-              padding: '8px',
+              padding: '8px 10px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '5px',
+              gap: '4px',
               flexShrink: 0,
             }}
-            className="lg:hidden"
           >
-            <span style={{
-              display: 'block', width: '22px', height: '1.5px',
-              background: '#18130D', borderRadius: '99px',
-              transition: 'all 0.3s ease', transformOrigin: 'center',
-              transform: menuOpen ? 'rotate(45deg) translate(4.7px, 4.7px)' : 'none',
-            }} />
-            <span style={{
-              display: 'block', width: '22px', height: '1.5px',
-              background: '#18130D', borderRadius: '99px',
-              transition: 'all 0.3s ease',
-              opacity: menuOpen ? 0 : 1, transform: menuOpen ? 'scaleX(0)' : 'none',
-            }} />
-            <span style={{
-              display: 'block', width: '22px', height: '1.5px',
-              background: '#18130D', borderRadius: '99px',
-              transition: 'all 0.3s ease', transformOrigin: 'center',
-              transform: menuOpen ? 'rotate(-45deg) translate(4.7px, -4.7px)' : 'none',
-            }} />
+            {[0, 1, 2].map((_, i) => (
+              <span key={i} style={{
+                display: 'block',
+                width: '20px',
+                height: '1.5px',
+                background: '#18130D',
+                borderRadius: '99px',
+                transition: 'all 0.3s ease',
+                transformOrigin: 'center',
+                transform: menuOpen
+                  ? i === 0 ? 'rotate(45deg) translate(4px, 4px)'
+                  : i === 1 ? 'scaleX(0)'
+                  : 'rotate(-45deg) translate(4px, -4px)'
+                  : 'none',
+                opacity: menuOpen && i === 1 ? 0 : 1,
+              }} />
+            ))}
           </button>
         </div>
 
-        {/* Mobile dropdown */}
+        {/* Mobile menu */}
         <div
+          className="lg:hidden"
           style={{
             overflow: 'hidden',
-            maxHeight: menuOpen ? '480px' : '0',
+            maxHeight: menuOpen ? '520px' : '0',
             opacity: menuOpen ? 1 : 0,
-            transition: 'max-height 0.35s ease, opacity 0.3s ease',
-            backgroundColor: 'rgba(253,252,248,0.98)',
+            transition: 'max-height 0.38s ease, opacity 0.28s ease',
+            background: 'rgba(253,252,248,0.99)',
             borderTop: menuOpen ? '1px solid #E8E2D8' : 'none',
           }}
-          className="lg:hidden"
         >
-          <div style={{ padding: '16px 24px 20px' }}>
-            {navLinks.map(({ label, path }) => (
+          <div style={{ padding: '12px 20px 20px' }}>
+            {navLinks.map(({ label, path }, i) => (
               <NavLink
                 key={path}
                 to={path}
                 end={path === '/'}
                 style={({ isActive }) => ({
-                  display: 'block',
-                  padding: '12px 0',
-                  fontSize: '1.1rem',
-                  fontFamily: "'Cormorant Garant', serif",
-                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '13px 4px',
+                  fontSize: '1rem',
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: isActive ? 600 : 400,
                   color: isActive ? '#C9481B' : '#18130D',
                   textDecoration: 'none',
-                  borderBottom: '1px solid #E8E2D8',
+                  borderBottom: i < navLinks.length - 1 ? '1px solid #F0EAE2' : 'none',
                   transition: 'color 0.2s',
                 })}
               >
                 {label}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </NavLink>
             ))}
             <button
               onClick={() => { navigate('/contact'); setMenuOpen(false); }}
-              className="btn-primary w-full mt-4"
+              className="btn-primary"
+              style={{ width: '100%', marginTop: '16px' }}
             >
               Get Started →
             </button>
@@ -205,7 +213,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Underline animation */}
       <style>{`
         @keyframes underline-grow {
           from { transform: scaleX(0); transform-origin: left; }

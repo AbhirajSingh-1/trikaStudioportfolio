@@ -36,7 +36,7 @@ const services3D = [
 const process = [
   { step: '01', label: 'Brief & Concept', icon: '💡' },
   { step: '02', label: '3D Modelling', icon: '🗿' },
-  { step: '03', label: 'Texturing & Lighting', icon: '💡' },
+  { step: '03', label: 'Texturing & Lighting', icon: '🎨' },
   { step: '04', label: 'Render & Deliver', icon: '✅' },
 ];
 
@@ -47,60 +47,40 @@ export default function Visualization() {
   return (
     <div style={{ background: 'var(--bg)' }}>
 
-      {/* ── HERO ── */}
+      {/* ── HERO ── clean page-hero class handles top padding */}
       <section className="page-hero">
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '720px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ marginBottom: '20px', display: 'inline-flex', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
+          <span className="section-tag" style={{ marginBottom: '18px', display: 'inline-flex', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#7C3AED', display: 'inline-block' }} className="animate-pulse" />
             3D & Visual Production
           </span>
-          <h1 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontWeight: 700,
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            lineHeight: 1.06,
-            color: 'var(--text)',
-            marginBottom: '20px',
-          }}>
+          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
             3D <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Visualization</em>
           </h1>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-            color: 'var(--text-muted)',
-            lineHeight: 1.75,
-            maxWidth: '560px',
-            margin: '0 auto 36px',
-          }}>
-            We transform concepts into photorealistic 3D experiences. Our 3D studio creates visuals so real, they blur the line between digital and physical reality.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(0.88rem, 1.8vw, 1rem)', color: 'var(--text-muted)', lineHeight: 1.75, maxWidth: '520px', margin: '0 auto 32px' }}>
+            We transform concepts into photorealistic 3D experiences — visuals so real, they blur the line between digital and physical reality.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn-primary" onClick={() => navigate('/contact')}>Start a 3D Project →</button>
-            <button className="btn-outline" onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}>View Gallery</button>
+            <button className="btn-outline" onClick={() => document.getElementById('viz-gallery').scrollIntoView({ behavior: 'smooth' })}>View Gallery</button>
           </div>
         </div>
       </section>
 
       {/* ── SERVICES GRID ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(50px, 7vw, 80px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span className="section-tag" style={{ marginBottom: '14px', display: 'inline-flex' }}>What We Create</span>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(48px, 7vw, 80px) 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>What We Create</span>
             <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
               Our 3D Services
             </h2>
           </div>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '16px',
-          }} className="services-3d-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }} className="services-3d-grid">
             {services3D.map(({ icon, title, desc }) => (
-              <div key={title} className="card" style={{ padding: '24px 22px', cursor: 'default' }}>
-                <span style={{ fontSize: '1.75rem', display: 'block', marginBottom: '14px' }}>{icon}</span>
-                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.1rem', color: 'var(--text)', marginBottom: '8px' }}>
-                  {title}
-                </h4>
+              <div key={title} className="card" style={{ padding: '22px 20px', cursor: 'default' }}>
+                <span style={{ fontSize: '1.75rem', display: 'block', marginBottom: '12px' }}>{icon}</span>
+                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.1rem', color: 'var(--text)', marginBottom: '7px' }}>{title}</h4>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7 }}>{desc}</p>
               </div>
             ))}
@@ -109,90 +89,80 @@ export default function Visualization() {
       </section>
 
       {/* ── BENTO IMAGE GALLERY ── */}
-      <section id="gallery" style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
+      <section id="viz-gallery" style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '28px' }}>
             <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>Project Gallery</span>
+              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px' }}>Project Gallery</span>
               <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
                 Our 3D Portfolio
               </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginTop: '6px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '5px' }}>
                 A selection of our rendering and visualization projects
               </p>
             </div>
           </div>
 
-          {/* Bento grid */}
+          {/* Bento grid — desktop */}
           <div className="bento-grid">
             {galleryImages.map((img, i) => {
               const bentoClass = ['bento-1', 'bento-2', 'bento-3', 'bento-4', 'bento-5', 'bento-6', 'bento-7', 'bento-8'][i % 8];
               return (
-                <div
-                  key={i}
-                  className={`${bentoClass} portfolio-item`}
+                <div key={i} className={`${bentoClass} portfolio-item`}
                   onClick={() => setLightboxImg(img)}
-                  style={{
-                    position: 'relative',
-                    borderRadius: '14px',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    boxShadow: 'var(--shadow-sm)',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.01)'; }}
+                  style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', cursor: 'pointer', boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease' }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.015)'; }}
                   onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
                 >
-                  <img
-                    src={img.src} alt={img.alt} loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                  />
+                  <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div className="portfolio-overlay" />
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                    padding: '16px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2,
-                  }} className="portfolio-label">
-                    <span style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '12px', fontWeight: 500,
-                      color: '#fff',
-                      background: 'rgba(255,255,255,0.15)',
-                      backdropFilter: 'blur(8px)',
-                      padding: '4px 12px', borderRadius: '99px',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                    }}>{img.label}</span>
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', padding: '4px 11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)' }}>{img.label}</span>
                   </div>
                 </div>
               );
             })}
           </div>
+
+          {/* Mobile-friendly scroll gallery — shown on smaller screens */}
+          <div className="viz-mobile-gallery">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+              {galleryImages.map((img, i) => (
+                <div key={i} className="portfolio-item" onClick={() => setLightboxImg(img)} style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', aspectRatio: i % 3 === 0 ? '1/1' : '4/3', boxShadow: 'var(--shadow-sm)' }}>
+                  <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <div className="portfolio-overlay" />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px', opacity: 0, transition: 'opacity 0.3s', zIndex: 2 }} className="portfolio-label">
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: '#fff', fontWeight: 500 }}>{img.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── VIDEO SECTION ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '36px' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '32px' }}>
             <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>3D Animation Reels</span>
+              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>3D Animation Reels</span>
               <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
                 Watch Our Work in Motion
               </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginTop: '6px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '5px' }}>
                 3D visualization projects come alive with motion
               </p>
             </div>
           </div>
 
-          {/* Featured top row: 2/3 + 1/3 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px', marginBottom: '16px' }} className="viz-top-grid">
+          {/* Featured top row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px', marginBottom: '14px' }} className="viz-top-grid">
             <VideoCard {...visualizationVideos[0]} accentColor="#7C3AED" />
             <VideoCard {...visualizationVideos[1]} accentColor="#7C3AED" />
           </div>
 
-          {/* Bottom row: 4 equal */}
+          {/* Bottom 4-col grid — stacks responsively */}
           <div className="video-grid-4">
             {visualizationVideos.slice(2).map(v => (
               <VideoCard key={v.id} {...v} accentColor="#7C3AED" />
@@ -202,113 +172,78 @@ export default function Visualization() {
       </section>
 
       {/* ── PROCESS ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '52px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '16px', color: '#C9481B', borderColor: 'rgba(201,72,27,0.35)', background: 'rgba(201,72,27,0.1)' }}>
+      <section style={{ background: 'var(--text)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px', color: '#C9481B', borderColor: 'rgba(201,72,27,0.35)', background: 'rgba(201,72,27,0.1)' }}>
               Our Process
             </span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 3rem)', color: '#FDFCF8', lineHeight: 1.1 }}>
-              From Brief to{' '}
-              <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Photorealism</em>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: '#FDFCF8', lineHeight: 1.1 }}>
+              From Brief to <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Photorealism</em>
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }} className="process-grid">
-            {process.map(({ step, label, icon }) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }} className="process-grid">
+            {process.map(({ step, label }) => (
               <div key={step} style={{
-                textAlign: 'center',
-                padding: '32px 20px',
+                textAlign: 'center', padding: '28px 18px',
                 background: 'rgba(253,252,248,0.05)',
                 border: '1px solid rgba(253,252,248,0.08)',
                 borderRadius: '16px',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.3s ease', cursor: 'default',
               }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,72,27,0.1)'; e.currentTarget.style.borderColor = 'rgba(201,72,27,0.3)'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(253,252,248,0.05)'; e.currentTarget.style.borderColor = 'rgba(253,252,248,0.08)'; }}
               >
-                <div style={{
-                  fontFamily: "'Cormorant Garant', serif",
-                  fontSize: '3rem', fontWeight: 700,
-                  color: '#C9481B', lineHeight: 1,
-                  marginBottom: '12px',
-                }}>{step}</div>
-                <div style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '14px', fontWeight: 500,
-                  color: 'rgba(253,252,248,0.8)',
-                }}>{label}</div>
+                <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.8rem', fontWeight: 700, color: '#C9481B', lineHeight: 1, marginBottom: '10px' }}>{step}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', fontWeight: 500, color: 'rgba(253,252,248,0.8)' }}>{label}</div>
               </div>
             ))}
           </div>
 
-          <p style={{
-            textAlign: 'center',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '14px', color: 'rgba(253,252,248,0.4)',
-            maxWidth: '600px', margin: '40px auto 0', lineHeight: 1.8,
-          }}>
+          <p style={{ textAlign: 'center', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.4)', maxWidth: '560px', margin: '36px auto 0', lineHeight: 1.8 }}>
             Using Cinema 4D, Blender, Unreal Engine, and V-Ray — our artists build accurate 3D models, apply photorealistic materials and HDR lighting, and render frames with sub-millimeter detail.
           </p>
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center' }}>
-        <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>Let's Create</span>
-        <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', marginBottom: '16px' }}>
+      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+        <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Create</span>
+        <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', marginBottom: '14px' }}>
           Ready to bring your product to life in 3D?
         </h2>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', color: 'var(--text-muted)', marginBottom: '32px' }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px' }}>
           Tell us about your project and we'll turn it into something extraordinary.
         </p>
-        <button className="btn-primary" style={{ padding: '14px 36px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
+        <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
           Start a 3D Project →
         </button>
       </section>
 
       {/* Lightbox */}
       {lightboxImg && (
-        <div
-          style={{
-            position: 'fixed', inset: 0, zIndex: 100,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '20px',
-            background: 'rgba(24,19,13,0.92)',
-            backdropFilter: 'blur(8px)',
-          }}
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'rgba(24,19,13,0.92)', backdropFilter: 'blur(8px)' }}
           onClick={() => setLightboxImg(null)}
         >
-          <div style={{ position: 'relative', maxWidth: '900px', width: '100%' }} onClick={e => e.stopPropagation()}>
+          <div style={{ position: 'relative', maxWidth: '860px', width: '100%' }} onClick={e => e.stopPropagation()}>
             <img src={lightboxImg.src} alt={lightboxImg.alt} style={{ width: '100%', borderRadius: '16px', boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }} />
-            <p style={{
-              textAlign: 'center', marginTop: '16px',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '14px', color: 'rgba(253,252,248,0.7)',
-            }}>{lightboxImg.label}</p>
-            <button
-              onClick={() => setLightboxImg(null)}
-              style={{
-                position: 'absolute', top: '-16px', right: '-16px',
-                width: '40px', height: '40px', borderRadius: '50%',
-                background: '#FDFCF8',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
+            <p style={{ textAlign: 'center', marginTop: '14px', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.65)' }}>{lightboxImg.label}</p>
+            <button onClick={() => setLightboxImg(null)} style={{ position: 'absolute', top: '-14px', right: '-14px', width: '38px', height: '38px', borderRadius: '50%', background: '#FDFCF8', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
           </div>
         </div>
       )}
 
-      {/* Responsive overrides */}
       <style>{`
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
+        /* Desktop: show bento, hide mobile gallery */
+        .bento-grid { display: grid; }
+        .viz-mobile-gallery { display: none; }
         @media (max-width: 900px) {
+          .bento-grid { display: none !important; }
+          .viz-mobile-gallery { display: block !important; }
           .services-3d-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .viz-top-grid { grid-template-columns: 1fr !important; }
           .process-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -316,6 +251,7 @@ export default function Visualization() {
         @media (max-width: 540px) {
           .services-3d-grid { grid-template-columns: 1fr !important; }
           .process-grid { grid-template-columns: 1fr !important; }
+          .viz-mobile-gallery .portfolio-item { aspect-ratio: 1/1 !important; }
         }
       `}</style>
     </div>

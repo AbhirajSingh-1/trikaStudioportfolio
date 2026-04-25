@@ -9,13 +9,7 @@ const marketingServices = [
   { icon: '🤝', title: 'Influencer & Creator Marketing', description: 'Curated influencer partnerships and creator collaborations that amplify reach and build authentic brand credibility.', color: '#C9481B' },
 ];
 
-const benefits = [
-  { metric: '3.2×', label: 'Average ROAS', description: 'Return on ad spend consistently above industry benchmarks through data-driven optimization.' },
-  { metric: '180%', label: 'Follower Growth in 90 days', description: 'Organic social growth driven by strategic content and community engagement.' },
-  { metric: '65%', label: 'Reduction in CPA', description: 'AI-powered targeting dramatically reduces wasted ad spend.' },
-  { metric: '12M+', label: 'Monthly Impressions', description: 'Reach that translates into real brand awareness and measurable pipeline.' },
-];
-
+ 
 const platforms = [
   { name: 'Instagram', icon: '📸' },
   { name: 'YouTube', icon: '▶️' },
@@ -104,28 +98,6 @@ export default function DigitalMarketing() {
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
-      <section style={{ background: 'var(--text)', padding: '40px 24px' }}>
-        <div style={{
-          maxWidth: '1100px', margin: '0 auto',
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: '24px', textAlign: 'center',
-        }}>
-          {benefits.map(({ metric, label, description }) => (
-            <div key={metric}
-              style={{ cursor: 'default' }}
-              title={description}
-            >
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: '#C9481B', lineHeight: 1 }}>
-                {metric}
-              </div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.8)', fontWeight: 500, marginTop: '4px', lineHeight: 1.4 }}>
-                {label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── SERVICES ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
