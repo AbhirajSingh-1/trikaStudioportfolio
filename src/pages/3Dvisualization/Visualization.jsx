@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
@@ -53,6 +54,87 @@ const process = [
   { step: '03', label: 'Texturing & Lighting', icon: '🎨', desc: 'Applying photorealistic materials' },
   { step: '04', label: 'Render & Deliver', icon: '✅', desc: 'Final output in any format' },
 ];
+
+// Lightbox rendered via portal so overflow:hidden on parents doesn't clip it
+function Lightbox({ img, onClose }) {
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: 99999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+        background: 'rgba(24,19,13,0.92)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        // Prevent body scroll issues
+        overscrollBehavior: 'contain',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '860px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          // Ensure content fits in viewport
+          maxHeight: '90vh',
+        }}
+      >
+        {/* Close button — inside the container, top-right */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '-12px', right: '-12px',
+            width: '36px', height: '36px',
+            borderRadius: '50%',
+            background: '#FDFCF8',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+            zIndex: 2,
+            flexShrink: 0,
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        <img
+          src={img.src}
+          alt={img.alt}
+          style={{
+            width: '100%',
+            maxHeight: 'calc(90vh - 48px)',
+            objectFit: 'contain',
+            borderRadius: '14px',
+            boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+            display: 'block',
+          }}
+        />
+        <p style={{
+          textAlign: 'center',
+          marginTop: '12px',
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: '13px',
+          color: 'rgba(253,252,248,0.65)',
+        }}>
+          {img.label}
+        </p>
+      </div>
+    </div>,
+    document.body
+  );
+}
 
 export default function Visualization() {
   const [lightboxImg, setLightboxImg] = useState(null);
@@ -117,7 +199,6 @@ export default function Visualization() {
             </div>
           </div>
 
-          {/* Masonry grid — works on all screen sizes */}
           <div className="viz-masonry-grid">
             {galleryImages.map((img, i) => (
               <div
@@ -137,12 +218,7 @@ export default function Visualization() {
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
               >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
+                <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 <div className="portfolio-overlay" />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', padding: '4px 11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)' }}>{img.label}</span>
@@ -166,7 +242,6 @@ export default function Visualization() {
             </p>
           </div>
 
-          {/* 3 videos: 1 large + 2 side by side on desktop, stacked on mobile */}
           <div className="viz-videos-desktop">
             <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '14px', alignItems: 'stretch' }}>
               <VideoCard {...visualizationVideos[0]} accentColor="#7C3AED" />
@@ -177,7 +252,6 @@ export default function Visualization() {
             </div>
           </div>
 
-          {/* Mobile: stacked */}
           <div className="viz-videos-mobile">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {visualizationVideos.map(v => (
@@ -188,13 +262,11 @@ export default function Visualization() {
         </div>
       </section>
 
-      {/* ── PROCESS — WHITE BACKGROUND ── */}
+      {/* ── PROCESS ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>
-              Our Process
-            </span>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>Our Process</span>
             <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1 }}>
               From Brief to <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Photorealism</em>
             </h2>
@@ -240,72 +312,15 @@ export default function Visualization() {
         </button>
       </section>
 
-      {/* ── LIGHTBOX — properly centered on all devices ── */}
+      {/* ── LIGHTBOX — rendered via portal so it always centres correctly ── */}
       {lightboxImg && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0, left: 0, right: 0, bottom: 0,
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px',
-            background: 'rgba(24,19,13,0.92)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-          }}
-          onClick={() => setLightboxImg(null)}
-        >
-          <div
-            style={{
-              position: 'relative',
-              maxWidth: '860px',
-              width: '100%',
-              maxHeight: '90vh',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <img
-              src={lightboxImg.src}
-              alt={lightboxImg.alt}
-              style={{
-                width: '100%',
-                maxHeight: '80vh',
-                objectFit: 'contain',
-                borderRadius: '16px',
-                boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
-              }}
-            />
-            <p style={{ textAlign: 'center', marginTop: '14px', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.65)' }}>{lightboxImg.label}</p>
-            <button
-              onClick={() => setLightboxImg(null)}
-              style={{
-                position: 'absolute',
-                top: '-14px', right: '-14px',
-                width: '38px', height: '38px',
-                borderRadius: '50%',
-                background: '#FDFCF8',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
-                flexShrink: 0,
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-            </button>
-          </div>
-        </div>
+        <Lightbox img={lightboxImg} onClose={() => setLightboxImg(null)} />
       )}
 
       <style>{`
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
         .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 
-        /* Masonry gallery */
         .viz-masonry-grid {
           columns: 4;
           column-gap: 12px;
@@ -315,7 +330,6 @@ export default function Visualization() {
           width: 100%;
         }
 
-        /* Video layout */
         .viz-videos-desktop { display: block; }
         .viz-videos-mobile  { display: none; }
 

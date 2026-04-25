@@ -225,86 +225,34 @@ export default function DigitalMarketing() {
             </p>
           </div>
 
-          {/* Desktop: masonry columns */}
-          <div className="dm-gallery-desktop" style={{
-            columns: 3,
-            columnGap: '14px',
-          }}>
+          <div className="dm-gallery-desktop" style={{ columns: 3, columnGap: '14px' }}>
             {dmGallery.map((img, i) => (
               <div key={i} className="portfolio-item" style={{
-                position: 'relative',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                marginBottom: '14px',
-                breakInside: 'avoid',
-                cursor: 'pointer',
-                boxShadow: 'var(--shadow-sm)',
-                transition: 'all 0.3s ease',
+                position: 'relative', borderRadius: '12px', overflow: 'hidden',
+                marginBottom: '14px', breakInside: 'avoid', cursor: 'pointer',
+                boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease',
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
               >
-                <img
-                  src={img.src} alt={img.label}
-                  loading="lazy"
-                  style={{
-                    width: '100%', display: 'block', objectFit: 'cover',
-                    aspectRatio: i % 3 === 0 ? '1/1' : i % 3 === 1 ? '3/4' : '4/3',
-                  }}
-                />
+                <img src={img.src} alt={img.label} loading="lazy" style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: i % 3 === 0 ? '1/1' : i % 3 === 1 ? '3/4' : '4/3' }} />
                 <div className="portfolio-overlay" />
-                <div style={{
-                  position: 'absolute', bottom: 0, left: 0, right: 0,
-                  padding: '16px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2,
-                }} className="portfolio-label">
-                  <span style={{
-                    display: 'inline-block', fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '10px', fontWeight: 500,
-                    padding: '3px 10px', borderRadius: '99px',
-                    background: catColors[img.cat]?.bg || '#fff',
-                    color: catColors[img.cat]?.text || '#333',
-                    marginBottom: '6px',
-                  }}>{img.cat}</span>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>
-                    {img.label}
-                  </div>
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
+                  <span style={{ display: 'inline-block', fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, padding: '3px 10px', borderRadius: '99px', background: catColors[img.cat]?.bg || '#fff', color: catColors[img.cat]?.text || '#333', marginBottom: '6px' }}>{img.cat}</span>
+                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>{img.label}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Mobile: 2-column grid, fully contained */}
           <div className="dm-gallery-mobile">
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {dmGallery.map((img, i) => (
-                <div
-                  key={i}
-                  className="portfolio-item"
-                  style={{
-                    position: 'relative',
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    boxShadow: 'var(--shadow-sm)',
-                    gridColumn: i === 0 ? '1 / -1' : 'auto',
-                  }}
-                >
-                  <img
-                    src={img.src} alt={img.label}
-                    loading="lazy"
-                    style={{
-                      width: '100%', display: 'block', objectFit: 'cover',
-                      aspectRatio: i === 0 ? '16/9' : i % 2 === 0 ? '3/4' : '1/1',
-                    }}
-                  />
+                <div key={i} className="portfolio-item" style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', boxShadow: 'var(--shadow-sm)', gridColumn: i === 0 ? '1 / -1' : 'auto' }}>
+                  <img src={img.src} alt={img.label} loading="lazy" style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: i === 0 ? '16/9' : i % 2 === 0 ? '3/4' : '1/1' }} />
                   <div className="portfolio-overlay" />
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                    padding: '10px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2,
-                  }} className="portfolio-label">
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, color: '#fff' }}>
-                      {img.label}
-                    </div>
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, color: '#fff' }}>{img.label}</div>
                   </div>
                 </div>
               ))}
@@ -313,18 +261,18 @@ export default function DigitalMarketing() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center' }}>
+      {/* ── CTA — cream background matching Visualization page ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px', color: '#C9481B', borderColor: 'rgba(201,72,27,0.4)', background: 'rgba(201,72,27,0.1)' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>
             Ready to Grow?
           </span>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: '#FDFCF8', lineHeight: 1.08, marginBottom: '16px' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--text)', lineHeight: 1.08, marginBottom: '16px' }}>
             Ready to{' '}
-            <em style={{ color: '#C9481B', fontStyle: 'italic' }}>Dominate</em>
+            <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Dominate</em>
             {' '}Your Market?
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', color: 'rgba(253,252,248,0.5)', marginBottom: '32px', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', color: 'var(--text-muted)', marginBottom: '32px', lineHeight: 1.75 }}>
             Let's build a digital marketing engine that makes your competitors take notice and your customers take action.
           </p>
           <button className="btn-primary" style={{ padding: '14px 36px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
@@ -336,10 +284,8 @@ export default function DigitalMarketing() {
       <style>{`
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
         .portfolio-item:hover .portfolio-overlay { opacity: 1; }
-
         .dm-gallery-desktop { display: block; }
         .dm-gallery-mobile  { display: none; }
-
         @media (max-width: 900px) {
           .dm-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .dm-why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }

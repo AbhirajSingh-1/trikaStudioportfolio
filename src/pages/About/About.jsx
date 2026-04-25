@@ -37,7 +37,6 @@ const values = [
   { icon: '🌟', title: 'Uncompromising Quality', desc: 'We ship work we\'re proud to put our name on — because your brand deserves nothing less than extraordinary.' },
 ];
 
-// Compact milestones replacing the verbose timeline
 const milestones = [
   { year: '2021', label: 'Founded', detail: 'Gurugram, team of 3' },
   { year: '2022', label: 'AI Pipeline', detail: 'First 10 brand clients' },
@@ -75,13 +74,13 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
-      <section style={{ background: 'var(--text)', padding: '36px 24px' }}>
+      {/* ── STATS BAR — cream background matching Visualization page ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: '36px 24px', borderTop: '3px solid var(--orange)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', textAlign: 'center' }} className="about-stats-grid">
           {stats.map(({ value, label }) => (
             <div key={label}>
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#C9481B', lineHeight: 1 }}>{value}</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'rgba(253,252,248,0.5)', marginTop: '5px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
+              <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--orange)', lineHeight: 1 }}>{value}</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'var(--text-muted)', marginTop: '5px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
             </div>
           ))}
         </div>
@@ -168,7 +167,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── COMPACT MILESTONES (replaces verbose timeline) ── */}
+      {/* ── COMPACT MILESTONES ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(48px, 7vw, 72px) 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
@@ -178,38 +177,23 @@ export default function About() {
             </h2>
           </div>
 
-          {/* Horizontal milestone cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', position: 'relative' }} className="milestones-grid">
-            {/* Connector line behind */}
             <div style={{
-              position: 'absolute',
-              top: '28px',
-              left: '10%', right: '10%',
-              height: '2px',
-              background: 'linear-gradient(90deg, var(--orange) 0%, rgba(201,72,27,0.15) 100%)',
+              position: 'absolute', top: '28px', left: '10%', right: '10%',
+              height: '2px', background: 'linear-gradient(90deg, var(--orange) 0%, rgba(201,72,27,0.15) 100%)',
               zIndex: 0,
             }} className="milestone-line" />
 
             {milestones.map(({ year, label, detail }, i) => (
-              <div key={year} style={{
-                position: 'relative', zIndex: 1,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
-                gap: '10px',
-              }}>
-                {/* Dot */}
+              <div key={year} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '10px' }}>
                 <div style={{
                   width: '56px', height: '56px', borderRadius: '50%',
                   background: i === milestones.length - 1 ? '#C9481B' : 'var(--bg-card)',
                   border: `2px solid ${i === milestones.length - 1 ? '#C9481B' : 'var(--border-dark)'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   boxShadow: i === milestones.length - 1 ? '0 4px 16px rgba(201,72,27,0.3)' : 'var(--shadow-sm)',
-                  transition: 'all 0.25s ease',
                 }}>
-                  <span style={{
-                    fontFamily: "'Cormorant Garant', serif",
-                    fontWeight: 700, fontSize: '0.85rem',
-                    color: i === milestones.length - 1 ? '#fff' : '#C9481B',
-                  }}>{year}</span>
+                  <span style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '0.85rem', color: i === milestones.length - 1 ? '#fff' : '#C9481B' }}>{year}</span>
                 </div>
                 <div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '13px', color: 'var(--text)', marginBottom: '3px' }}>{label}</div>
@@ -246,23 +230,11 @@ export default function About() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${color}18`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <div style={{
-                  position: 'relative',
-                  height: '200px',
-                  background: `linear-gradient(135deg, ${color}15, ${color}05)`,
-                  overflow: 'hidden',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                <div style={{ position: 'relative', height: '200px', background: `linear-gradient(135deg, ${color}15, ${color}05)`, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', background: `${color}08`, top: '-20px', right: '-20px' }} />
                   <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', background: `${color}06`, bottom: '-10px', left: '-10px' }} />
-                  <img
-                    src={avatar}
-                    alt={name}
-                    style={{ width: '110px', height: '110px', borderRadius: '50%', objectFit: 'cover', border: `3px solid ${color}40`, boxShadow: `0 8px 28px ${color}20`, position: 'relative', zIndex: 1 }}
-                    onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                  />
+                  <img src={avatar} alt={name} style={{ width: '110px', height: '110px', borderRadius: '50%', objectFit: 'cover', border: `3px solid ${color}40`, boxShadow: `0 8px 28px ${color}20`, position: 'relative', zIndex: 1 }}
+                    onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
                   <div style={{ display: 'none', width: '110px', height: '110px', borderRadius: '50%', background: `linear-gradient(135deg, ${color}40, ${color}20)`, border: `3px solid ${color}40`, alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '2rem', color: color, position: 'relative', zIndex: 1 }}>
                     {initials}
                   </div>
@@ -283,13 +255,14 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+      {/* ── CTA — cream background matching Visualization page ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: '#FDFCF8', lineHeight: 1.1, marginBottom: '14px' }}>
-            Want to work <em style={{ color: '#C9481B', fontStyle: 'italic' }}>with us?</em>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Connect</span>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '14px' }}>
+            Want to work <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>with us?</em>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'rgba(253,252,248,0.5)', marginBottom: '28px' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px' }}>
             We'd love to hear about your project.
           </p>
           <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>

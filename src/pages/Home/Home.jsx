@@ -77,16 +77,16 @@ export default function Home() {
       <section
         ref={heroRef}
         style={{
-          minHeight: '100svh',
+          minHeight: 'calc(100svh - 68px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          /* Fixed: use 68px header offset + comfortable padding, no huge top gap on mobile */
-          paddingTop: 'max(80px, calc(68px + 2vw))',
+          paddingTop: 'clamp(32px, 5vw, 60px)',
           paddingBottom: '56px',
           paddingLeft: '24px',
           paddingRight: '24px',
+          marginTop: '68px',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
@@ -341,24 +341,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════════ CTA ═══════════════════ */}
-      <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--text)', textAlign: 'center' }}>
+      {/* ═══════════════════ CTA — cream background matching Visualization ═══════════════════ */}
+      <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--bg-alt)', textAlign: 'center' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '22px', borderColor: 'rgba(201,72,27,0.4)', color: '#E06035' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '22px' }}>
             Let's Build Together
           </span>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.4rem)', color: '#FDFCF8', lineHeight: 1.08, marginBottom: '18px' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.4rem)', color: 'var(--text)', lineHeight: 1.08, marginBottom: '18px' }}>
             Ready to Transform{' '}
-            <em style={{ color: '#C9481B', fontStyle: 'italic' }}>Your Brand?</em>
+            <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Your Brand?</em>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.92rem', color: 'rgba(253,252,248,0.5)', lineHeight: 1.75, marginBottom: '32px' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.92rem', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '32px' }}>
             No hard sells — just a genuine conversation about what's possible for your brand.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn-primary" onClick={() => navigate('/contact')}>Start the Conversation →</button>
-            <button onClick={() => navigate('/about')} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: '0.875rem', color: 'rgba(253,252,248,0.55)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.color = '#FDFCF8'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.55)'}
+            <button onClick={() => navigate('/about')} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: '0.875rem', color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
             >
               Meet the team →
             </button>

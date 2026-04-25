@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
-// 9 AI Videos
 const aiVideos = [
   { id: 'dQw4w9WgXcQ', title: 'AI-Generated Brand Film – Luxury Automotive', description: 'Full-length AI cinematic ad created using generative video and neural rendering.' },
   { id: 'L_jWHffIx5E', title: 'Product Launch AI Spot – Tech Wearable', description: 'Hyper-realistic product reveal ad generated entirely with AI tools.' },
@@ -14,7 +13,6 @@ const aiVideos = [
   { id: 'uSD4vsh1zDA', title: 'AI Travel Ad – Luxury Resort', description: 'Dreamlike destination ad crafted using generative AI landscapes.' },
 ];
 
-// 8 AI Avatar Videos
 const aiAvatarVideos = [
   { id: 'uelHwf8o7_U', title: 'CEO Brand Ambassador AI Avatar', description: 'Photorealistic AI avatar of brand spokesperson delivering custom messages at scale.' },
   { id: 'WPni755-Krg', title: 'Multilingual Product Explainer Avatar', description: 'One AI avatar, 12 languages – same face, personalized messaging for every market.' },
@@ -36,12 +34,9 @@ const capabilities = [
 ];
 
 function VideoCollage({ videos, accentColor }) {
-  // Desktop: bento-style collage. Mobile: clean 2-col grid then more below.
   return (
     <>
-      {/* Desktop collage layout */}
       <div className="ai-collage-desktop">
-        {/* Row 1: 1 large + 2 stacked */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px', marginBottom: '12px' }}>
           <VideoCard {...videos[0]} accentColor={accentColor} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -49,13 +44,11 @@ function VideoCollage({ videos, accentColor }) {
             <VideoCard {...videos[2]} accentColor={accentColor} />
           </div>
         </div>
-        {/* Row 2: 3 equal */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '12px' }}>
           {videos.slice(3, 6).map(v => (
             <VideoCard key={v.id} {...v} accentColor={accentColor} />
           ))}
         </div>
-        {/* Row 3: remaining videos */}
         {videos.length > 6 && (
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(${videos.slice(6).length}, 1fr)`, gap: '12px' }}>
             {videos.slice(6).map(v => (
@@ -64,8 +57,6 @@ function VideoCollage({ videos, accentColor }) {
           </div>
         )}
       </div>
-
-      {/* Mobile layout: 2-col grid, all videos */}
       <div className="ai-collage-mobile">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
           {videos.map((v, i) => (
@@ -136,7 +127,6 @@ export default function AIAdvertising() {
 
           <VideoCollage videos={aiVideos} accentColor="#C9481B" />
 
-          {/* Info card */}
           <div style={{ marginTop: '36px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid var(--orange)', borderRadius: '14px', padding: '24px 28px' }}>
             <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.3rem', color: 'var(--text)', marginBottom: '8px' }}>
               What is AI Video Creation?
@@ -165,7 +155,6 @@ export default function AIAdvertising() {
 
           <VideoCollage videos={aiAvatarVideos} accentColor="#7C3AED" />
 
-          {/* Info card */}
           <div style={{ marginTop: '32px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid #7C3AED', borderRadius: '14px', padding: '24px 28px' }}>
             <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.3rem', color: 'var(--text)', marginBottom: '8px' }}>
               What are AI Avatars?
@@ -177,14 +166,15 @@ export default function AIAdvertising() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+      {/* ── CTA — cream background matching Visualization page ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', color: '#FDFCF8', lineHeight: 1.1, marginBottom: '14px' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Create</span>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '14px' }}>
             Ready to create your{' '}
-            <em style={{ color: '#C9481B', fontStyle: 'italic' }}>own AI campaign?</em>
+            <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>own AI campaign?</em>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'rgba(253,252,248,0.5)', marginBottom: '28px', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px', lineHeight: 1.7 }}>
             Join 40+ brands already using Trika Studio's AI production pipeline.
           </p>
           <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
@@ -194,10 +184,8 @@ export default function AIAdvertising() {
       </section>
 
       <style>{`
-        /* Desktop collage visible, mobile grid hidden */
         .ai-collage-desktop { display: block; }
         .ai-collage-mobile  { display: none; }
-
         @media (max-width: 768px) {
           .ai-collage-desktop { display: none !important; }
           .ai-collage-mobile  { display: block !important; }
