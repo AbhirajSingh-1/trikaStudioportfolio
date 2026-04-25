@@ -77,13 +77,12 @@ export default function Home() {
       <section
         ref={heroRef}
         style={{
-          minHeight: 'calc(100svh - 68px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          paddingTop: 'clamp(32px, 5vw, 60px)',
-          paddingBottom: '56px',
+          justifyContent: 'flex-start',
+          paddingTop: 'clamp(36px, 8vw, 80px)',
+          paddingBottom: 'clamp(56px, 8vw, 96px)',
           paddingLeft: '24px',
           paddingRight: '24px',
           marginTop: '68px',
@@ -182,15 +181,32 @@ export default function Home() {
               </span>
             ))}
           </div>
-        </div>
 
-        {/* Scroll cue */}
-        <div style={{
-          position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-        }}>
-          <span style={{ fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-light)', fontFamily: "'DM Sans', sans-serif" }}>Scroll</span>
-          <div style={{ width: '1px', height: '32px', background: 'linear-gradient(to bottom, var(--border-dark), transparent)' }} />
+          {/* Scroll cue — now in normal flow, no longer absolute */}
+          <div
+            style={{
+              marginTop: 'clamp(40px, 6vw, 64px)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <span style={{
+              fontSize: '10px',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: 'var(--text-light)',
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              Scroll
+            </span>
+            <div style={{
+              width: '1px',
+              height: '32px',
+              background: 'linear-gradient(to bottom, var(--border-dark), transparent)',
+            }} />
+          </div>
         </div>
       </section>
 
@@ -341,7 +357,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════════ CTA — cream background matching Visualization ═══════════════════ */}
+      {/* ═══════════════════ CTA ═══════════════════ */}
       <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--bg-alt)', textAlign: 'center' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
           <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '22px' }}>

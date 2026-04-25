@@ -11,7 +11,7 @@ const team = [
     expertise: ['Business Strategy', 'AI Product Vision', 'Brand Architecture', 'Investor Relations'],
   },
   {
-    name: 'Tanvii',
+    name: 'Tanvi Priya',
     role: 'AI Specialist & Creative Director',
     avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
     initials: 'T',
@@ -20,7 +20,7 @@ const team = [
     expertise: ['Generative AI', 'AI Video Production', 'Creative Direction', 'AI Avatar Design'],
   },
   {
-    name: 'Sagar Anand',
+    name: 'Sagar Randi',
     role: 'Head of Performance Marketing',
     avatar: 'https://randomuser.me/api/portraits/men/67.jpg',
     initials: 'SA',

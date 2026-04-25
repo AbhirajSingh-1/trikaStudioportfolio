@@ -1,14 +1,13 @@
 /**
  * Trika Studio logo — pure typography.
- * Cormorant Garant serif: "Tri" dark, "k" orange, "a" dark — " Studio" in muted weight.
- * Matches the reference image exactly.
+ * "Trika Studio" all in same Cormorant Garant bold — "k" orange italic accent.
  */
 export default function Logo({ size = 'md', dark = true }) {
   const sizeMap = {
-    sm: { name: '1.15rem', studio: '0.8rem' },
-    md: { name: '1.4rem',  studio: '0.88rem' },
-    lg: { name: '1.75rem', studio: '1rem' },
-    xl: { name: '2.5rem',  studio: '1.3rem' },
+    sm: { name: '1.15rem' },
+    md: { name: '1.4rem'  },
+    lg: { name: '1.75rem' },
+    xl: { name: '2.5rem'  },
   };
   const s = sizeMap[size] || sizeMap.md;
   const baseColor = dark ? '#18130D' : '#FDFCF8';
@@ -29,28 +28,13 @@ export default function Logo({ size = 'md', dark = true }) {
       <span style={{ fontSize: s.name, fontWeight: 700, color: baseColor, letterSpacing: '-0.01em' }}>
         Tri
       </span>
-      {/* "k" — orange accent */}
+      {/* "k" — orange italic accent */}
       <span style={{ fontSize: s.name, fontWeight: 700, color: '#C9481B', letterSpacing: '-0.01em', fontStyle: 'italic' }}>
         k
       </span>
-      {/* "a" */}
+      {/* "a Studio" — exact same style as surrounding text */}
       <span style={{ fontSize: s.name, fontWeight: 700, color: baseColor, letterSpacing: '-0.01em' }}>
-        a
-      </span>
-      {/* space */}
-      <span style={{ fontSize: s.name, display: 'inline-block', width: '0.3em' }} />
-      {/* "Studio" — lighter */}
-      <span
-        style={{
-          fontSize: s.studio,
-          fontWeight: 400,
-          color: dark ? '#7A7068' : 'rgba(253,252,248,0.65)',
-          letterSpacing: '0.06em',
-          textTransform: 'uppercase',
-          fontFamily: "'DM Sans', sans-serif",
-          alignSelf: 'center',
-        }}
-      >
+        a Studio
       </span>
     </span>
   );
