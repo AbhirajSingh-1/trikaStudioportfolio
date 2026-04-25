@@ -9,7 +9,6 @@ const marketingServices = [
   { icon: '🤝', title: 'Influencer & Creator Marketing', description: 'Curated influencer partnerships and creator collaborations that amplify reach and build authentic brand credibility.', color: '#C9481B' },
 ];
 
- 
 const platforms = [
   { name: 'Instagram', icon: '📸' },
   { name: 'YouTube', icon: '▶️' },
@@ -93,11 +92,9 @@ export default function DigitalMarketing() {
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn-primary" onClick={() => navigate('/contact')}>Get a Growth Audit →</button>
-            <button className="btn-outline">See Case Studies</button>
           </div>
         </div>
       </section>
-
 
       {/* ── SERVICES ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
@@ -127,7 +124,6 @@ export default function DigitalMarketing() {
                   background: `${color}12`, border: `1px solid ${color}22`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '1.5rem', marginBottom: '16px',
-                  transition: 'transform 0.25s ease',
                 }}>
                   {icon}
                 </div>
@@ -137,7 +133,7 @@ export default function DigitalMarketing() {
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75 }}>
                   {description}
                 </p>
-                <div style={{ marginTop: '16px', height: '2px', width: '36px', background: color, borderRadius: '99px', transition: 'width 0.3s ease' }} className="dm-bar" />
+                <div style={{ marginTop: '16px', height: '2px', width: '36px', background: color, borderRadius: '99px' }} />
               </div>
             ))}
           </div>
@@ -229,12 +225,11 @@ export default function DigitalMarketing() {
             </p>
           </div>
 
-          {/* Masonry-style grid */}
-          <div style={{
-            columns: 'auto',
-            columnCount: 3,
+          {/* Desktop: masonry columns */}
+          <div className="dm-gallery-desktop" style={{
+            columns: 3,
             columnGap: '14px',
-          }} className="dm-gallery-grid">
+          }}>
             {dmGallery.map((img, i) => (
               <div key={i} className="portfolio-item" style={{
                 position: 'relative',
@@ -277,6 +272,44 @@ export default function DigitalMarketing() {
               </div>
             ))}
           </div>
+
+          {/* Mobile: 2-column grid, fully contained */}
+          <div className="dm-gallery-mobile">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              {dmGallery.map((img, i) => (
+                <div
+                  key={i}
+                  className="portfolio-item"
+                  style={{
+                    position: 'relative',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: 'var(--shadow-sm)',
+                    gridColumn: i === 0 ? '1 / -1' : 'auto',
+                  }}
+                >
+                  <img
+                    src={img.src} alt={img.label}
+                    loading="lazy"
+                    style={{
+                      width: '100%', display: 'block', objectFit: 'cover',
+                      aspectRatio: i === 0 ? '16/9' : i % 2 === 0 ? '3/4' : '1/1',
+                    }}
+                  />
+                  <div className="portfolio-overlay" />
+                  <div style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0,
+                    padding: '10px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2,
+                  }} className="portfolio-label">
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, color: '#fff' }}>
+                      {img.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -300,17 +333,23 @@ export default function DigitalMarketing() {
         </div>
       </section>
 
-      {/* Responsive */}
       <style>{`
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+        .dm-gallery-desktop { display: block; }
+        .dm-gallery-mobile  { display: none; }
+
         @media (max-width: 900px) {
           .dm-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .dm-why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .dm-gallery-grid { column-count: 2 !important; }
+        }
+        @media (max-width: 768px) {
+          .dm-gallery-desktop { display: none !important; }
+          .dm-gallery-mobile  { display: block !important; }
         }
         @media (max-width: 540px) {
           .dm-services-grid { grid-template-columns: 1fr !important; }
-          .dm-gallery-grid { column-count: 1 !important; }
         }
       `}</style>
     </div>

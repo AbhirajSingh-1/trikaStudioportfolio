@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
- 
-
 const services = [
   {
     num: '01',
@@ -79,12 +77,16 @@ export default function Home() {
       <section
         ref={heroRef}
         style={{
-          minHeight: '100vh',
+          minHeight: '100svh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 'clamp(90px, 12vw, 130px) 24px 56px',
+          /* Fixed: use 68px header offset + comfortable padding, no huge top gap on mobile */
+          paddingTop: 'max(80px, calc(68px + 2vw))',
+          paddingBottom: '56px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
@@ -105,13 +107,13 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Main headline — REDUCED SIZE */}
+          {/* Main headline */}
           <h1
             className="animate-slide-up"
             style={{
               fontFamily: "'Cormorant Garant', serif",
               fontWeight: 700,
-              fontSize: 'clamp(2.2rem, 5.5vw, 4.2rem)',
+              fontSize: 'clamp(2rem, 5.5vw, 4.2rem)',
               lineHeight: 1.08,
               letterSpacing: '-0.02em',
               color: 'var(--text)',
@@ -125,7 +127,7 @@ export default function Home() {
             {' '}Digital Experiences
           </h1>
 
-          {/* Sub copy — tighter, more professional */}
+          {/* Sub copy */}
           <p
             className="animate-slide-up"
             style={{
@@ -191,8 +193,6 @@ export default function Home() {
           <div style={{ width: '1px', height: '32px', background: 'linear-gradient(to bottom, var(--border-dark), transparent)' }} />
         </div>
       </section>
-
-       
 
       {/* ═══════════════════ SERVICES ═══════════════════ */}
       <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--bg)' }}>

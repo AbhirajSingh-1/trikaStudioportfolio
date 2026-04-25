@@ -37,12 +37,13 @@ const values = [
   { icon: '🌟', title: 'Uncompromising Quality', desc: 'We ship work we\'re proud to put our name on — because your brand deserves nothing less than extraordinary.' },
 ];
 
+// Compact milestones replacing the verbose timeline
 const milestones = [
-  { year: '2021', event: 'Trika Studio founded in Gurugram with a team of 3' },
-  { year: '2022', event: 'Launched proprietary AI advertising pipeline; first 10 brand clients' },
-  { year: '2023', event: 'Expanded into 3D visualization; grew team to 15; ₹5Cr revenue milestone' },
-  { year: '2024', event: 'Launched AI Avatar production service; 40+ brand clients across India' },
-  { year: '2025', event: 'Pan-Asia expansion; partnering with leading AI platforms globally' },
+  { year: '2021', label: 'Founded', detail: 'Gurugram, team of 3' },
+  { year: '2022', label: 'AI Pipeline', detail: 'First 10 brand clients' },
+  { year: '2023', label: '₹5Cr Revenue', detail: 'Team grew to 15' },
+  { year: '2024', label: 'AI Avatars', detail: '40+ brand clients' },
+  { year: '2025', label: 'Pan-Asia', detail: 'Global AI partnerships' },
 ];
 
 const stats = [
@@ -167,52 +168,55 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── TIMELINE ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>Our Journey</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
-              Built With <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Purpose</em>
+      {/* ── COMPACT MILESTONES (replaces verbose timeline) ── */}
+      <section style={{ background: 'var(--bg)', padding: 'clamp(48px, 7vw, 72px) 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>Our Journey</span>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', color: 'var(--text)' }}>
+              5 Years of <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Innovation</em>
             </h2>
           </div>
 
-          <div style={{ position: 'relative' }}>
-            {/* Vertical line */}
-            <div style={{ position: 'absolute', left: '76px', top: 0, bottom: 0, width: '1px', background: 'linear-gradient(to bottom, var(--orange), transparent)', opacity: 0.4 }} className="timeline-line" />
+          {/* Horizontal milestone cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', position: 'relative' }} className="milestones-grid">
+            {/* Connector line behind */}
+            <div style={{
+              position: 'absolute',
+              top: '28px',
+              left: '10%', right: '10%',
+              height: '2px',
+              background: 'linear-gradient(90deg, var(--orange) 0%, rgba(201,72,27,0.15) 100%)',
+              zIndex: 0,
+            }} className="milestone-line" />
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-              {milestones.map(({ year, event }, i) => (
-                <div key={year} style={{
-                  display: 'flex', gap: '24px', alignItems: 'flex-start',
-                  padding: '20px 0',
-                  borderBottom: i < milestones.length - 1 ? '1px solid var(--border)' : 'none',
+            {milestones.map(({ year, label, detail }, i) => (
+              <div key={year} style={{
+                position: 'relative', zIndex: 1,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+                gap: '10px',
+              }}>
+                {/* Dot */}
+                <div style={{
+                  width: '56px', height: '56px', borderRadius: '50%',
+                  background: i === milestones.length - 1 ? '#C9481B' : 'var(--bg-card)',
+                  border: `2px solid ${i === milestones.length - 1 ? '#C9481B' : 'var(--border-dark)'}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: i === milestones.length - 1 ? '0 4px 16px rgba(201,72,27,0.3)' : 'var(--shadow-sm)',
+                  transition: 'all 0.25s ease',
                 }}>
-                  {/* Year */}
-                  <div style={{
-                    flexShrink: 0, width: '60px',
+                  <span style={{
                     fontFamily: "'Cormorant Garant', serif",
-                    fontWeight: 700, fontSize: '1.2rem',
-                    color: '#C9481B', lineHeight: 1,
-                    paddingTop: '2px',
-                  }}>{year}</div>
-
-                  {/* Dot */}
-                  <div style={{
-                    flexShrink: 0, width: '10px', height: '10px',
-                    borderRadius: '50%',
-                    background: '#C9481B',
-                    border: '2px solid var(--bg)',
-                    outline: '1px solid rgba(201,72,27,0.4)',
-                    marginTop: '4px',
-                    boxShadow: '0 0 0 3px rgba(201,72,27,0.08)',
-                  }} />
-
-                  {/* Event */}
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text)', lineHeight: 1.65, flex: 1, paddingTop: '1px' }}>{event}</p>
+                    fontWeight: 700, fontSize: '0.85rem',
+                    color: i === milestones.length - 1 ? '#fff' : '#C9481B',
+                  }}>{year}</span>
                 </div>
-              ))}
-            </div>
+                <div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '13px', color: 'var(--text)', marginBottom: '3px' }}>{label}</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11.5px', color: 'var(--text-muted)' }}>{detail}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -242,7 +246,6 @@ export default function About() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${color}18`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                {/* Photo banner */}
                 <div style={{
                   position: 'relative',
                   height: '200px',
@@ -252,56 +255,25 @@ export default function About() {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                  {/* Decorative bg circles */}
                   <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', background: `${color}08`, top: '-20px', right: '-20px' }} />
                   <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', background: `${color}06`, bottom: '-10px', left: '-10px' }} />
-
                   <img
                     src={avatar}
                     alt={name}
-                    style={{
-                      width: '110px', height: '110px',
-                      borderRadius: '50%',
-                      objectFit: 'cover',
-                      border: `3px solid ${color}40`,
-                      boxShadow: `0 8px 28px ${color}20`,
-                      position: 'relative', zIndex: 1,
-                    }}
-                    onError={e => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
+                    style={{ width: '110px', height: '110px', borderRadius: '50%', objectFit: 'cover', border: `3px solid ${color}40`, boxShadow: `0 8px 28px ${color}20`, position: 'relative', zIndex: 1 }}
+                    onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
                   />
-                  {/* Fallback initials */}
-                  <div style={{
-                    display: 'none',
-                    width: '110px', height: '110px',
-                    borderRadius: '50%',
-                    background: `linear-gradient(135deg, ${color}40, ${color}20)`,
-                    border: `3px solid ${color}40`,
-                    alignItems: 'center', justifyContent: 'center',
-                    fontFamily: "'Cormorant Garant', serif",
-                    fontWeight: 700, fontSize: '2rem',
-                    color: color,
-                    position: 'relative', zIndex: 1,
-                  }}>
+                  <div style={{ display: 'none', width: '110px', height: '110px', borderRadius: '50%', background: `linear-gradient(135deg, ${color}40, ${color}20)`, border: `3px solid ${color}40`, alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '2rem', color: color, position: 'relative', zIndex: 1 }}>
                     {initials}
                   </div>
                 </div>
-
-                {/* Content */}
                 <div style={{ padding: '22px 22px 24px' }}>
                   <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.25rem', color: 'var(--text)', marginBottom: '3px' }}>{name}</h3>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, color: color, marginBottom: '14px', letterSpacing: '0.02em' }}>{role}</p>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '16px' }}>{bio}</p>
-
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {expertise.map(tag => (
-                      <span key={tag} style={{
-                        fontSize: '10.5px', padding: '3px 10px', borderRadius: '99px',
-                        background: `${color}10`, color: color, border: `1px solid ${color}25`,
-                        fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
-                      }}>{tag}</span>
+                      <span key={tag} style={{ fontSize: '10.5px', padding: '3px 10px', borderRadius: '99px', background: `${color}10`, color: color, border: `1px solid ${color}25`, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -332,10 +304,15 @@ export default function About() {
           .about-desc-grid { grid-template-columns: 1fr !important; }
           .values-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .team-grid { grid-template-columns: 1fr !important; max-width: 460px; margin: 0 auto; }
-          .timeline-line { left: 56px !important; }
+          .milestones-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .milestone-line { display: none !important; }
         }
         @media (max-width: 640px) {
           .values-grid { grid-template-columns: 1fr !important; }
+          .milestones-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+        }
+        @media (max-width: 380px) {
+          .milestones-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

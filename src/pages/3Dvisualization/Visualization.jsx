@@ -13,15 +13,29 @@ const galleryImages = [
   { src: 'https://picsum.photos/seed/3d-fashion-08/600/700', alt: 'Fashion 3D Visualization', label: 'Fashion & Apparel' },
   { src: 'https://picsum.photos/seed/3d-real-09/900/600', alt: 'Real Estate 3D', label: 'Real Estate Visualization' },
   { src: 'https://picsum.photos/seed/3d-pack-10/700/600', alt: 'Packaging Design 3D', label: 'Packaging Design Render' },
+  { src: 'https://picsum.photos/seed/3d-watch-11/600/600', alt: 'Watch 3D Render', label: 'Luxury Watch Render' },
+  { src: 'https://picsum.photos/seed/3d-shoes-12/700/500', alt: 'Footwear 3D', label: 'Footwear Visualization' },
+  { src: 'https://picsum.photos/seed/3d-phone-13/600/700', alt: 'Smartphone 3D', label: 'Smartphone Product Render' },
+  { src: 'https://picsum.photos/seed/3d-car-14/900/600', alt: 'Car 3D Render', label: 'Automotive Detail Render' },
+  { src: 'https://picsum.photos/seed/3d-bottle-15/600/800', alt: 'Bottle 3D', label: 'Beverage Packaging Render' },
+  { src: 'https://picsum.photos/seed/3d-chair-16/700/600', alt: 'Furniture 3D', label: 'Furniture Design Render' },
+  { src: 'https://picsum.photos/seed/3d-light-17/600/600', alt: 'Lighting 3D', label: 'Architectural Lighting' },
+  { src: 'https://picsum.photos/seed/3d-drone-18/800/500', alt: 'Drone 3D', label: 'Consumer Tech 3D' },
+  { src: 'https://picsum.photos/seed/3d-cosmetics-19/600/700', alt: 'Cosmetics 3D', label: 'Cosmetics Product Render' },
+  { src: 'https://picsum.photos/seed/3d-hotel-20/900/600', alt: 'Hotel 3D', label: 'Hospitality Visualization' },
+  { src: 'https://picsum.photos/seed/3d-kitchen-21/700/500', alt: 'Kitchen 3D', label: 'Kitchen Interior Render' },
+  { src: 'https://picsum.photos/seed/3d-bag-22/600/700', alt: 'Bag 3D', label: 'Fashion Accessories Render' },
+  { src: 'https://picsum.photos/seed/3d-speaker-23/700/600', alt: 'Speaker 3D', label: 'Audio Product Render' },
+  { src: 'https://picsum.photos/seed/3d-office-24/900/600', alt: 'Office 3D', label: 'Commercial Space Render' },
+  { src: 'https://picsum.photos/seed/3d-gym-25/700/500', alt: 'Gym 3D', label: 'Fitness Center Render' },
+  { src: 'https://picsum.photos/seed/3d-ring-26/600/600', alt: 'Ring 3D', label: 'Fine Jewelry Ring Render' },
+  { src: 'https://picsum.photos/seed/3d-villa-27/900/600', alt: 'Villa 3D', label: 'Luxury Villa Exterior' },
 ];
 
 const visualizationVideos = [
   { id: 'ULSWOdTnmqY', title: '360° Product Visualization – Premium Watch', description: 'Cinematic 3D turntable render with photorealistic materials and lighting.' },
   { id: 'jNQXAC9IVRw', title: 'Architectural Flythrough – Luxury Villa', description: 'Immersive pre-construction 3D walkthrough for a high-end residential project.' },
   { id: 'dQw4w9WgXcQ', title: 'Automotive 3D Brand Film', description: 'Dynamic 3D animation showcasing vehicle design language and performance.' },
-  { id: 'L_jWHffIx5E', title: 'Interior Design Reveal Animation', description: 'Before/after transformation reveal using photorealistic 3D interior rendering.' },
-  { id: 'kffacxfA7G4', title: 'Product Explosion View – Tech Device', description: 'Engineering exploded view animation highlighting internal components beautifully.' },
-  { id: '9bZkp7q19f0', title: 'Real Estate Development Visualization', description: 'Large-scale 3D master plan animation for a mixed-use real estate development.' },
 ];
 
 const services3D = [
@@ -34,10 +48,10 @@ const services3D = [
 ];
 
 const process = [
-  { step: '01', label: 'Brief & Concept', icon: '💡' },
-  { step: '02', label: '3D Modelling', icon: '🗿' },
-  { step: '03', label: 'Texturing & Lighting', icon: '🎨' },
-  { step: '04', label: 'Render & Deliver', icon: '✅' },
+  { step: '01', label: 'Brief & Concept', icon: '💡', desc: 'Understanding your vision and goals' },
+  { step: '02', label: '3D Modelling', icon: '🗿', desc: 'Building precise digital geometry' },
+  { step: '03', label: 'Texturing & Lighting', icon: '🎨', desc: 'Applying photorealistic materials' },
+  { step: '04', label: 'Render & Deliver', icon: '✅', desc: 'Final output in any format' },
 ];
 
 export default function Visualization() {
@@ -47,7 +61,7 @@ export default function Visualization() {
   return (
     <div style={{ background: 'var(--bg)' }}>
 
-      {/* ── HERO ── clean page-hero class handles top padding */}
+      {/* ── HERO ── */}
       <section className="page-hero">
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
           <span className="section-tag" style={{ marginBottom: '18px', display: 'inline-flex', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>
@@ -88,7 +102,7 @@ export default function Visualization() {
         </div>
       </section>
 
-      {/* ── BENTO IMAGE GALLERY ── */}
+      {/* ── IMAGE GALLERY ── */}
       <section id="viz-gallery" style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '28px' }}>
@@ -98,117 +112,122 @@ export default function Visualization() {
                 Our 3D Portfolio
               </h2>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '5px' }}>
-                A selection of our rendering and visualization projects
+                27 projects across rendering and visualization
               </p>
             </div>
           </div>
 
-          {/* Bento grid — desktop */}
-          <div className="bento-grid">
-            {galleryImages.map((img, i) => {
-              const bentoClass = ['bento-1', 'bento-2', 'bento-3', 'bento-4', 'bento-5', 'bento-6', 'bento-7', 'bento-8'][i % 8];
-              return (
-                <div key={i} className={`${bentoClass} portfolio-item`}
-                  onClick={() => setLightboxImg(img)}
-                  style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', cursor: 'pointer', boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease' }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.015)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
-                >
-                  <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  <div className="portfolio-overlay" />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', padding: '4px 11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)' }}>{img.label}</span>
-                  </div>
+          {/* Masonry grid — works on all screen sizes */}
+          <div className="viz-masonry-grid">
+            {galleryImages.map((img, i) => (
+              <div
+                key={i}
+                className="portfolio-item viz-masonry-item"
+                onClick={() => setLightboxImg(img)}
+                style={{
+                  position: 'relative',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  marginBottom: '12px',
+                  breakInside: 'avoid',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <div className="portfolio-overlay" />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', padding: '4px 11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)' }}>{img.label}</span>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Mobile-friendly scroll gallery — shown on smaller screens */}
-          <div className="viz-mobile-gallery">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-              {galleryImages.map((img, i) => (
-                <div key={i} className="portfolio-item" onClick={() => setLightboxImg(img)} style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', aspectRatio: i % 3 === 0 ? '1/1' : '4/3', boxShadow: 'var(--shadow-sm)' }}>
-                  <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  <div className="portfolio-overlay" />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px', opacity: 0, transition: 'opacity 0.3s', zIndex: 2 }} className="portfolio-label">
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: '#fff', fontWeight: 500 }}>{img.label}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── VIDEO SECTION ── */}
       <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '32px' }}>
-            <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>3D Animation Reels</span>
-              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
-                Watch Our Work in Motion
-              </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '5px' }}>
-                3D visualization projects come alive with motion
-              </p>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px', textAlign: 'center' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>3D Animation Reels</span>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
+              Watch Our Work in Motion
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '8px' }}>
+              3D visualization projects come alive with motion
+            </p>
+          </div>
+
+          {/* 3 videos: 1 large + 2 side by side on desktop, stacked on mobile */}
+          <div className="viz-videos-desktop">
+            <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '14px', alignItems: 'stretch' }}>
+              <VideoCard {...visualizationVideos[0]} accentColor="#7C3AED" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <VideoCard {...visualizationVideos[1]} accentColor="#7C3AED" />
+                <VideoCard {...visualizationVideos[2]} accentColor="#7C3AED" />
+              </div>
             </div>
           </div>
 
-          {/* Featured top row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px', marginBottom: '14px' }} className="viz-top-grid">
-            <VideoCard {...visualizationVideos[0]} accentColor="#7C3AED" />
-            <VideoCard {...visualizationVideos[1]} accentColor="#7C3AED" />
-          </div>
-
-          {/* Bottom 4-col grid — stacks responsively */}
-          <div className="video-grid-4">
-            {visualizationVideos.slice(2).map(v => (
-              <VideoCard key={v.id} {...v} accentColor="#7C3AED" />
-            ))}
+          {/* Mobile: stacked */}
+          <div className="viz-videos-mobile">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {visualizationVideos.map(v => (
+                <VideoCard key={v.id} {...v} accentColor="#7C3AED" />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── PROCESS ── */}
-      <section style={{ background: 'var(--text)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+      {/* ── PROCESS — WHITE BACKGROUND ── */}
+      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px', color: '#C9481B', borderColor: 'rgba(201,72,27,0.35)', background: 'rgba(201,72,27,0.1)' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>
               Our Process
             </span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: '#FDFCF8', lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1 }}>
               From Brief to <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Photorealism</em>
             </h2>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }} className="process-grid">
-            {process.map(({ step, label }) => (
+            {process.map(({ step, label, icon, desc }) => (
               <div key={step} style={{
                 textAlign: 'center', padding: '28px 18px',
-                background: 'rgba(253,252,248,0.05)',
-                border: '1px solid rgba(253,252,248,0.08)',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
                 borderRadius: '16px',
                 transition: 'all 0.3s ease', cursor: 'default',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,72,27,0.1)'; e.currentTarget.style.borderColor = 'rgba(201,72,27,0.3)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(253,252,248,0.05)'; e.currentTarget.style.borderColor = 'rgba(253,252,248,0.08)'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(201,72,27,0.1)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >
-                <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.8rem', fontWeight: 700, color: '#C9481B', lineHeight: 1, marginBottom: '10px' }}>{step}</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', fontWeight: 500, color: 'rgba(253,252,248,0.8)' }}>{label}</div>
+                <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.8rem', fontWeight: 700, color: '#C9481B', lineHeight: 1, marginBottom: '8px' }}>{step}</div>
+                <div style={{ fontSize: '1.4rem', marginBottom: '8px' }}>{icon}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', fontWeight: 600, color: 'var(--text)', marginBottom: '6px' }}>{label}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{desc}</div>
               </div>
             ))}
           </div>
 
-          <p style={{ textAlign: 'center', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.4)', maxWidth: '560px', margin: '36px auto 0', lineHeight: 1.8 }}>
+          <p style={{ textAlign: 'center', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', maxWidth: '560px', margin: '36px auto 0', lineHeight: 1.8 }}>
             Using Cinema 4D, Blender, Unreal Engine, and V-Ray — our artists build accurate 3D models, apply photorealistic materials and HDR lighting, and render frames with sub-millimeter detail.
           </p>
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
         <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Create</span>
         <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', marginBottom: '14px' }}>
           Ready to bring your product to life in 3D?
@@ -221,15 +240,61 @@ export default function Visualization() {
         </button>
       </section>
 
-      {/* Lightbox */}
+      {/* ── LIGHTBOX — properly centered on all devices ── */}
       {lightboxImg && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'rgba(24,19,13,0.92)', backdropFilter: 'blur(8px)' }}
+        <div
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            background: 'rgba(24,19,13,0.92)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+          }}
           onClick={() => setLightboxImg(null)}
         >
-          <div style={{ position: 'relative', maxWidth: '860px', width: '100%' }} onClick={e => e.stopPropagation()}>
-            <img src={lightboxImg.src} alt={lightboxImg.alt} style={{ width: '100%', borderRadius: '16px', boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }} />
+          <div
+            style={{
+              position: 'relative',
+              maxWidth: '860px',
+              width: '100%',
+              maxHeight: '90vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={lightboxImg.src}
+              alt={lightboxImg.alt}
+              style={{
+                width: '100%',
+                maxHeight: '80vh',
+                objectFit: 'contain',
+                borderRadius: '16px',
+                boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+              }}
+            />
             <p style={{ textAlign: 'center', marginTop: '14px', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.65)' }}>{lightboxImg.label}</p>
-            <button onClick={() => setLightboxImg(null)} style={{ position: 'absolute', top: '-14px', right: '-14px', width: '38px', height: '38px', borderRadius: '50%', background: '#FDFCF8', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
+            <button
+              onClick={() => setLightboxImg(null)}
+              style={{
+                position: 'absolute',
+                top: '-14px', right: '-14px',
+                width: '38px', height: '38px',
+                borderRadius: '50%',
+                background: '#FDFCF8',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+                flexShrink: 0,
+              }}
+            >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
           </div>
@@ -238,20 +303,43 @@ export default function Visualization() {
 
       <style>{`
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
-        /* Desktop: show bento, hide mobile gallery */
-        .bento-grid { display: grid; }
-        .viz-mobile-gallery { display: none; }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+        /* Masonry gallery */
+        .viz-masonry-grid {
+          columns: 4;
+          column-gap: 12px;
+        }
+        .viz-masonry-item {
+          display: inline-block;
+          width: 100%;
+        }
+
+        /* Video layout */
+        .viz-videos-desktop { display: block; }
+        .viz-videos-mobile  { display: none; }
+
+        @media (max-width: 1024px) {
+          .viz-masonry-grid { columns: 3 !important; }
+        }
         @media (max-width: 900px) {
-          .bento-grid { display: none !important; }
-          .viz-mobile-gallery { display: block !important; }
           .services-3d-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .viz-top-grid { grid-template-columns: 1fr !important; }
           .process-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .viz-masonry-grid { columns: 3 !important; }
+        }
+        @media (max-width: 768px) {
+          .viz-videos-desktop { display: none !important; }
+          .viz-videos-mobile  { display: block !important; }
+          .viz-masonry-grid { columns: 2 !important; }
         }
         @media (max-width: 540px) {
           .services-3d-grid { grid-template-columns: 1fr !important; }
+          .process-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .viz-masonry-grid { columns: 2 !important; }
+        }
+        @media (max-width: 380px) {
+          .viz-masonry-grid { columns: 1 !important; }
           .process-grid { grid-template-columns: 1fr !important; }
-          .viz-mobile-gallery .portfolio-item { aspect-ratio: 1/1 !important; }
         }
       `}</style>
     </div>

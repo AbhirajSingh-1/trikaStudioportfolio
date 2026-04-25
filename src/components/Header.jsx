@@ -62,8 +62,8 @@ export default function Header() {
             <Logo size="md" dark={true} />
           </button>
 
-          {/* Desktop nav — KEY FIX: use className only, no inline display style */}
-          <nav className="hidden lg:flex" style={{ alignItems: 'center', gap: '2px', flex: 1, justifyContent: 'center' }}>
+          {/* Desktop nav */}
+          <nav className="header-desktop-nav" style={{ alignItems: 'center', gap: '2px', flex: 1, justifyContent: 'center' }}>
             {navLinks.map(({ label, path }) => (
               <NavLink
                 key={path}
@@ -117,7 +117,7 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex" style={{ alignItems: 'center', flexShrink: 0 }}>
+          <div className="header-desktop-cta" style={{ alignItems: 'center', flexShrink: 0 }}>
             <button
               onClick={() => navigate('/contact')}
               className="btn-primary"
@@ -131,7 +131,7 @@ export default function Header() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
-            className="lg:hidden"
+            className="header-hamburger"
             style={{
               background: 'none',
               border: '1px solid var(--border)',
@@ -166,7 +166,7 @@ export default function Header() {
 
         {/* Mobile menu */}
         <div
-          className="lg:hidden"
+          className="header-mobile-menu"
           style={{
             overflow: 'hidden',
             maxHeight: menuOpen ? '520px' : '0',
@@ -217,6 +217,34 @@ export default function Header() {
         @keyframes underline-grow {
           from { transform: scaleX(0); transform-origin: left; }
           to   { transform: scaleX(1); transform-origin: left; }
+        }
+        /* Desktop nav visible, hamburger hidden on large screens */
+        .header-desktop-nav {
+          display: none;
+          flex: 1;
+        }
+        .header-desktop-cta {
+          display: none;
+        }
+        .header-hamburger {
+          display: flex;
+        }
+        .header-mobile-menu {
+          display: block;
+        }
+        @media (min-width: 1024px) {
+          .header-desktop-nav {
+            display: flex !important;
+          }
+          .header-desktop-cta {
+            display: flex !important;
+          }
+          .header-hamburger {
+            display: none !important;
+          }
+          .header-mobile-menu {
+            display: none !important;
+          }
         }
       `}</style>
     </>

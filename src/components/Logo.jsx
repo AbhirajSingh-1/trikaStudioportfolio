@@ -51,7 +51,6 @@ export default function Logo({ size = 'md', dark = true }) {
           alignSelf: 'center',
         }}
       >
-        Studio
       </span>
     </span>
   );

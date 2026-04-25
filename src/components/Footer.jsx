@@ -10,17 +10,6 @@ const navPages = [
   { label: 'Contact', path: '/contact' },
 ];
 
-const services = [
-  'AI Video Production',
-  'AI Avatar Creation',
-  'Product 3D Renders',
-  'Architectural Viz',
-  'Social Media Marketing',
-  'Performance Ads',
-  'Brand Strategy',
-  'Content Production',
-];
-
 const contactInfo = [
   { icon: '✉', text: 'hello@trikastudio.in' },
   { icon: '📞', text: '+91 98765 43210' },
@@ -82,36 +71,36 @@ export default function Footer() {
       {/* Top accent line */}
       <div style={{ height: '3px', background: 'linear-gradient(90deg, #C9481B, #E06035 50%, transparent)' }} />
 
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: 'clamp(48px,6vw,72px) 24px 0' }}>
-        {/* Main grid */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: 'clamp(32px,4vw,48px) 24px 0' }}>
+        {/* Main grid: Brand | Pages | Contact */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '2.2fr 1fr 1.4fr 1.4fr',
-          gap: 'clamp(28px,4vw,56px)',
-          marginBottom: '52px',
+          gridTemplateColumns: '2fr 1fr 1.6fr',
+          gap: 'clamp(24px,3vw,48px)',
+          marginBottom: '36px',
         }} className="footer-main-grid">
 
           {/* Brand column */}
           <div>
             <button
               onClick={() => navigate('/')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: '18px', display: 'block' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: '14px', display: 'block' }}
             >
               <Logo size="md" dark={false} />
             </button>
             <p style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: '13.5px',
-              color: 'rgba(253,252,248,0.5)',
-              lineHeight: 1.8,
-              maxWidth: '280px',
-              marginBottom: '24px',
+              fontSize: '13px',
+              color: 'rgba(253,252,248,0.45)',
+              lineHeight: 1.75,
+              maxWidth: '260px',
+              marginBottom: '18px',
             }}>
-              AI-first creative studio crafting digital experiences that move people — powered by generative AI, 3D production, and data-driven strategy.
+              AI-first creative studio crafting digital experiences powered by generative AI, 3D production, and data-driven strategy.
             </p>
 
             {/* Socials */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
               {socials.map(({ label, href, icon }) => (
                 <a
                   key={label}
@@ -120,8 +109,8 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   style={{
-                    width: '34px', height: '34px',
-                    borderRadius: '9px',
+                    width: '32px', height: '32px',
+                    borderRadius: '8px',
                     background: 'rgba(253,252,248,0.06)',
                     border: '1px solid rgba(253,252,248,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -146,21 +135,6 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-
-            {/* Active badge */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              marginTop: '20px',
-              padding: '7px 14px',
-              background: 'rgba(74,222,128,0.08)',
-              border: '1px solid rgba(74,222,128,0.2)',
-              borderRadius: '99px',
-            }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ADE80', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
-              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(253,252,248,0.6)' }}>
-                Accepting new projects
-              </span>
-            </div>
           </div>
 
           {/* Pages */}
@@ -169,11 +143,11 @@ export default function Footer() {
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '10px', fontWeight: 600,
               letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: 'rgba(253,252,248,0.28)', marginBottom: '18px',
+              color: 'rgba(253,252,248,0.28)', marginBottom: '14px',
             }}>
               Pages
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '7px' }}>
               {navPages.map(({ label, path }) => (
                 <li key={label}>
                   <button
@@ -181,8 +155,8 @@ export default function Footer() {
                     style={{
                       background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
                       fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '13.5px',
-                      color: 'rgba(253,252,248,0.55)',
+                      fontSize: '13px',
+                      color: 'rgba(253,252,248,0.5)',
                       transition: 'color 0.18s, transform 0.18s',
                       textAlign: 'left',
                       display: 'flex', alignItems: 'center', gap: '6px',
@@ -192,36 +166,12 @@ export default function Footer() {
                       e.currentTarget.style.transform = 'translateX(4px)';
                     }}
                     onMouseLeave={e => {
-                      e.currentTarget.style.color = 'rgba(253,252,248,0.55)';
+                      e.currentTarget.style.color = 'rgba(253,252,248,0.5)';
                       e.currentTarget.style.transform = 'translateX(0)';
                     }}
                   >
                     {label}
                   </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: 'rgba(253,252,248,0.28)', marginBottom: '18px',
-            }}>
-              Services
-            </h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {services.map(s => (
-                <li key={s} style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '13px',
-                  color: 'rgba(253,252,248,0.38)',
-                  lineHeight: 1.5,
-                }}>
-                  {s}
                 </li>
               ))}
             </ul>
@@ -233,18 +183,18 @@ export default function Footer() {
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '10px', fontWeight: 600,
               letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: 'rgba(253,252,248,0.28)', marginBottom: '18px',
+              color: 'rgba(253,252,248,0.28)', marginBottom: '14px',
             }}>
               Get in Touch
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '13px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '11px' }}>
               {contactInfo.map(({ icon, text }) => (
-                <li key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ fontSize: '13px', marginTop: '1px', flexShrink: 0 }}>{icon}</span>
+                <li key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
+                  <span style={{ fontSize: '12px', marginTop: '1px', flexShrink: 0 }}>{icon}</span>
                   <span style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '13px',
-                    color: 'rgba(253,252,248,0.5)',
+                    fontSize: '12.5px',
+                    color: 'rgba(253,252,248,0.45)',
                     lineHeight: 1.5,
                   }}>{text}</span>
                 </li>
@@ -254,13 +204,13 @@ export default function Footer() {
             <button
               onClick={() => navigate('/contact')}
               style={{
-                marginTop: '24px',
+                marginTop: '18px',
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '10px 20px',
+                padding: '9px 18px',
                 background: '#C9481B',
                 color: '#fff',
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: '13px', fontWeight: 500,
+                fontSize: '12.5px', fontWeight: 500,
                 border: 'none', borderRadius: '8px',
                 cursor: 'pointer',
                 transition: 'all 0.22s ease',
@@ -274,31 +224,31 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div style={{ height: '1px', background: 'rgba(253,252,248,0.07)', marginBottom: '24px' }} />
+        <div style={{ height: '1px', background: 'rgba(253,252,248,0.07)', marginBottom: '18px' }} />
 
         {/* Bottom bar */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          flexWrap: 'wrap', gap: '12px', paddingBottom: '28px',
+          flexWrap: 'wrap', gap: '10px', paddingBottom: '22px',
         }}>
           <p style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: '12px',
-            color: 'rgba(253,252,248,0.25)',
+            fontSize: '11.5px',
+            color: 'rgba(253,252,248,0.22)',
           }}>
             © 2025 Trika Studio Pvt. Ltd. · Gurugram, India
           </p>
-          <div style={{ display: 'flex', gap: '20px' }}>
-            {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
+          <div style={{ display: 'flex', gap: '16px' }}>
+            {['Privacy Policy', 'Terms of Service'].map(item => (
               <span key={item} style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: '11px',
-                color: 'rgba(253,252,248,0.22)',
+                color: 'rgba(253,252,248,0.2)',
                 cursor: 'pointer',
                 transition: 'color 0.18s',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = 'rgba(253,252,248,0.55)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.22)'}
+              onMouseEnter={e => e.currentTarget.style.color = 'rgba(253,252,248,0.5)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.2)'}
               >
                 {item}
               </span>
@@ -307,17 +257,16 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Responsive */}
       <style>{`
-        @media (max-width: 1024px) {
-          .footer-main-grid { grid-template-columns: 1fr 1fr 1fr !important; }
-          .footer-main-grid > div:first-child { grid-column: 1 / -1; }
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.6; transform: scale(0.85); }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .footer-main-grid { grid-template-columns: 1fr 1fr !important; }
           .footer-main-grid > div:first-child { grid-column: 1 / -1; }
         }
-        @media (max-width: 400px) {
+        @media (max-width: 480px) {
           .footer-main-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
