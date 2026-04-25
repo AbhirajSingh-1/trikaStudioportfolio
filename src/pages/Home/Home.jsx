@@ -1,290 +1,514 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Card from '../../components/Card';
 
+/* ── Data ── */
 const stats = [
-  { value: '150+', label: 'Projects Delivered', color: '#4D7EF5' },
-  { value: '98%', label: 'Client Satisfaction', color: '#9C4DFF' },
-  { value: '40+', label: 'Happy Brands', color: '#F5A623' },
-  { value: '5★', label: 'Average Rating', color: '#22D3EE' },
+  { value: '150+', label: 'Projects delivered' },
+  { value: '40+',  label: 'Brand clients' },
+  { value: '98%',  label: 'Client satisfaction' },
+  { value: '5★',   label: 'Average rating' },
 ];
 
 const services = [
   {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>,
-    title: 'AI-Powered Advertising',
-    description: 'Hyper-personalized campaigns driven by machine learning. We optimize every touchpoint to maximize ROI and brand impact.',
-    tag: 'AI & ML',
-    accentColor: '#4D7EF5',
+    num: '01',
+    title: 'AI Advertising',
+    desc: 'Hyper-personalized campaigns driven by generative AI — from text-to-video spots to dynamic creative at scale.',
     path: '/ai-advertising',
+    color: '#C9481B',
   },
   {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>,
+    num: '02',
     title: '3D Visualization',
-    description: 'Photorealistic renders and immersive 3D product experiences that elevate your brand storytelling to another dimension.',
-    tag: '3D & VR',
-    accentColor: '#9C4DFF',
+    desc: 'Photorealistic product renders, architectural flythroughs, and immersive 3D brand films.',
     path: '/3d-visualization',
+    color: '#8C5F30',
   },
   {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
+    num: '03',
     title: 'Digital Marketing',
-    description: 'Full-funnel digital strategies — from social media mastery to performance marketing — that drive measurable growth.',
-    tag: 'Growth',
-    accentColor: '#F5A623',
+    desc: 'Full-funnel growth — social media, performance ads, SEO, and data-driven content strategy.',
     path: '/digital-marketing',
+    color: '#4A6741',
   },
   {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
-    title: 'AI Avatar Creation',
-    description: 'Studio-quality AI avatars and synthetic media that scale your content production while maintaining authentic brand voice.',
-    tag: 'AI Video',
-    accentColor: '#22D3EE',
+    num: '04',
+    title: 'AI Avatars',
+    desc: 'Photorealistic digital humans that deliver your brand message across 120+ languages at scale.',
     path: '/ai-advertising',
+    color: '#2C5F7A',
   },
 ];
 
+/* ── Portfolio images ── simulating a real creative agency portfolio ── */
+const portfolioItems = [
+  { src: 'https://picsum.photos/seed/trika-food-1/600/500',   label: 'Food & Beverage Campaign',    cat: 'Social Media', tall: false },
+  { src: 'https://picsum.photos/seed/trika-tech-2/600/700',   label: 'Tech Product Launch',          cat: 'AI Advertising', tall: true },
+  { src: 'https://picsum.photos/seed/trika-arch-3/600/450',   label: 'Architectural Visualization',  cat: '3D Render', tall: false },
+  { src: 'https://picsum.photos/seed/trika-fash-4/600/600',   label: 'Fashion Brand Identity',       cat: 'Branding', tall: false },
+  { src: 'https://picsum.photos/seed/trika-rest-5/600/650',   label: 'Restaurant Social Pack',       cat: 'Social Media', tall: true },
+  { src: 'https://picsum.photos/seed/trika-chai-6/600/450',   label: 'Beverage Ad Campaign',         cat: 'AI Advertising', tall: false },
+  { src: 'https://picsum.photos/seed/trika-real-7/600/500',   label: 'Real Estate 3D Walkthrough',   cat: '3D Render', tall: false },
+  { src: 'https://picsum.photos/seed/trika-app-8/600/480',    label: 'App Brand Campaign',           cat: 'Performance', tall: false },
+];
+
+const catColors = {
+  'Social Media':   { bg: '#FEF3E2', text: '#A85B18' },
+  'AI Advertising': { bg: '#FDE8E3', text: '#C9481B' },
+  '3D Render':      { bg: '#EAF3E8', text: '#3A6B35' },
+  'Branding':       { bg: '#E6EFF8', text: '#2A5785' },
+  'Performance':    { bg: '#F0EAF8', text: '#6A3A9A' },
+};
+
 const trustedBy = ['TechCorp', 'NexaDigital', 'BrandFlow', 'MediaPro', 'StartupX', 'GrowthLab'];
 
-export default function Home() {
-  const heroRef = useRef(null);
-  const navigate = useNavigate();
+const whyPoints = [
+  { icon: '⚡', title: 'AI-First Pipeline', desc: 'Every workflow supercharged with the latest generative AI models.' },
+  { icon: '🎯', title: 'Results-Obsessed', desc: 'Beautiful work that also converts — data-backed creative decisions.' },
+  { icon: '🤝', title: 'True Partnership', desc: 'We integrate deeply with your team as a strategic extension.' },
+  { icon: '🌟', title: 'Uncompromising Quality', desc: 'We only ship work we are proud to put our name on.' },
+];
 
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-    const onMove = (e) => {
-      const { clientX, clientY } = e;
-      const { innerWidth: w, innerHeight: h } = window;
-      const x = (clientX / w - 0.5) * 30;
-      const y = (clientY / h - 0.5) * 30;
-      const orb1 = el.querySelector('.hero-orb-1');
-      const orb2 = el.querySelector('.hero-orb-2');
-      if (orb1) orb1.style.transform = `translate(${x * -0.5}px, ${y * -0.5}px)`;
-      if (orb2) orb2.style.transform = `translate(${x * 0.7}px, ${y * 0.7}px)`;
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
+/* ── Component ── */
+export default function Home() {
+  const navigate = useNavigate();
+  const heroRef = useRef(null);
+  const [activeFilter, setActiveFilter] = useState('All');
+  const filters = ['All', 'Social Media', 'AI Advertising', '3D Render', 'Branding', 'Performance'];
+
+  const filtered = activeFilter === 'All'
+    ? portfolioItems
+    : portfolioItems.filter(p => p.cat === activeFilter);
 
   return (
-    <section>
-      {/* ─── HERO ─── */}
-      <div ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-12 px-6">
-        <div
-          className="hero-orb-1 orb w-[700px] h-[700px] opacity-20 -top-48 -left-48"
-          style={{ background: 'radial-gradient(circle, #4D7EF5, transparent 70%)', transition: 'transform 0.8s ease' }}
-        />
-        <div
-          className="hero-orb-2 orb w-[500px] h-[500px] opacity-15 -bottom-32 right-0"
-          style={{ background: 'radial-gradient(circle, #9C4DFF, transparent 70%)', transition: 'transform 0.8s ease' }}
-        />
-        <div
-          className="orb w-64 h-64 opacity-10 top-1/2 right-1/4"
-          style={{ background: 'radial-gradient(circle, #F5A623, transparent 70%)' }}
-        />
+    <div className="container-safe" style={{ background: 'var(--bg)' }}>
 
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
+      {/* ═══════════════════ HERO ═══════════════════ */}
+      <section
+        ref={heroRef}
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 'clamp(100px, 14vw, 160px) 24px 60px',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Very subtle bg pattern */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(circle at 20% 80%, rgba(201,72,27,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(201,72,27,0.03) 0%, transparent 50%)',
+          pointerEvents: 'none',
+        }} />
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <div className="animate-fade-in">
-            <span className="section-tag mb-6 inline-flex">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              AI-First Digital Agency
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px', margin: '0 auto' }}>
+          {/* Tag */}
+          <div className="animate-fade-in" style={{ marginBottom: '28px', animationFillMode: 'both' }}>
+            <span className="section-tag">
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} />
+              AI-First Digital Agency · Gurugram
             </span>
           </div>
 
+          {/* Main headline */}
           <h1
-            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] tracking-tight mb-8 animate-slide-up"
-            style={{ fontFamily: 'Syne, sans-serif', animationDelay: '0.1s', animationFillMode: 'both' }}
+            className="animate-slide-up"
+            style={{
+              fontFamily: "'Cormorant Garant', serif",
+              fontWeight: 700,
+              fontSize: 'clamp(2.8rem, 8.5vw, 6.5rem)',
+              lineHeight: 1.04,
+              letterSpacing: '-0.025em',
+              color: 'var(--text)',
+              marginBottom: '28px',
+              animationDelay: '0.1s',
+              animationFillMode: 'both',
+            }}
           >
             We Build{' '}
-            <span className="text-gradient">AI-Powered</span>
+            <em style={{ fontStyle: 'italic', color: 'var(--orange)' }}>AI‑Powered</em>
             <br />
             Digital Experiences
           </h1>
 
+          {/* Sub copy */}
           <p
-            className="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-12 animate-slide-up"
-            style={{ animationDelay: '0.25s', animationFillMode: 'both' }}
+            className="animate-slide-up"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 'clamp(0.95rem, 2.2vw, 1.1rem)',
+              color: 'var(--text-muted)',
+              maxWidth: '600px',
+              margin: '0 auto 40px',
+              lineHeight: 1.75,
+              animationDelay: '0.25s',
+              animationFillMode: 'both',
+            }}
           >
-            From AI-generated advertising and hyper-realistic 3D visuals to full-funnel digital marketing — Trika Studio is where{' '}
-            <span className="text-slate-200 font-medium">bold creativity</span> meets{' '}
-            <span className="text-slate-200 font-medium">cutting-edge technology</span> to build brands that command attention.
+            From AI-generated advertising and hyper-realistic 3D visuals to full-funnel digital marketing —
+            where <strong style={{ color: 'var(--text)', fontWeight: 500 }}>bold creativity</strong> meets{' '}
+            <strong style={{ color: 'var(--text)', fontWeight: 500 }}>cutting-edge technology</strong>.
           </p>
 
+          {/* CTAs */}
           <div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up"
-            style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
+            className="animate-slide-up"
+            style={{
+              display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap',
+              animationDelay: '0.4s', animationFillMode: 'both',
+            }}
           >
-            <button className="btn-primary text-base px-8 py-4 relative z-10"
-              onClick={() => navigate('/ai-advertising')}>
-              <span className="relative z-10">View Our Work →</span>
+            <button className="btn-primary" onClick={() => navigate('/ai-advertising')}>
+              View Our Work →
             </button>
-            <button className="btn-outline text-base px-8 py-4"
-              onClick={() => navigate('/contact')}>
+            <button className="btn-outline" onClick={() => navigate('/contact')}>
               Contact Us
             </button>
           </div>
 
+          {/* Service chips */}
           <div
-            className="mt-16 flex flex-wrap justify-center gap-3 animate-fade-in"
-            style={{ animationDelay: '0.6s', animationFillMode: 'both' }}
+            className="animate-fade-in"
+            style={{
+              marginTop: '52px', display: 'flex', flexWrap: 'wrap',
+              gap: '8px', justifyContent: 'center',
+              animationDelay: '0.6s', animationFillMode: 'both',
+            }}
           >
-            {['AI Advertising', '3D Visualization', 'Social Media', 'AI Avatars', 'Performance Marketing', 'Brand Identity'].map((tag) => (
-              <span
-                key={tag}
-                className="text-xs font-medium px-4 py-2 rounded-full glass-card text-slate-300 border border-white/5 hover:border-blue-500/30 hover:text-white transition-all duration-300"
-              >
-                {tag}
+            {['AI Advertising', '3D Visualization', 'Social Media', 'AI Avatars', 'Performance Marketing', 'Brand Identity'].map(t => (
+              <span key={t} style={{
+                fontSize: '12px', fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 400, padding: '6px 14px', borderRadius: '99px',
+                border: '1px solid var(--border)', color: 'var(--text-muted)',
+                background: 'transparent', cursor: 'default',
+                transition: 'all 0.2s',
+              }}>
+                {t}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in"
-          style={{ animationDelay: '1s', animationFillMode: 'both' }}>
-          <span className="text-slate-600 text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-transparent via-slate-600 to-transparent animate-pulse" />
+        {/* Scroll cue */}
+        <div style={{
+          position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+        }}>
+          <span style={{ fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-light)', fontFamily: "'DM Sans', sans-serif" }}>Scroll</span>
+          <div style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, var(--border-dark), transparent)' }} />
         </div>
-      </div>
+      </section>
 
-      {/* ─── STATS ─── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 border-t border-white/5">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map(({ value, label, color }) => (
-            <div key={label} className="glass-card rounded-2xl p-6 text-center hover-lift group">
-              <div
-                className="text-4xl lg:text-5xl font-black mb-2 group-hover:scale-110 transition-transform duration-300"
-                style={{ fontFamily: 'Syne, sans-serif', color }}
-              >
-                {value}
-              </div>
-              <div className="text-slate-400 text-sm font-medium">{label}</div>
+      {/* ═══════════════════ STATS BAR ═══════════════════ */}
+      <section style={{ background: 'var(--text)', padding: '40px 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '32px', textAlign: 'center' }}>
+          {stats.map(({ value, label }) => (
+            <div key={label}>
+              <div style={{
+                fontFamily: "'Cormorant Garant', serif", fontWeight: 700,
+                fontSize: 'clamp(2rem, 4vw, 2.8rem)', color: '#C9481B', lineHeight: 1,
+              }}>{value}</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'rgba(253,252,248,0.5)', marginTop: '6px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{label}</div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* ─── SERVICES OVERVIEW ─── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
-          <span className="section-tag mb-5 inline-flex">Our Expertise</span>
-          <h2 className="text-4xl lg:text-5xl font-black mb-5" style={{ fontFamily: 'Syne, sans-serif' }}>
-            What We <span className="text-gradient">Create</span>
-          </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            We blend AI, design, and strategy to craft digital experiences that don't just look stunning — they convert, engage, and grow your brand.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {services.map((service) => (
-            <div
-              key={service.title}
-              onClick={() => navigate(service.path)}
-              className="cursor-pointer"
-            >
-              <Card {...service} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ─── TRUSTED BY ─── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 border-t border-white/5">
-        <p className="text-center text-slate-600 text-sm uppercase tracking-widest mb-10 font-medium">
-          Trusted by forward-thinking brands
-        </p>
-        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
-          {trustedBy.map((brand) => (
-            <span
-              key={brand}
-              className="text-xl font-bold text-slate-700 hover:text-slate-400 transition-colors duration-300 cursor-default"
-              style={{ fontFamily: 'Syne, sans-serif' }}
-            >
-              {brand}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ─── WHY TRIKA ─── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24">
-        <div className="relative glass-card rounded-3xl p-10 lg:p-16 overflow-hidden">
-          <div className="orb w-80 h-80 opacity-20 -right-20 -top-20"
-            style={{ background: 'radial-gradient(circle, #9C4DFF, transparent)' }} />
-          <div className="orb w-60 h-60 opacity-15 -left-16 -bottom-16"
-            style={{ background: 'radial-gradient(circle, #4D7EF5, transparent)' }} />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ═══════════════════ SERVICES ═══════════════════ */}
+      <section style={{ padding: 'clamp(60px, 8vw, 100px) 24px', background: 'var(--bg)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px', marginBottom: '56px' }}>
             <div>
-              <span className="section-tag mb-5 inline-flex">Why Trika Studio</span>
-              <h2 className="text-4xl lg:text-5xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
-                Intelligence meets{' '}
-                <span className="text-gradient">Imagination</span>
+              <span className="section-tag" style={{ marginBottom: '16px', display: 'inline-flex' }}>What We Do</span>
+              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--text)', lineHeight: 1.1 }}>
+                Our Services
               </h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-8">
-                We don't just deliver deliverables — we build digital ecosystems. Every project at Trika Studio is powered by proprietary AI pipelines, elite creative talent, and a relentless obsession with results.
-              </p>
-              <button
-                className="btn-primary relative z-10"
-                onClick={() => navigate('/about')}
-              >
-                <span className="relative z-10">Meet the Team →</span>
-              </button>
             </div>
+            <button className="btn-outline" onClick={() => navigate('/contact')}>
+              Work With Us
+            </button>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: 'AI-First Pipeline', desc: 'Every workflow is supercharged with the latest AI models' },
-                { title: 'Rapid Execution', desc: 'From concept to campaign in record time without sacrificing quality' },
-                { title: 'Data-Driven', desc: 'Every creative decision backed by real-time analytics and insights' },
-                { title: 'Full Ownership', desc: 'Complete creative and strategic accountability from day one' },
-              ].map(({ title, desc }) => (
-                <div key={title} className="glass-card rounded-2xl p-5 hover-lift">
-                  <div className="w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center mb-3">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4D7EF5" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h4 className="text-white font-bold text-sm mb-1.5" style={{ fontFamily: 'Syne, sans-serif' }}>{title}</h4>
-                  <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
+          {/* Service rows */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {services.map((s, i) => (
+              <div
+                key={s.num}
+                onClick={() => navigate(s.path)}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '48px 1fr auto',
+                  alignItems: 'center',
+                  gap: '24px',
+                  padding: '28px 0',
+                  borderTop: '1px solid var(--border)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                  borderBottom: i === services.length - 1 ? '1px solid var(--border)' : 'none',
+                }}
+                className="service-row"
+                onMouseEnter={e => {
+                  e.currentTarget.style.paddingLeft = '12px';
+                  e.currentTarget.style.background = 'rgba(201,72,27,0.03)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.paddingLeft = '0';
+                  e.currentTarget.style.background = 'transparent';
+                }}
+              >
+                <span style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 300, fontSize: '0.85rem', color: 'var(--text-light)', letterSpacing: '0.05em' }}>{s.num}</span>
+                <div>
+                  <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', color: 'var(--text)', marginBottom: '4px' }}>{s.title}</h3>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{s.desc}</p>
                 </div>
-              ))}
-            </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" strokeWidth="1.75" style={{ flexShrink: 0 }}>
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* ─── FINAL CTA ─── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
-        <div className="text-center glass-card rounded-3xl p-16 relative overflow-hidden">
-          <div className="orb w-64 h-64 opacity-20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{ background: 'radial-gradient(circle, #4D7EF5, transparent)' }} />
-          <div className="relative z-10">
-            <h2 className="text-3xl lg:text-5xl font-black mb-5" style={{ fontFamily: 'Syne, sans-serif' }}>
-              Ready to <span className="text-gradient">Transform</span> Your Brand?
+      {/* ═══════════════════ PORTFOLIO GRID ═══════════════════ */}
+      <section style={{ padding: 'clamp(60px, 8vw, 100px) 24px', background: 'var(--bg-alt)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '16px' }}>Portfolio</span>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '12px' }}>
+              Our Creative Work
             </h2>
-            <p className="text-slate-400 mb-8 max-w-xl mx-auto">
-              Let's create something extraordinary together. No hard sells — just a genuine conversation about what's possible.
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.95rem', color: 'var(--text-muted)', maxWidth: '480px', margin: '0 auto' }}>
+              A curated selection of campaigns, 3D renders, and brand experiences.
             </p>
-            <button
-              className="btn-primary px-10 py-4 text-base relative z-10"
-              onClick={() => navigate('/contact')}
-            >
-              <span className="relative z-10">Start the Conversation →</span>
+          </div>
+
+          {/* Filter tabs */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginBottom: '36px' }}>
+            {filters.map(f => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: '12px', fontWeight: 500,
+                  padding: '7px 16px', borderRadius: '99px',
+                  border: activeFilter === f ? 'none' : '1px solid var(--border-dark)',
+                  background: activeFilter === f ? 'var(--orange)' : 'transparent',
+                  color: activeFilter === f ? '#fff' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  letterSpacing: '0.03em',
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          {/* Masonry-style 4-column portfolio grid */}
+          <div style={{
+            columns: 'auto',
+            columnCount: 4,
+            columnGap: '16px',
+          }}
+            className="portfolio-grid"
+          >
+            {filtered.map((item, i) => (
+              <div
+                key={i}
+                className="portfolio-item"
+                style={{
+                  position: 'relative',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  marginBottom: '16px',
+                  breakInside: 'avoid',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 12px rgba(24,19,13,0.08)',
+                  transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(24,19,13,0.14)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 12px rgba(24,19,13,0.08)';
+                }}
+              >
+                <img
+                  src={item.src}
+                  alt={item.label}
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                    objectFit: 'cover',
+                    /* Vary heights for masonry feel */
+                    aspectRatio: i % 3 === 1 ? '3/4' : i % 4 === 0 ? '4/5' : '4/3',
+                  }}
+                />
+                {/* Overlay */}
+                <div className="portfolio-overlay" />
+                {/* Labels */}
+                <div style={{
+                  position: 'absolute', bottom: 0, left: 0, right: 0,
+                  padding: '20px 16px 16px',
+                  opacity: 0, transition: 'opacity 0.35s ease',
+                  zIndex: 2,
+                }}
+                  className="portfolio-label"
+                >
+                  <div style={{
+                    display: 'inline-block', fontSize: '10px', fontWeight: 500,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    padding: '3px 10px', borderRadius: '99px',
+                    background: catColors[item.cat]?.bg || '#fff',
+                    color: catColors[item.cat]?.text || '#333',
+                    marginBottom: '6px', fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {item.cat}
+                  </div>
+                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1rem', color: '#fff', lineHeight: 1.3 }}>
+                    {item.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* View all */}
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
+            <button className="btn-outline" onClick={() => navigate('/ai-advertising')}>
+              View All Work →
             </button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* ═══════════════════ TRUSTED BY ═══════════════════ */}
+      <section style={{ padding: '52px 24px', background: 'var(--bg)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <p style={{ textAlign: 'center', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-light)', fontFamily: "'DM Sans', sans-serif", marginBottom: '28px' }}>
+          Trusted by forward-thinking brands
+        </p>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px 48px' }}>
+          {trustedBy.map(b => (
+            <span key={b} style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.4rem', color: 'var(--text-light)', letterSpacing: '-0.01em' }}>
+              {b}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════════════════ WHY TRIKA ═══════════════════ */}
+      <section style={{ padding: 'clamp(60px, 8vw, 100px) 24px', background: 'var(--bg)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(40px, 6vw, 80px)', alignItems: 'center' }}
+          className="why-grid">
+          {/* Left */}
+          <div>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>Why Trika Studio</span>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '20px' }}>
+              Intelligence<br />
+              meets{' '}
+              <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Imagination</em>
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '32px', maxWidth: '440px' }}>
+              We don't just deliver deliverables — we build digital ecosystems. Every project at Trika Studio is powered by proprietary AI pipelines, elite creative talent, and a relentless obsession with results.
+            </p>
+            <button className="btn-primary" onClick={() => navigate('/about')}>
+              Meet the Team →
+            </button>
+          </div>
+          {/* Right — 2×2 points */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            {whyPoints.map(({ icon, title, desc }) => (
+              <div key={title} style={{
+                padding: '24px 20px',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: '14px',
+                transition: 'all 0.25s ease',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(201,72,27,0.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
+              >
+                <span style={{ fontSize: '1.5rem', display: 'block', marginBottom: '12px' }}>{icon}</span>
+                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.05rem', color: 'var(--text)', marginBottom: '6px' }}>{title}</h4>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════ CTA BANNER ═══════════════════ */}
+      <section style={{
+        padding: 'clamp(60px, 8vw, 100px) 24px',
+        background: 'var(--text)',
+        textAlign: 'center',
+      }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '24px', borderColor: 'rgba(201,72,27,0.4)', color: '#E06035' }}>
+            Let's Build Together
+          </span>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', color: '#FDFCF8', lineHeight: 1.08, marginBottom: '20px' }}>
+            Ready to Transform<br />
+            <em style={{ color: '#C9481B', fontStyle: 'italic' }}>Your Brand?</em>
+          </h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.95rem', color: 'rgba(253,252,248,0.55)', lineHeight: 1.75, marginBottom: '36px' }}>
+            No hard sells — just a genuine conversation about what's possible for your brand.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button className="btn-primary" onClick={() => navigate('/contact')}>
+              Start the Conversation →
+            </button>
+            <button
+              onClick={() => navigate('/about')}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+                fontSize: '0.875rem', color: 'rgba(253,252,248,0.6)',
+                background: 'none', border: 'none', cursor: 'pointer',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = '#FDFCF8'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(253,252,248,0.6)'}
+            >
+              Meet the team →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Responsive overrides */}
+      <style>{`
+        .portfolio-overlay { opacity: 0; transition: opacity 0.35s ease; }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1 !important; }
+        .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
+
+        @media (max-width: 900px) {
+          .portfolio-grid { column-count: 2 !important; }
+        }
+        @media (max-width: 540px) {
+          .portfolio-grid { column-count: 2 !important; }
+        }
+        @media (max-width: 380px) {
+          .portfolio-grid { column-count: 1 !important; }
+        }
+        @media (max-width: 768px) {
+          .why-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .service-row { grid-template-columns: 36px 1fr auto !important; }
+        }
+      `}</style>
+    </div>
   );
 }
