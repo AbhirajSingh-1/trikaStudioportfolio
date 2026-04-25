@@ -1,6 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
-// Replace these YouTube video IDs with your actual content
 const aiVideos = [
   { id: 'dQw4w9WgXcQ', title: 'AI-Generated Brand Film – Luxury Automotive', description: 'Full-length AI cinematic ad created using generative video and neural rendering.' },
   { id: 'L_jWHffIx5E', title: 'Product Launch AI Spot – Tech Wearable', description: 'Hyper-realistic product reveal ad generated entirely with AI tools.' },
@@ -37,9 +37,10 @@ const capabilities = [
 ];
 
 export default function AIAdvertising() {
+  const navigate = useNavigate();
+
   return (
-    <section id="ai-advertising" className="relative py-28 overflow-hidden">
-      {/* BG orbs */}
+    <section className="relative py-28 overflow-hidden">
       <div className="orb w-[600px] h-[600px] opacity-10 -left-64 top-0"
         style={{ background: 'radial-gradient(circle, #4D7EF5, transparent 70%)' }} />
       <div className="orb w-[400px] h-[400px] opacity-10 right-0 bottom-0"
@@ -53,15 +54,15 @@ export default function AIAdvertising() {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             AI-Powered Creative
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h1 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
             AI <span className="text-gradient">Advertising</span>
-          </h2>
+          </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            We harness the power of generative AI to create advertising content that was previously impossible — at the speed of thought and the scale of machines. From cinematic brand films to personalized micro-content, our AI pipeline transforms your brief into breathtaking visuals.
+            We harness the power of generative AI to create advertising content that was previously impossible — at the speed of thought and the scale of machines.
           </p>
         </div>
 
-        {/* Capabilities badges */}
+        {/* Capabilities */}
         <div className="flex flex-wrap justify-center gap-3 mb-20">
           {capabilities.map(({ icon, label }) => (
             <div key={label} className="glass-card rounded-2xl px-5 py-3 flex items-center gap-2 hover-lift">
@@ -88,7 +89,6 @@ export default function AIAdvertising() {
             ))}
           </div>
 
-          {/* Info card */}
           <div className="mt-10 glass-card rounded-2xl p-7 border-l-4" style={{ borderLeftColor: '#4D7EF5' }}>
             <h3 className="text-white font-bold text-lg mb-2" style={{ fontFamily: 'Syne, sans-serif' }}>
               What is AI Video Creation?
@@ -118,13 +118,12 @@ export default function AIAdvertising() {
             ))}
           </div>
 
-          {/* Info card */}
           <div className="mt-10 glass-card rounded-2xl p-7 border-l-4" style={{ borderLeftColor: '#9C4DFF' }}>
             <h3 className="text-white font-bold text-lg mb-2" style={{ fontFamily: 'Syne, sans-serif' }}>
               What are AI Avatars?
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              AI Avatars are photorealistic, fully customizable digital human presenters that deliver your brand message with natural expressions, lip-sync, and voice — without any camera crew. Create a custom avatar from a single photo, then generate thousands of personalized video messages across 120+ languages. Whether it's a CEO spokesperson, a multilingual customer service agent, or an influencer-style presenter, our AI avatars maintain perfect brand consistency at infinite scale.
+              AI Avatars are photorealistic, fully customizable digital human presenters that deliver your brand message with natural expressions, lip-sync, and voice — without any camera crew. Create a custom avatar from a single photo, then generate thousands of personalized video messages across 120+ languages.
             </p>
           </div>
         </div>
@@ -134,7 +133,7 @@ export default function AIAdvertising() {
           <p className="text-slate-400 mb-6">Ready to create your own AI campaign?</p>
           <button
             className="btn-primary px-10 py-4 text-base relative z-10"
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => navigate('/contact')}
           >
             <span className="relative z-10">Start Your Project →</span>
           </button>

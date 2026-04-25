@@ -1,7 +1,26 @@
+import { useNavigate } from 'react-router-dom';
+
 const footerLinks = {
-  Services: ['AI Advertising', '3D Visualization', 'Digital Marketing', 'Brand Strategy', 'Content Creation'],
-  Company: ['About Us', 'Our Team', 'Careers', 'Blog', 'Press'],
-  Contact: ['hello@trikastudio.in', '+91 98765 43210', 'Gurugram, Haryana', 'Mon–Fri 10am–7pm'],
+  Services: [
+    { label: 'AI Advertising', path: '/ai-advertising' },
+    { label: '3D Visualization', path: '/3d-visualization' },
+    { label: 'Digital Marketing', path: '/digital-marketing' },
+    { label: 'Brand Strategy', path: null },
+    { label: 'Content Creation', path: null },
+  ],
+  Company: [
+    { label: 'About Us', path: '/about' },
+    { label: 'Our Team', path: '/about' },
+    { label: 'Careers', path: null },
+    { label: 'Blog', path: null },
+    { label: 'Press', path: null },
+  ],
+  Contact: [
+    { label: 'hello@trikastudio.in', path: null },
+    { label: '+91 98765 43210', path: null },
+    { label: 'Gurugram, Haryana', path: null },
+    { label: 'Mon–Fri 10am–7pm', path: null },
+  ],
 };
 
 const socials = [
@@ -47,34 +66,21 @@ const socials = [
   },
 ];
 
-const scrollTo = (id) => {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-};
-
-const sectionMap = {
-  'AI Advertising': 'ai-advertising',
-  '3D Visualization': 'visualization',
-  'Digital Marketing': 'digital-marketing',
-  'About Us': 'about',
-  'Our Team': 'about',
-};
-
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="relative overflow-hidden border-t border-white/5" style={{ background: '#020613' }}>
-      {/* Orbs */}
       <div className="orb w-96 h-96 opacity-20 left-0 bottom-0 -translate-x-1/2 translate-y-1/2"
         style={{ background: 'radial-gradient(circle, #4D7EF5, transparent)' }} />
       <div className="orb w-72 h-72 opacity-15 right-0 top-0 translate-x-1/3 -translate-y-1/2"
         style={{ background: 'radial-gradient(circle, #9C4DFF, transparent)' }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-10">
-        {/* Top */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-5">
+            <button onClick={() => navigate('/')} className="flex items-center gap-3 mb-5 group">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-700 flex items-center justify-center shadow-lg shadow-purple-500/30">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -84,7 +90,7 @@ export default function Footer() {
                 <span className="text-gradient">Trika</span>
                 <span className="text-white"> Studio</span>
               </span>
-            </div>
+            </button>
             <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-xs">
               We craft AI-powered digital experiences that transform brands and accelerate growth. Where creativity meets cutting-edge technology.
             </p>
@@ -112,17 +118,17 @@ export default function Footer() {
                 {title}
               </h4>
               <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
-                    {sectionMap[link] ? (
+                {links.map(({ label, path }) => (
+                  <li key={label}>
+                    {path ? (
                       <button
-                        onClick={() => scrollTo(sectionMap[link])}
+                        onClick={() => navigate(path)}
                         className="text-slate-400 text-sm hover:text-white transition-colors duration-300 hover:translate-x-1 inline-block"
                       >
-                        {link}
+                        {label}
                       </button>
                     ) : (
-                      <span className="text-slate-500 text-sm">{link}</span>
+                      <span className="text-slate-500 text-sm">{label}</span>
                     )}
                   </li>
                 ))}
@@ -131,7 +137,6 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Divider */}
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
             © 2025 Trika Studio. All rights reserved. Crafted with precision & passion.

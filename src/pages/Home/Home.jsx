@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card';
 
 const stats = [
@@ -15,6 +16,7 @@ const services = [
     description: 'Hyper-personalized campaigns driven by machine learning. We optimize every touchpoint to maximize ROI and brand impact.',
     tag: 'AI & ML',
     accentColor: '#4D7EF5',
+    path: '/ai-advertising',
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>,
@@ -22,6 +24,7 @@ const services = [
     description: 'Photorealistic renders and immersive 3D product experiences that elevate your brand storytelling to another dimension.',
     tag: '3D & VR',
     accentColor: '#9C4DFF',
+    path: '/3d-visualization',
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
@@ -29,6 +32,7 @@ const services = [
     description: 'Full-funnel digital strategies — from social media mastery to performance marketing — that drive measurable growth.',
     tag: 'Growth',
     accentColor: '#F5A623',
+    path: '/digital-marketing',
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
@@ -36,6 +40,7 @@ const services = [
     description: 'Studio-quality AI avatars and synthetic media that scale your content production while maintaining authentic brand voice.',
     tag: 'AI Video',
     accentColor: '#22D3EE',
+    path: '/ai-advertising',
   },
 ];
 
@@ -43,6 +48,7 @@ const trustedBy = ['TechCorp', 'NexaDigital', 'BrandFlow', 'MediaPro', 'StartupX
 
 export default function Home() {
   const heroRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const el = heroRef.current;
@@ -62,10 +68,9 @@ export default function Home() {
   }, []);
 
   return (
-    <section id="home" className="relative">
+    <section>
       {/* ─── HERO ─── */}
       <div ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-12 px-6">
-        {/* Background orbs */}
         <div
           className="hero-orb-1 orb w-[700px] h-[700px] opacity-20 -top-48 -left-48"
           style={{ background: 'radial-gradient(circle, #4D7EF5, transparent 70%)', transition: 'transform 0.8s ease' }}
@@ -88,7 +93,6 @@ export default function Home() {
           }}
         />
 
-        {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <div className="animate-fade-in">
             <span className="section-tag mb-6 inline-flex">
@@ -121,16 +125,15 @@ export default function Home() {
             style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
           >
             <button className="btn-primary text-base px-8 py-4 relative z-10"
-              onClick={() => document.getElementById('ai-advertising')?.scrollIntoView({ behavior: 'smooth' })}>
+              onClick={() => navigate('/ai-advertising')}>
               <span className="relative z-10">View Our Work →</span>
             </button>
             <button className="btn-outline text-base px-8 py-4"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              onClick={() => navigate('/contact')}>
               Contact Us
             </button>
           </div>
 
-          {/* Floating badges */}
           <div
             className="mt-16 flex flex-wrap justify-center gap-3 animate-fade-in"
             style={{ animationDelay: '0.6s', animationFillMode: 'both' }}
@@ -146,7 +149,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in"
           style={{ animationDelay: '1s', animationFillMode: 'both' }}>
           <span className="text-slate-600 text-xs tracking-widest uppercase">Scroll</span>
@@ -185,7 +187,13 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           {services.map((service) => (
-            <Card key={service.title} {...service} />
+            <div
+              key={service.title}
+              onClick={() => navigate(service.path)}
+              className="cursor-pointer"
+            >
+              <Card {...service} />
+            </div>
           ))}
         </div>
       </div>
@@ -228,7 +236,7 @@ export default function Home() {
               </p>
               <button
                 className="btn-primary relative z-10"
-                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => navigate('/about')}
               >
                 <span className="relative z-10">Meet the Team →</span>
               </button>
@@ -252,6 +260,28 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── FINAL CTA ─── */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
+        <div className="text-center glass-card rounded-3xl p-16 relative overflow-hidden">
+          <div className="orb w-64 h-64 opacity-20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{ background: 'radial-gradient(circle, #4D7EF5, transparent)' }} />
+          <div className="relative z-10">
+            <h2 className="text-3xl lg:text-5xl font-black mb-5" style={{ fontFamily: 'Syne, sans-serif' }}>
+              Ready to <span className="text-gradient">Transform</span> Your Brand?
+            </h2>
+            <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+              Let's create something extraordinary together. No hard sells — just a genuine conversation about what's possible.
+            </p>
+            <button
+              className="btn-primary px-10 py-4 text-base relative z-10"
+              onClick={() => navigate('/contact')}
+            >
+              <span className="relative z-10">Start the Conversation →</span>
+            </button>
           </div>
         </div>
       </div>

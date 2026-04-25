@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const marketingServices = [
   {
     icon: '📱',
@@ -55,7 +57,6 @@ const platforms = [
   { name: 'Pinterest', icon: '📌', color: '#E60023' },
 ];
 
-// Placeholder gallery images for Digital Marketing
 const dmGallery = [
   { src: 'https://picsum.photos/seed/dm-social-01/600/600', label: 'Social Media Campaign' },
   { src: 'https://picsum.photos/seed/dm-insta-02/600/600', label: 'Instagram Reels Content' },
@@ -68,9 +69,10 @@ const dmGallery = [
 ];
 
 export default function DigitalMarketing() {
+  const navigate = useNavigate();
+
   return (
-    <section id="digital-marketing" className="relative py-28 overflow-hidden">
-      {/* BG orbs */}
+    <section className="relative py-28 overflow-hidden">
       <div className="orb w-[500px] h-[500px] opacity-10 left-0 top-0 -translate-x-1/2"
         style={{ background: 'radial-gradient(circle, #F5A623, transparent 70%)' }} />
       <div className="orb w-[400px] h-[400px] opacity-10 right-0 bottom-0"
@@ -85,14 +87,14 @@ export default function DigitalMarketing() {
             <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
             Growth Marketing
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h1 className="text-4xl lg:text-6xl font-black mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             Digital <span className="text-gradient">Marketing</span>
-          </h2>
+          </h1>
           <p className="text-xl font-semibold text-slate-300 mb-5" style={{ fontFamily: 'Syne, sans-serif' }}>
             Social Media Marketing & Management
           </p>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            In today's attention economy, the brands that win are the ones that show up consistently, creatively, and strategically across every digital touchpoint. We build and manage social media presences that grow audiences, spark conversations, and convert followers into customers.
+            In today's attention economy, the brands that win are the ones that show up consistently, creatively, and strategically across every digital touchpoint.
           </p>
         </div>
 
@@ -116,7 +118,7 @@ export default function DigitalMarketing() {
           ))}
         </div>
 
-        {/* Benefits / Metrics */}
+        {/* Metrics */}
         <div className="mb-24">
           <div className="text-center mb-12">
             <span className="section-tag mb-4 inline-flex"
@@ -140,7 +142,6 @@ export default function DigitalMarketing() {
             ))}
           </div>
 
-          {/* Additional benefits list */}
           <div className="mt-8 glass-card rounded-2xl p-8">
             <h4 className="text-white font-bold text-lg mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
               The Power of Strategic Social Media Growth
@@ -169,7 +170,7 @@ export default function DigitalMarketing() {
           </div>
         </div>
 
-        {/* Platform coverage */}
+        {/* Platforms */}
         <div className="mb-24">
           <p className="text-center text-slate-500 text-sm uppercase tracking-widest mb-8 font-medium">
             Platforms We Master
@@ -184,7 +185,7 @@ export default function DigitalMarketing() {
           </div>
         </div>
 
-        {/* Photo Gallery */}
+        {/* Gallery */}
         <div>
           <div className="flex items-center gap-4 mb-3">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -224,7 +225,7 @@ export default function DigitalMarketing() {
             </p>
             <button
               className="btn-primary px-10 py-4 text-base relative z-10"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => navigate('/contact')}
             >
               <span className="relative z-10">Let's Grow Together →</span>
             </button>

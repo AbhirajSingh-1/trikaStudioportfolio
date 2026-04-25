@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
-// Picsum images for 3D visualization gallery (replace with actual project images)
 const galleryImages = [
   { src: 'https://picsum.photos/seed/3d-render-01/800/600', alt: 'Luxury Product 3D Render', label: 'Luxury Product Visualization' },
   { src: 'https://picsum.photos/seed/3d-arch-02/800/600', alt: '3D Architectural Render', label: 'Architectural Render' },
@@ -35,10 +35,10 @@ const services3D = [
 
 export default function Visualization() {
   const [lightboxImg, setLightboxImg] = useState(null);
+  const navigate = useNavigate();
 
   return (
-    <section id="visualization" className="relative py-28 overflow-hidden">
-      {/* BG orbs */}
+    <section className="relative py-28 overflow-hidden">
       <div className="orb w-[500px] h-[500px] opacity-10 right-0 top-20"
         style={{ background: 'radial-gradient(circle, #9C4DFF, transparent 70%)' }} />
       <div className="orb w-[400px] h-[400px] opacity-10 -left-32 bottom-40"
@@ -53,9 +53,9 @@ export default function Visualization() {
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
             3D & Visual Production
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h1 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
             3D <span className="text-gradient">Visualization</span>
-          </h2>
+          </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
             We transform concepts into photorealistic 3D experiences. From product renders to architectural flythroughs, our 3D studio creates visuals so real, they blur the line between digital and physical reality.
           </p>
@@ -107,7 +107,6 @@ export default function Visualization() {
                     {img.label}
                   </p>
                 </div>
-                {/* Border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl ring-2 ring-purple-500/0 group-hover:ring-purple-500/40 transition-all duration-300" />
               </div>
             ))}
@@ -132,7 +131,7 @@ export default function Visualization() {
           </div>
         </div>
 
-        {/* Process description */}
+        {/* Process */}
         <div className="mt-16 glass-card rounded-3xl p-8 lg:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
@@ -144,7 +143,7 @@ export default function Visualization() {
                 From Brief to <span className="text-gradient">Photorealism</span>
               </h3>
               <p className="text-slate-400 leading-relaxed text-sm">
-                Our 3D pipeline begins with a detailed brief and reference collection. Using industry-leading tools including Cinema 4D, Blender, Unreal Engine, and V-Ray, our artists build accurate 3D models, apply photorealistic materials and HDR lighting, and render frames with sub-millimeter detail. Post-production color grading and AI upscaling complete the process, delivering assets that are indistinguishable from photography.
+                Our 3D pipeline begins with a detailed brief and reference collection. Using industry-leading tools including Cinema 4D, Blender, Unreal Engine, and V-Ray, our artists build accurate 3D models, apply photorealistic materials and HDR lighting, and render frames with sub-millimeter detail.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -161,6 +160,17 @@ export default function Visualization() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-16 text-center">
+          <p className="text-slate-400 mb-6">Ready to bring your product to life in 3D?</p>
+          <button
+            className="btn-primary px-10 py-4 text-base relative z-10"
+            onClick={() => navigate('/contact')}
+          >
+            <span className="relative z-10">Start a 3D Project →</span>
+          </button>
         </div>
       </div>
 

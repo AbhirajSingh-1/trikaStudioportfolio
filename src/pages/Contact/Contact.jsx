@@ -109,8 +109,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-28 overflow-hidden">
-      {/* BG */}
+    <section className="relative py-28 overflow-hidden">
       <div className="orb w-[600px] h-[600px] opacity-15 left-0 bottom-0 -translate-x-1/2"
         style={{ background: 'radial-gradient(circle, #9C4DFF, transparent 70%)' }} />
       <div className="orb w-[400px] h-[400px] opacity-10 right-0 top-0"
@@ -124,18 +123,17 @@ export default function Contact() {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             Let's Connect
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h1 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
             Start a <span className="text-gradient">Conversation</span>
-          </h2>
+          </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            Whether you have a brief ready or just a spark of an idea — we'd love to hear from you. Tell us what you're working on and let's explore how Trika Studio can help make it extraordinary. No hard sells, just a genuine conversation about your brand's potential.
+            Whether you have a brief ready or just a spark of an idea — we'd love to hear from you. No hard sells, just a genuine conversation about your brand's potential.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           {/* Sidebar */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Contact info */}
             <div className="glass-card rounded-2xl p-7">
               <h3 className="text-white font-bold text-lg mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
                 Get in Touch
@@ -155,7 +153,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Social links */}
             <div className="glass-card rounded-2xl p-7">
               <h3 className="text-white font-bold text-base mb-5" style={{ fontFamily: 'Syne, sans-serif' }}>
                 Follow Our Work
@@ -185,7 +182,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Response time */}
             <div className="glass-card rounded-2xl p-5 flex items-center gap-4">
               <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
               <div>
@@ -226,58 +222,37 @@ export default function Contact() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                        Your Name *
-                      </label>
+                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Your Name *</label>
                       <input
-                        type="text"
-                        name="name"
-                        required
-                        value={form.name}
-                        onChange={handleChange}
+                        type="text" name="name" required value={form.name} onChange={handleChange}
                         placeholder="Siddhartha Raj"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-300"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 transition-all duration-300"
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                        Email Address *
-                      </label>
+                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Email Address *</label>
                       <input
-                        type="email"
-                        name="email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
+                        type="email" name="email" required value={form.email} onChange={handleChange}
                         placeholder="hello@brand.com"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-300"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 transition-all duration-300"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                      Company / Brand Name
-                    </label>
+                    <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Company / Brand Name</label>
                     <input
-                      type="text"
-                      name="company"
-                      value={form.company}
-                      onChange={handleChange}
+                      type="text" name="company" value={form.company} onChange={handleChange}
                       placeholder="Your Company Pvt. Ltd."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-300"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 transition-all duration-300"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                        Service Interested In
-                      </label>
+                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Service Interested In</label>
                       <select
-                        name="service"
-                        value={form.service}
-                        onChange={handleChange}
+                        name="service" value={form.service} onChange={handleChange}
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-blue-500/50 transition-all duration-300 appearance-none"
                         style={{ color: form.service ? '#F0F4FF' : '#475569' }}
                       >
@@ -288,13 +263,9 @@ export default function Contact() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                        Estimated Budget
-                      </label>
+                      <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Estimated Budget</label>
                       <select
-                        name="budget"
-                        value={form.budget}
-                        onChange={handleChange}
+                        name="budget" value={form.budget} onChange={handleChange}
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-blue-500/50 transition-all duration-300 appearance-none"
                         style={{ color: form.budget ? '#F0F4FF' : '#475569' }}
                       >
@@ -307,23 +278,16 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
-                      Tell Us About Your Project *
-                    </label>
+                    <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Tell Us About Your Project *</label>
                     <textarea
-                      name="message"
-                      required
-                      value={form.message}
-                      onChange={handleChange}
-                      rows={5}
+                      name="message" required value={form.message} onChange={handleChange} rows={5}
                       placeholder="Describe your project, goals, timeline, and anything else that would help us understand how to best support your brand..."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-300 resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 transition-all duration-300 resize-none"
                     />
                   </div>
 
                   <button
-                    type="submit"
-                    disabled={loading}
+                    type="submit" disabled={loading}
                     className="w-full btn-primary py-4 text-base relative z-10 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">

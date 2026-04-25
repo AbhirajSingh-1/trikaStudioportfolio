@@ -1,3 +1,5 @@
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home/Home';
@@ -7,27 +9,50 @@ import DigitalMarketing from './pages/DigitalMarketing/DigitalMarketing';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 
-export default function App() {
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
+  return null;
+}
+
+function PageWrapper({ children }) {
+  const { pathname } = useLocation();
+  return (
+    <div key={pathname} className="page-enter">
+      {children}
+    </div>
+  );
+}
+
+function AppInner() {
   return (
     <div className="min-h-screen" style={{ background: '#04081A' }}>
-      {/* Grain texture overlay */}
       <div className="grain" aria-hidden="true" />
-
-      {/* Sticky Header */}
+      <ScrollToTop />
       <Header />
-
-      {/* Main Content */}
       <main>
-        <Home />
-        <AIAdvertising />
-        <Visualization />
-        <DigitalMarketing />
-        <About />
-        <Contact />
+        <PageWrapper>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/ai-advertising" element={<AIAdvertising />} />
+            <Route path="/3d-visualization" element={<Visualization />} />
+            <Route path="/digital-marketing" element={<DigitalMarketing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </PageWrapper>
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppInner />
+    </BrowserRouter>
   );
 }

@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const team = [
   {
     name: 'Siddhartha Raj',
@@ -44,9 +46,10 @@ const milestones = [
 ];
 
 export default function About() {
+  const navigate = useNavigate();
+
   return (
-    <section id="about" className="relative py-28 overflow-hidden">
-      {/* BG orbs */}
+    <section className="relative py-28 overflow-hidden">
       <div className="orb w-[500px] h-[500px] opacity-10 -right-32 top-0"
         style={{ background: 'radial-gradient(circle, #4D7EF5, transparent 70%)' }} />
       <div className="orb w-[400px] h-[400px] opacity-10 left-0 bottom-0"
@@ -60,9 +63,9 @@ export default function About() {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             Our Story
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h1 className="text-4xl lg:text-6xl font-black mb-6" style={{ fontFamily: 'Syne, sans-serif' }}>
             About <span className="text-gradient">Trika Studio</span>
-          </h2>
+          </h1>
           <p className="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed">
             Trika Studio was born from a belief that the future of marketing is intelligent, adaptive, and beautifully human — even when it's powered by machines.
           </p>
@@ -150,13 +153,12 @@ export default function About() {
                       </div>
                     )}
                   </div>
-                  {/* Dot */}
                   <div className="relative z-10 flex-shrink-0">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-bg flex items-center justify-center shadow-lg shadow-blue-500/30">
                       <div className="w-2 h-2 rounded-full bg-white" />
                     </div>
                   </div>
-                  <div className={`flex-1 lg:hidden pl-2`}>
+                  <div className="flex-1 lg:hidden pl-2">
                     <div className="glass-card rounded-2xl p-5 hover-lift">
                       <div className="text-gradient font-black text-xl mb-1" style={{ fontFamily: 'Syne, sans-serif' }}>{year}</div>
                       <p className="text-slate-400 text-sm">{event}</p>
@@ -191,11 +193,9 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {team.map(({ name, role, avatar, color, bio, expertise, social }) => (
               <div key={name} className="glass-card rounded-3xl p-8 hover-lift group relative overflow-hidden">
-                {/* Bg accent */}
                 <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10"
                   style={{ background: `radial-gradient(circle, ${color}, transparent)` }} />
 
-                {/* Avatar */}
                 <div className="flex items-center gap-4 mb-6">
                   <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white shadow-lg flex-shrink-0"
@@ -211,7 +211,6 @@ export default function About() {
 
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">{bio}</p>
 
-                {/* Expertise tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {expertise.map((tag) => (
                     <span
@@ -224,7 +223,6 @@ export default function About() {
                   ))}
                 </div>
 
-                {/* Social links */}
                 <div className="flex items-center gap-3">
                   {Object.entries(social).map(([platform, href]) => (
                     <a
@@ -253,6 +251,17 @@ export default function About() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-20 text-center">
+          <p className="text-slate-400 mb-6">Want to work with us?</p>
+          <button
+            className="btn-primary px-10 py-4 text-base relative z-10"
+            onClick={() => navigate('/contact')}
+          >
+            <span className="relative z-10">Get in Touch →</span>
+          </button>
         </div>
       </div>
     </section>
