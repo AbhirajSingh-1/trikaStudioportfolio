@@ -46,9 +46,9 @@ const milestones = [
 ];
 
 const stats = [
-  { value: '40+', label: 'Brand Clients' },
-  { value: '150+', label: 'Projects Delivered' },
-  { value: '5', label: 'Years Experience' },
+  { value: '250+', label: 'Brand Clients' },
+  { value: '800+', label: 'Projects Delivered' },
+  { value: '9', label: 'Years Experience' },
   { value: '98%', label: 'Client Satisfaction' },
 ];
 
@@ -167,43 +167,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── COMPACT MILESTONES ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(48px, 7vw, 72px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>Our Journey</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', color: 'var(--text)' }}>
-              5 Years of <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Innovation</em>
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', position: 'relative' }} className="milestones-grid">
-            <div style={{
-              position: 'absolute', top: '28px', left: '10%', right: '10%',
-              height: '2px', background: 'linear-gradient(90deg, var(--orange) 0%, rgba(201,72,27,0.15) 100%)',
-              zIndex: 0,
-            }} className="milestone-line" />
-
-            {milestones.map(({ year, label, detail }, i) => (
-              <div key={year} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '10px' }}>
-                <div style={{
-                  width: '56px', height: '56px', borderRadius: '50%',
-                  background: i === milestones.length - 1 ? '#C9481B' : 'var(--bg-card)',
-                  border: `2px solid ${i === milestones.length - 1 ? '#C9481B' : 'var(--border-dark)'}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: i === milestones.length - 1 ? '0 4px 16px rgba(201,72,27,0.3)' : 'var(--shadow-sm)',
-                }}>
-                  <span style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '0.85rem', color: i === milestones.length - 1 ? '#fff' : '#C9481B' }}>{year}</span>
-                </div>
-                <div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '13px', color: 'var(--text)', marginBottom: '3px' }}>{label}</div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11.5px', color: 'var(--text-muted)' }}>{detail}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+       
 
       {/* ── TEAM ── */}
       <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
