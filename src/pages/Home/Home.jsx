@@ -23,13 +23,6 @@ const services = [
     path: '/digital-marketing',
     color: '#4A6741',
   },
-  {
-    num: '04',
-    title: 'AI Avatars',
-    desc: 'Photorealistic digital humans that deliver your brand message across 120+ languages at scale.',
-    path: '/ai-advertising',
-    color: '#2C5F7A',
-  },
 ];
 
 const portfolioItems = [

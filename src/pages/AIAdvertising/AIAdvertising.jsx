@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 /* ─── Individual Shorts Card ─── */
 function ShortsCard({ videoId, title, index, size = 'normal' }) {
-  const id = videoId; // IDs are now clean 11-char strings — no parsing needed
+  const id = videoId;
 
   const [hovered, setHovered] = useState(false);
   const [thumbIdx, setThumbIdx] = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
 
-  // Ordered from highest to lowest quality; all are reliably available on i.ytimg.com
   const thumbSteps = [
     `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
@@ -37,7 +36,6 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
   const palette = PALETTES[index % PALETTES.length];
   const isLarge = size === 'large';
 
-  // Opens the short directly on YouTube — guaranteed correct URL
   const openVideo = () => {
     window.open(`https://www.youtube.com/shorts/${id}`, '_blank', 'noopener,noreferrer');
   };
@@ -189,7 +187,7 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
   );
 }
 
-/* ─── Data — clean 11-char video IDs, no full URLs ─── */
+/* ─── Data ─── */
 const aiShorts = [
   { id: 'Rj4eYEHXfVU',  title: 'AI Brand Campaign – Cinematic Spot' },
   { id: 'Pu66KCNLZxs',  title: 'Product Reveal – AI Generated Creative' },
@@ -216,7 +214,7 @@ const capabilities = [
   { icon: '🌐', label: 'Multilingual' },
 ];
 
-/* ─── Divider ─── */
+/* ─── Divider (desktop-only) ─── */
 function RowDivider({ label }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -234,60 +232,68 @@ function RowDivider({ label }) {
   );
 }
 
-/* ─── Editorial collage grid ─── */
+/* ─── Shorts Grid ─── */
 function ShortsGrid({ shorts }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+    <>
+      {/* ══ DESKTOP layout (>1100px): sectioned rows with dividers ══ */}
+      <div className="sg-desktop-layout">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
-      {/* ── Row 1: 4 featured cards ── */}
-      <div>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
-          marginBottom: '12px',
-        }}>
-          <span style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '10px', fontWeight: 600,
-            letterSpacing: '0.13em', textTransform: 'uppercase',
-            color: '#C9481B',
-            padding: '4px 10px',
-            background: 'rgba(201,72,27,0.07)',
-            border: '1px solid rgba(201,72,27,0.2)',
-            borderRadius: '99px',
-            display: 'flex', alignItems: 'center', gap: '6px',
-          }}>
-            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#C9481B', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
-            Featured Campaigns
-          </span>
+          {/* Row 1: 4 featured cards */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+              <span style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '10px', fontWeight: 600,
+                letterSpacing: '0.13em', textTransform: 'uppercase',
+                color: '#C9481B',
+                padding: '4px 10px',
+                background: 'rgba(201,72,27,0.07)',
+                border: '1px solid rgba(201,72,27,0.2)',
+                borderRadius: '99px',
+                display: 'flex', alignItems: 'center', gap: '6px',
+              }}>
+                <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#C9481B', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
+                Featured Campaigns
+              </span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', alignItems: 'start' }}>
+              {shorts.slice(0, 4).map((s, i) => (
+                <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i} size="large" />
+              ))}
+            </div>
+          </div>
+
+          <RowDivider label="More AI Campaigns" />
+
+          {/* Row 2: 5 cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
+            {shorts.slice(4, 9).map((s, i) => (
+              <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 4} size="normal" />
+            ))}
+          </div>
+
+          <RowDivider label="Recent Work" />
+
+          {/* Row 3: 5 cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
+            {shorts.slice(9, 14).map((s, i) => (
+              <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 9} size="normal" />
+            ))}
+          </div>
         </div>
-        <div className="sg-row-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', alignItems: 'start' }}>
-          {shorts.slice(0, 4).map((s, i) => (
-            <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i} size="large" />
+      </div>
+
+      {/* ══ MOBILE / TABLET layout (≤1100px): single unified 2-column grid ══ */}
+      <div className="sg-mobile-layout">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px', alignItems: 'start' }}>
+          {shorts.map((s, i) => (
+            <ShortsCard key={s.id + '-m-' + i} videoId={s.id} title={s.title} index={i} size="normal" />
           ))}
         </div>
       </div>
-
-      {/* ── Divider ── */}
-      <RowDivider label="More AI Campaigns" />
-
-      {/* ── Row 2: 5 cards ── */}
-      <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
-        {shorts.slice(4, 9).map((s, i) => (
-          <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 4} size="normal" />
-        ))}
-      </div>
-
-      {/* ── Divider ── */}
-      <RowDivider label="Recent Work" />
-
-      {/* ── Row 3: 5 cards ── */}
-      <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
-        {shorts.slice(9, 14).map((s, i) => (
-          <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 9} size="normal" />
-        ))}
-      </div>
-
-    </div>
+    </>
   );
 }
 
@@ -386,28 +392,14 @@ export default function AIAdvertising() {
 
       {/* ─── Responsive styles ─── */}
       <style>{`
-        /* Row 4 (featured) */
-        .sg-row-4 { grid-template-columns: repeat(4, 1fr) !important; }
+        /* Desktop: show sectioned layout, hide flat grid */
+        .sg-desktop-layout { display: block; }
+        .sg-mobile-layout  { display: none;  }
 
-        /* Row 5 (small) */
-        .sg-row-5 { grid-template-columns: repeat(5, 1fr) !important; }
-
-        /* ── Tablet 1100px ── */
+        /* Mobile / Tablet (≤1100px): hide sections, show flat grid */
         @media (max-width: 1100px) {
-          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
-          .sg-row-5 { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-
-        /* ── Tablet 768px ── */
-        @media (max-width: 768px) {
-          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
-          .sg-row-5 { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-
-        /* ── Mobile 480px ── */
-        @media (max-width: 480px) {
-          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
-          .sg-row-5 { grid-template-columns: repeat(2, 1fr) !important; }
+          .sg-desktop-layout { display: none  !important; }
+          .sg-mobile-layout  { display: block !important; }
         }
       `}</style>
     </div>

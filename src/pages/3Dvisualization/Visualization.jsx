@@ -3,44 +3,69 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
+/* ── 27 gallery images from /public folder ── */
 const galleryImages = [
-  { src: 'https://picsum.photos/seed/3d-render-01/900/700', alt: 'Luxury Product 3D Render', label: ' Product Visualization' },
-  { src: 'https://picsum.photos/seed/3d-arch-02/700/500', alt: '3D Architectural Render', label: 'Architectural Render' },
-  { src: 'https://picsum.photos/seed/3d-auto-03/600/500', alt: 'Automotive 3D Model', label: 'Automotive Visualization' },
-  { src: 'https://picsum.photos/seed/3d-inter-04/700/600', alt: 'Interior Design 3D', label: 'Interior Design Concept' },
-  { src: 'https://picsum.photos/seed/3d-jewel-05/600/600', alt: 'Jewelry Product Render', label: 'Fine Jewelry Rendering' },
-  { src: 'https://picsum.photos/seed/3d-tech-06/800/600', alt: 'Tech Product Visualization', label: 'Consumer Electronics' },
-  { src: 'https://picsum.photos/seed/3d-food-07/700/500', alt: 'Food & Beverage 3D', label: 'F&B Product Render' },
-  { src: 'https://picsum.photos/seed/3d-fashion-08/600/700', alt: 'Fashion 3D Visualization', label: 'Fashion & Apparel' },
-  { src: 'https://picsum.photos/seed/3d-real-09/900/600', alt: 'Real Estate 3D', label: 'Real Estate Visualization' },
-  { src: 'https://picsum.photos/seed/3d-pack-10/700/600', alt: 'Packaging Design 3D', label: 'Packaging Design Render' },
-  { src: 'https://picsum.photos/seed/3d-watch-11/600/600', alt: 'Watch 3D Render', label: 'Luxury Watch Render' },
-  { src: 'https://picsum.photos/seed/3d-shoes-12/700/500', alt: 'Footwear 3D', label: 'Footwear Visualization' },
-  { src: 'https://picsum.photos/seed/3d-phone-13/600/700', alt: 'Smartphone 3D', label: 'Smartphone Product Render' },
-  { src: 'https://picsum.photos/seed/3d-car-14/900/600', alt: 'Car 3D Render', label: 'Automotive Detail Render' },
-  { src: 'https://picsum.photos/seed/3d-bottle-15/600/800', alt: 'Bottle 3D', label: 'Beverage Packaging Render' },
-  { src: 'https://picsum.photos/seed/3d-chair-16/700/600', alt: 'Furniture 3D', label: 'Furniture Design Render' },
-  { src: 'https://picsum.photos/seed/3d-light-17/600/600', alt: 'Lighting 3D', label: 'Architectural Lighting' },
-  { src: 'https://picsum.photos/seed/3d-drone-18/800/500', alt: 'Drone 3D', label: 'Consumer Tech 3D' },
-  { src: 'https://picsum.photos/seed/3d-cosmetics-19/600/700', alt: 'Cosmetics 3D', label: 'Cosmetics Product Render' },
-  { src: 'https://picsum.photos/seed/3d-hotel-20/900/600', alt: 'Hotel 3D', label: 'Hospitality Visualization' },
-  { src: 'https://picsum.photos/seed/3d-kitchen-21/700/500', alt: 'Kitchen 3D', label: 'Kitchen Interior Render' },
-  { src: 'https://picsum.photos/seed/3d-bag-22/600/700', alt: 'Bag 3D', label: 'Fashion Accessories Render' },
-  { src: 'https://picsum.photos/seed/3d-speaker-23/700/600', alt: 'Speaker 3D', label: 'Audio Product Render' },
-  { src: 'https://picsum.photos/seed/3d-office-24/900/600', alt: 'Office 3D', label: 'Commercial Space Render' },
-  { src: 'https://picsum.photos/seed/3d-gym-25/700/500', alt: 'Gym 3D', label: 'Fitness Center Render' },
-  { src: 'https://picsum.photos/seed/3d-ring-26/600/600', alt: 'Ring 3D', label: 'Fine Jewelry Ring Render' },
-  { src: 'https://picsum.photos/seed/3d-villa-27/900/600', alt: 'Villa 3D', label: 'Luxury Villa Exterior' },
+  { src: '/05.webp',                                    alt: 'Social media post design variant 1',    label: 'Social media post design (variant 1)' },
+  { src: '/02.webp',                                    alt: 'Social media post design variant 2',    label: 'Social media post design (variant 2)' },
+  { src: '/01.webp',                                    alt: 'Social media post design variant 3',    label: 'Social media post design (variant 3)' },
+  { src: '/07.webp',                                    alt: 'Promotional creative layout',           label: 'Promotional creative layout' },
+  { src: '/1.webp',                                     alt: 'Branding visual concept',               label: 'Branding visual concept' },
+  { src: '/08.webp',                                    alt: 'Marketing campaign post',               label: 'Marketing campaign post' },
+  { src: '/04.webp',                                    alt: 'Creative advertisement design',         label: 'Creative advertisement design' },
+  { src: '/06.webp',                                    alt: 'Social media banner layout',            label: 'Social media banner layout' },
+  { src: '/living_01_D5.webp',                          alt: 'Interior visualization living room',    label: 'Interior visualization (living room)' },
+  { src: '/Scene 4_1 copy.webp',                        alt: '3D scene render concept 1',             label: '3D scene render (concept 1)' },
+  { src: '/03.webp',                                    alt: 'Digital post design minimal style',     label: 'Digital post design (minimal style)' },
+  { src: '/Scene 4_7_new.webp',                         alt: '3D visualization enhanced render',      label: '3D visualization (enhanced render)' },
+  { src: '/Image_6.webp',                               alt: 'Social media creative product focus',   label: 'Social media creative (product focus)' },
+  { src: '/D5_Scene 1 1_20240130_125857.webp',          alt: 'Interior render scene 1',               label: 'Interior render (scene 1)' },
+  { src: '/Image_13 (1).webp',                          alt: 'Marketing post variation',              label: 'Marketing post variation' },
+  { src: '/Image(1).webp',                              alt: 'Branding creative layout',              label: 'Branding creative layout' },
+  { src: '/Image.webp',                                 alt: 'General social media design',           label: 'General social media design' },
+  { src: '/Image_5.webp',                               alt: 'Advertisement visual campaign',         label: 'Advertisement visual (campaign)' },
+  { src: '/Image_9 (1).webp',                           alt: 'Promotional design variation',          label: 'Promotional design variation' },
+  { src: '/Image_26.webp',                              alt: 'Social media campaign creative',        label: 'Social media campaign creative' },
+  { src: '/ssImage_8.webp',                             alt: 'Screenshot based design mockup',        label: 'Screenshot-based design mockup' },
+  { src: '/Image_9 (2).webp',                           alt: 'Promotional creative alternate',        label: 'Promotional creative (alternate)' },
+  { src: '/Image_9.webp',                               alt: 'Marketing design main version',         label: 'Marketing design (main version)' },
+  { src: '/Image_3(1).webp',                            alt: 'Social media post variant',             label: 'Social media post (variant)' },
+  { src: '/Image_13.webp',                              alt: 'Branding design main version',          label: 'Branding design (main version)' },
+  { src: '/Image_2(1).webp',                            alt: 'Creative layout product highlight',     label: 'Creative layout (product highlight)' },
+  { src: '/Scene 2_1.webp',                             alt: '3D interior visualization scene 2',     label: '3D interior visualization (scene 2)' },
 ];
 
-/* ── Updated: 6 YouTube videos ── */
+/* ── 6 YouTube videos — videoId key matches VideoCard prop ── */
 const visualizationVideos = [
-  { id: '0_sqEtRAHBE', title: '3D Product Showcase – Premium Brand Film', description: 'Cinematic 3D animation with photorealistic materials and studio-grade lighting.' },
-  { id: 'iGSnMm3wmdQ', title: 'Architectural 3D Visualization – Luxury Project', description: 'Pre-construction 3D walkthrough for a high-end residential development.' },
-  { id: 'mOK8zJu2HcA', title: '3D Brand Film – Product Launch Reel', description: 'Dynamic 3D animation showcasing design language, detail and craftsmanship.' },
-  { id: '4DN2fCBi0DE', title: 'Interior Design 3D Visualization', description: 'Immersive interior 3D concepts that sell the space before a brick is laid.' },
-  { id: '4DN2fCBi0DE', title: 'Automotive 3D Render – Detail Reel', description: 'High-fidelity vehicle render with accurate materials and cinematic lighting.' },
-  { id: 'q8_Qu0lr0fA', title: 'Packaging & Product 3D Animation', description: 'Lifelike 3D packaging animation for e-commerce, retail and marketing.' },
+  {
+    videoId: '0_sqEtRAHBE',
+    title: '3D Product Showcase – Premium Brand Film',
+    description: 'Cinematic 3D animation with photorealistic materials and studio-grade lighting.',
+  },
+  {
+    videoId: 'iGSnMm3wmdQ',
+    title: 'Architectural 3D Visualization – Luxury Project',
+    description: 'Pre-construction 3D walkthrough for a high-end residential development.',
+  },
+  {
+    videoId: 'mOK8zJu2HcA',
+    title: '3D Brand Film – Product Launch Reel',
+    description: 'Dynamic 3D animation showcasing design language, detail and craftsmanship.',
+  },
+  {
+    videoId: '4DN2fCBi0DE',
+    title: 'Interior Design 3D Visualization',
+    description: 'Immersive interior 3D concepts that sell the space before a brick is laid.',
+  },
+  {
+    videoId: '4DN2fCBi0DE',
+    title: 'Automotive 3D Render – Detail Reel',
+    description: 'High-fidelity vehicle render with accurate materials and cinematic lighting.',
+  },
+  {
+    videoId: 'q8_Qu0lr0fA',
+    title: 'Packaging & Product 3D Animation',
+    description: 'Lifelike 3D packaging animation for e-commerce, retail and marketing.',
+  },
 ];
 
 const services3D = [
@@ -116,14 +141,12 @@ function VideoGrid({ videos, accentColor }) {
 
         {/* Row 1: 2 featured videos */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '14px', marginBottom: '14px' }}>
-          <VideoCard {...videos[0]} accentColor={accentColor} />
-          <VideoCard {...videos[1]} accentColor={accentColor} />
+          <VideoCard videoId={videos[0].videoId} title={videos[0].title} description={videos[0].description} accentColor={accentColor} cardIndex={0} />
+          <VideoCard videoId={videos[1].videoId} title={videos[1].title} description={videos[1].description} accentColor={accentColor} cardIndex={1} />
         </div>
 
         {/* Divider label */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px',
-        }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
           <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
           <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-light)', whiteSpace: 'nowrap' }}>
             More Projects
@@ -134,7 +157,7 @@ function VideoGrid({ videos, accentColor }) {
         {/* Row 2: 4 smaller videos */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
           {videos.slice(2).map((v, i) => (
-            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+            <VideoCard key={v.videoId + i} videoId={v.videoId} title={v.title} description={v.description} accentColor={accentColor} cardIndex={i + 2} />
           ))}
         </div>
       </div>
@@ -143,7 +166,7 @@ function VideoGrid({ videos, accentColor }) {
       <div className="viz-vid-tablet">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
           {videos.map((v, i) => (
-            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+            <VideoCard key={v.videoId + '-t-' + i} videoId={v.videoId} title={v.title} description={v.description} accentColor={accentColor} cardIndex={i} />
           ))}
         </div>
       </div>
@@ -152,7 +175,7 @@ function VideoGrid({ videos, accentColor }) {
       <div className="viz-vid-mobile">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {videos.map((v, i) => (
-            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+            <VideoCard key={v.videoId + '-m-' + i} videoId={v.videoId} title={v.title} description={v.description} accentColor={accentColor} cardIndex={i} />
           ))}
         </div>
       </div>
@@ -233,11 +256,18 @@ export default function Visualization() {
                   position: 'relative', borderRadius: '12px', overflow: 'hidden',
                   cursor: 'pointer', marginBottom: '12px', breakInside: 'avoid',
                   boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease',
+                  background: 'var(--bg-alt)',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
               >
-                <img src={img.src} alt={img.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                  onError={e => { e.target.style.minHeight = '180px'; e.target.style.background = 'var(--bg-alt)'; }}
+                />
                 <div className="portfolio-overlay" />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
                   <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', padding: '4px 11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)' }}>{img.label}</span>
@@ -359,4 +389,4 @@ export default function Visualization() {
       `}</style>
     </div>
   );
-} 
+}

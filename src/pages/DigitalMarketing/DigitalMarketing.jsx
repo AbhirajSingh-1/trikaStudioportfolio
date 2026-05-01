@@ -203,71 +203,7 @@ export default function DigitalMarketing() {
           </div>
         </div>
       </section>
-
-      {/* ── SERVICES ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>What We Do</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)' }}>
-              Full-Funnel Marketing Services
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="dm-services-grid">
-            {marketingServices.map(({ icon, title, description, color }) => (
-              <div key={title} className="card" style={{ padding: '28px 24px', cursor: 'default' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.boxShadow = `0 8px 28px ${color}18`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
-              >
-                <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '16px' }}>
-                  {icon}
-                </div>
-                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.15rem', color: 'var(--text)', marginBottom: '8px' }}>{title}</h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75 }}>{description}</p>
-                <div style={{ marginTop: '16px', height: '2px', width: '36px', background: color, borderRadius: '99px' }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY SOCIAL MEDIA ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }} className="dm-why-grid">
-          <div>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px', color: '#B45309', background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.28)' }}>Why It Matters</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '16px' }}>
-              The Power of Strategic Social Media{' '}
-              <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Growth</em>
-            </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
-              Social media isn't just a channel — it's your brand's living, breathing presence. Done right, it compounds into one of the most powerful business assets you'll ever build.
-            </p>
-            <button className="btn-primary" style={{ marginTop: '28px' }} onClick={() => navigate('/contact')}>
-              Let's Grow Together →
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {points.map((item, i) => (
-              <div key={i} style={{
-                display: 'flex', alignItems: 'flex-start', gap: '12px',
-                padding: '14px 16px',
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: '12px', transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#C9481B'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(201,72,27,0.1)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
-              >
-                <div style={{ width: '20px', height: '20px', borderRadius: '6px', background: 'rgba(201,72,27,0.1)', border: '1px solid rgba(201,72,27,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                </div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text)', lineHeight: 1.6 }}>{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+ 
 
       {/* ── PLATFORMS ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
