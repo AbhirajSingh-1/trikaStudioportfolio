@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import Logo from './Logo';
 
@@ -16,6 +16,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -23,26 +24,50 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Close menu on route change
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
+  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  // ── Close menu when clicking outside the header ──
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [menuOpen]);
+
   return (
     <>
-      <header style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0,
-        zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(253,252,248,0.97)' : 'rgba(253,252,248,0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: scrolled ? '1px solid #E8E2D8' : '1px solid rgba(232,226,216,0.5)',
-        transition: 'all 0.35s ease',
-        boxShadow: scrolled ? '0 2px 20px rgba(24,19,13,0.07)' : 'none',
-      }}>
+      <header
+        ref={headerRef}
+        style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0,
+          zIndex: 100,
+          backgroundColor: scrolled ? 'rgba(253,252,248,0.97)' : 'rgba(253,252,248,0.85)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: scrolled ? '1px solid #E8E2D8' : '1px solid rgba(232,226,216,0.5)',
+          transition: 'all 0.35s ease',
+          boxShadow: scrolled ? '0 2px 20px rgba(24,19,13,0.07)' : 'none',
+        }}
+      >
         <div style={{
           maxWidth: '1280px',
           margin: '0 auto',
@@ -129,8 +154,9 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen(prev => !prev)}
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
             className="header-hamburger"
             style={{
               background: 'none',
@@ -218,33 +244,16 @@ export default function Header() {
           from { transform: scaleX(0); transform-origin: left; }
           to   { transform: scaleX(1); transform-origin: left; }
         }
-        /* Desktop nav visible, hamburger hidden on large screens */
-        .header-desktop-nav {
-          display: none;
-          flex: 1;
-        }
-        .header-desktop-cta {
-          display: none;
-        }
-        .header-hamburger {
-          display: flex;
-        }
-        .header-mobile-menu {
-          display: block;
-        }
+        .header-desktop-nav  { display: none; flex: 1; }
+        .header-desktop-cta  { display: none; }
+        .header-hamburger    { display: flex; }
+        .header-mobile-menu  { display: block; }
+
         @media (min-width: 1024px) {
-          .header-desktop-nav {
-            display: flex !important;
-          }
-          .header-desktop-cta {
-            display: flex !important;
-          }
-          .header-hamburger {
-            display: none !important;
-          }
-          .header-mobile-menu {
-            display: none !important;
-          }
+          .header-desktop-nav  { display: flex !important; }
+          .header-desktop-cta  { display: flex !important; }
+          .header-hamburger    { display: none  !important; }
+          .header-mobile-menu  { display: none  !important; }
         }
       `}</style>
     </>
