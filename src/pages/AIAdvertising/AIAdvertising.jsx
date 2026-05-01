@@ -1,46 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function parseVideoId(input) {
-  if (!input) return '';
-  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
-  try {
-    const url = new URL(input);
-    if (url.searchParams.get('v')) return url.searchParams.get('v');
-    if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('?')[0];
-    const em = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
-    if (em) return em[1];
-    const sh = url.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
-    if (sh) return sh[1];
-  } catch {}
-  return input;
-}
-
-const PALETTES = [
-  { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
-  { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
-  { bg: 'linear-gradient(150deg, #E6EFF6 0%, #CCDDE8 100%)', dot: '#2563EB' },
-  { bg: 'linear-gradient(150deg, #F2EBE6 0%, #E8D5C8 100%)', dot: '#C9481B' },
-  { bg: 'linear-gradient(150deg, #E6F2EC 0%, #CCE8D8 100%)', dot: '#059669' },
-  { bg: 'linear-gradient(150deg, #F6EEE6 0%, #ECD8C2 100%)', dot: '#C9481B' },
-  { bg: 'linear-gradient(150deg, #EAE6F2 0%, #D8D0EC 100%)', dot: '#7C3AED' },
-  { bg: 'linear-gradient(150deg, #E6EAF2 0%, #C8D4EC 100%)', dot: '#1D4ED8' },
-  { bg: 'linear-gradient(150deg, #F2F0E6 0%, #E8E0C8 100%)', dot: '#B45309' },
-  { bg: 'linear-gradient(150deg, #EEE6F2 0%, #E0CCE8 100%)', dot: '#9333EA' },
-  { bg: 'linear-gradient(150deg, #E6F2EE 0%, #CCE4DC 100%)', dot: '#10B981' },
-  { bg: 'linear-gradient(150deg, #F2EEE6 0%, #E8E0CC 100%)', dot: '#D97706' },
-  { bg: 'linear-gradient(150deg, #F0E6F2 0%, #E4CCE8 100%)', dot: '#C026D3' },
-  { bg: 'linear-gradient(150deg, #E6F0F2 0%, #CCE0E8 100%)', dot: '#0891B2' },
-];
-
 /* ─── Individual Shorts Card ─── */
 function ShortsCard({ videoId, title, index, size = 'normal' }) {
-  const id = parseVideoId(videoId);
+  const id = videoId; // IDs are now clean 11-char strings — no parsing needed
+
   const [hovered, setHovered] = useState(false);
   const [thumbIdx, setThumbIdx] = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
 
-  // i.ytimg.com is YouTube's actual image CDN — reliable for both regular and Shorts
+  // Ordered from highest to lowest quality; all are reliably available on i.ytimg.com
   const thumbSteps = [
     `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
@@ -48,11 +17,29 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
     `https://i.ytimg.com/vi/${id}/default.jpg`,
   ];
 
+  const PALETTES = [
+    { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
+    { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
+    { bg: 'linear-gradient(150deg, #E6EFF6 0%, #CCDDE8 100%)', dot: '#2563EB' },
+    { bg: 'linear-gradient(150deg, #F2EBE6 0%, #E8D5C8 100%)', dot: '#C9481B' },
+    { bg: 'linear-gradient(150deg, #E6F2EC 0%, #CCE8D8 100%)', dot: '#059669' },
+    { bg: 'linear-gradient(150deg, #F6EEE6 0%, #ECD8C2 100%)', dot: '#C9481B' },
+    { bg: 'linear-gradient(150deg, #EAE6F2 0%, #D8D0EC 100%)', dot: '#7C3AED' },
+    { bg: 'linear-gradient(150deg, #E6EAF2 0%, #C8D4EC 100%)', dot: '#1D4ED8' },
+    { bg: 'linear-gradient(150deg, #F2F0E6 0%, #E8E0C8 100%)', dot: '#B45309' },
+    { bg: 'linear-gradient(150deg, #EEE6F2 0%, #E0CCE8 100%)', dot: '#9333EA' },
+    { bg: 'linear-gradient(150deg, #E6F2EE 0%, #CCE4DC 100%)', dot: '#10B981' },
+    { bg: 'linear-gradient(150deg, #F2EEE6 0%, #E8E0CC 100%)', dot: '#D97706' },
+    { bg: 'linear-gradient(150deg, #F0E6F2 0%, #E4CCE8 100%)', dot: '#C026D3' },
+    { bg: 'linear-gradient(150deg, #E6F0F2 0%, #CCE0E8 100%)', dot: '#0891B2' },
+  ];
+
   const palette = PALETTES[index % PALETTES.length];
   const isLarge = size === 'large';
 
+  // Opens the short directly on YouTube — guaranteed correct URL
   const openVideo = () => {
-    window.open(`https://youtube.com/shorts/${id}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://www.youtube.com/shorts/${id}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -202,22 +189,22 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
   );
 }
 
-/* ─── Data ─── */
+/* ─── Data — clean 11-char video IDs, no full URLs ─── */
 const aiShorts = [
-  { id: 'https://youtube.com/shorts/Rj4eYEHXfVU?si=bx0eZiTp3DlFrwqT',  title: 'AI Brand Campaign – Cinematic Spot' },
-  { id: 'https://youtube.com/shorts/Pu66KCNLZxs?si=jidxeIDf8hk7PTan',  title: 'Product Reveal – AI Generated Creative' },
-  { id: 'https://youtube.com/shorts/iSnPq_Nz3sg?si=Ol0e3MAeLl58esaN',  title: 'AI Fashion Campaign – Dynamic Visual' },
-  { id: 'https://youtube.com/shorts/vmHVnuD3aH0?si=EECZWQ92RDa8VIm7',  title: 'AI Motion Graphics – Brand Story' },
-  { id: 'https://youtube.com/shorts/aXY_ykf-dWE?si=MCb0mVqNX4-iOM0e',  title: 'Generative AI Ad – E-Commerce Brand' },
-  { id: 'https://youtube.com/shorts/BN1ux2azoqQ?si=IIo5D4N8UzkDY9dI',  title: 'AI Visual Campaign – Luxury Product' },
-  { id: 'https://youtube.com/shorts/UQWm2vvMsFg?si=eiijkZspN2-Zr1Ky',  title: 'AI Advertising Reel – Tech Brand' },
-  { id: 'https://youtube.com/shorts/lmqTiLIuloA?si=N8b6tv7DhKj7xv8o',  title: 'AI Brand Film – FinTech Campaign' },
-  { id: 'https://youtube.com/shorts/oiaAg64l5tY?si=u09N_-eFt6UF0A8E',  title: 'Generative Video – Food & Beverage' },
-  { id: 'https://youtube.com/shorts/6zH9tSeLV5c?si=wA0tU3l_b2d1--fd',  title: 'AI Real Estate Campaign' },
-  { id: 'https://youtube.com/shorts/UBPl3dIIBPk?si=NTDvZOSYGgzyHuG3',  title: 'AI Sports & Energy Brand Ad' },
-  { id: 'https://youtube.com/shorts/wAIDI4kx3XE?si=lRRP6GVYJ8LxH7iu',  title: 'AI Travel & Hospitality Campaign' },
-  { id: 'https://youtube.com/shorts/AAFjH-Eg0rM?si=NaCJIOS0VCYZv67V',  title: 'Hyper-Realistic AI Product Spot' },
-  { id: 'https://youtube.com/shorts/vmHVnuD3aH0?si=FCahzEh8tTb-GSc4',  title: 'AI Motion – Brand Identity Spot' },
+  { id: 'Rj4eYEHXfVU',  title: 'AI Brand Campaign – Cinematic Spot' },
+  { id: 'Pu66KCNLZxs',  title: 'Product Reveal – AI Generated Creative' },
+  { id: 'iSnPq_Nz3sg',  title: 'AI Fashion Campaign – Dynamic Visual' },
+  { id: 'vmHVnuD3aH0',  title: 'AI Motion Graphics – Brand Story' },
+  { id: 'aXY_ykf-dWE',  title: 'Generative AI Ad – E-Commerce Brand' },
+  { id: 'BN1ux2azoqQ',  title: 'AI Visual Campaign – Luxury Product' },
+  { id: 'UQWm2vvMsFg',  title: 'AI Advertising Reel – Tech Brand' },
+  { id: 'lmqTiLIuloA',  title: 'AI Brand Film – FinTech Campaign' },
+  { id: 'oiaAg64l5tY',  title: 'Generative Video – Food & Beverage' },
+  { id: 'vmHVnuD3aH0',  title: 'AI Real Estate Campaign' },
+  { id: '6zH9tSeLV5c',  title: 'AI Sports & Energy Brand Ad' },
+  { id: 'UBPl3dIIBPk',  title: 'AI Travel & Hospitality Campaign' },
+  { id: 'wAIDI4kx3XE',  title: 'Hyper-Realistic AI Product Spot' },
+  { id: 'AAFjH-Eg0rM',  title: 'AI Motion – Brand Identity Spot' },
 ];
 
 const capabilities = [
@@ -247,7 +234,7 @@ function RowDivider({ label }) {
   );
 }
 
-/* ─── New editorial collage grid ─── */
+/* ─── Editorial collage grid ─── */
 function ShortsGrid({ shorts }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -275,7 +262,7 @@ function ShortsGrid({ shorts }) {
         </div>
         <div className="sg-row-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', alignItems: 'start' }}>
           {shorts.slice(0, 4).map((s, i) => (
-            <ShortsCard key={s.id + i} {...s} index={i} size="large" />
+            <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i} size="large" />
           ))}
         </div>
       </div>
@@ -286,7 +273,7 @@ function ShortsGrid({ shorts }) {
       {/* ── Row 2: 5 cards ── */}
       <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
         {shorts.slice(4, 9).map((s, i) => (
-          <ShortsCard key={s.id + i} {...s} index={i + 4} size="normal" />
+          <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 4} size="normal" />
         ))}
       </div>
 
@@ -296,7 +283,7 @@ function ShortsGrid({ shorts }) {
       {/* ── Row 3: 5 cards ── */}
       <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
         {shorts.slice(9, 14).map((s, i) => (
-          <ShortsCard key={s.id + i} {...s} index={i + 9} size="normal" />
+          <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 9} size="normal" />
         ))}
       </div>
 

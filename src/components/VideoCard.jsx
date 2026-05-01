@@ -1,15 +1,28 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
+/**
+ * parseVideoId — accepts a clean 11-char ID or any youtube.com / youtu.be URL.
+ * Always returns just the 11-char video ID.
+ */
 function parseVideoId(input) {
   if (!input) return '';
+  // Already a clean ID
   if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
   try {
     const url = new URL(input);
-    if (url.searchParams.get('v')) return url.searchParams.get('v');
-    if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('?')[0];
+    // ?v=ID  (youtube.com/watch)
+    const v = url.searchParams.get('v');
+    if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+    // youtu.be/ID
+    if (url.hostname === 'youtu.be') {
+      const id = url.pathname.slice(1).split('?')[0];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(id)) return id;
+    }
+    // /embed/ID
     const em = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
     if (em) return em[1];
+    // /shorts/ID
     const sh = url.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
     if (sh) return sh[1];
   } catch {}
@@ -162,14 +175,19 @@ export default function VideoCard({ videoId, title, description, accentColor, ca
 
   const id = parseVideoId(videoId);
   const [c1, c2] = CARD_GRADIENTS[cardIndex % CARD_GRADIENTS.length];
+
+  /**
+   * Thumbnail fallback chain.
+   * IMPORTANT: We skip maxresdefault — YouTube returns a 120×90 black-bar placeholder
+   * for it when it doesn't exist (no 404, so onError never fires → broken thumbnail).
+   * Starting from hqdefault is reliable for all videos.
+   */
   const [thumbIdx, setThumbIdx] = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
-
-  // i.ytimg.com is YouTube's actual image CDN — more reliable than img.youtube.com
   const thumbSteps = [
-    `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
     `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/sddefault.jpg`,
   ];
 
   return (

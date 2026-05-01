@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import VideoCard from '../../components/VideoCard';
 
 const galleryImages = [
-  { src: 'https://picsum.photos/seed/3d-render-01/900/700', alt: 'Luxury Product 3D Render', label: 'Luxury Product Visualization' },
+  { src: 'https://picsum.photos/seed/3d-render-01/900/700', alt: 'Luxury Product 3D Render', label: ' Product Visualization' },
   { src: 'https://picsum.photos/seed/3d-arch-02/700/500', alt: '3D Architectural Render', label: 'Architectural Render' },
   { src: 'https://picsum.photos/seed/3d-auto-03/600/500', alt: 'Automotive 3D Model', label: 'Automotive Visualization' },
   { src: 'https://picsum.photos/seed/3d-inter-04/700/600', alt: 'Interior Design 3D', label: 'Interior Design Concept' },
