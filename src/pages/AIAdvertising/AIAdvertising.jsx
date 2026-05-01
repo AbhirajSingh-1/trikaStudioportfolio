@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-/* ─── Parse YT URL or bare ID ─── */
 function parseVideoId(input) {
   if (!input) return '';
   if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
@@ -17,7 +16,6 @@ function parseVideoId(input) {
   return input;
 }
 
-/* ─── Warm brand-matched gradient palette ─── */
 const PALETTES = [
   { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
   { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
@@ -42,16 +40,17 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
   const [thumbIdx, setThumbIdx] = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
 
+  // i.ytimg.com is YouTube's actual image CDN — reliable for both regular and Shorts
   const thumbSteps = [
-    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
-    `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-    `https://img.youtube.com/vi/${id}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/sddefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/default.jpg`,
   ];
 
   const palette = PALETTES[index % PALETTES.length];
   const isLarge = size === 'large';
 
-  // Always open on YouTube — 100% reliable, no embedding errors
   const openVideo = () => {
     window.open(`https://youtube.com/shorts/${id}`, '_blank', 'noopener,noreferrer');
   };
@@ -73,7 +72,6 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
           : '0 2px 14px rgba(24,19,13,0.07)',
         transform: hovered ? `translateY(-6px) scale(1.018)` : 'translateY(0) scale(1)',
         transition: 'all 0.35s cubic-bezier(0.34,1.2,0.64,1)',
-        animationFillMode: 'both',
       }}
     >
       {/* Thumbnail — portrait 9:16 */}
@@ -96,7 +94,6 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
             }}
           />
         ) : (
-          /* Beautiful gradient placeholder — intentional, not broken */
           <div style={{
             width: '100%', height: '100%',
             background: palette.bg,
@@ -104,7 +101,6 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
             alignItems: 'center', justifyContent: 'center', gap: '14px',
             padding: '20px',
           }}>
-            {/* Abstract AI visual */}
             <svg width={isLarge ? 56 : 44} height={isLarge ? 56 : 44} viewBox="0 0 56 56" fill="none">
               <circle cx="28" cy="28" r="26" fill={`${palette.dot}12`} stroke={`${palette.dot}25`} strokeWidth="1.5"/>
               <circle cx="28" cy="28" r="16" fill={`${palette.dot}10`} stroke={`${palette.dot}20`} strokeWidth="1"/>
@@ -142,7 +138,7 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
           </span>
         </div>
 
-        {/* Open icon top-right */}
+        {/* External link icon */}
         <div style={{
           position: 'absolute', top: '10px', right: '10px', zIndex: 2,
           opacity: hovered ? 1 : 0, transition: 'opacity 0.25s ease',
@@ -158,7 +154,7 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
           </div>
         </div>
 
-        {/* Play button — center */}
+        {/* Play button */}
         <div style={{
           position: 'absolute', inset: 0, zIndex: 1,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -185,7 +181,7 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
           </div>
         </div>
 
-        {/* Title overlay — bottom */}
+        {/* Title overlay */}
         {!thumbFailed && (
           <div style={{
             position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2,
@@ -208,20 +204,20 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
 
 /* ─── Data ─── */
 const aiShorts = [
-  { id: 'https://youtube.com/shorts/Rj4eYEHXfVU',  title: 'AI Brand Campaign – Cinematic Spot' },
-  { id: 'https://youtube.com/shorts/Pu66KCNLZxs',  title: 'Product Reveal – AI Generated Creative' },
-  { id: 'https://youtube.com/shorts/iSnPq_Nz3sg',  title: 'AI Fashion Campaign – Dynamic Visual' },
-  { id: 'https://youtube.com/shorts/vmHVnuD3aH0',  title: 'AI Motion Graphics – Brand Story' },
-  { id: 'https://youtube.com/shorts/aXY_ykf-dWE',  title: 'Generative AI Ad – E-Commerce Brand' },
-  { id: 'https://youtube.com/shorts/BN1ux2azoqQ',  title: 'AI Visual Campaign – Luxury Product' },
-  { id: 'https://youtube.com/shorts/UQWm2vvMsFg',  title: 'AI Advertising Reel – Tech Brand' },
-  { id: 'https://youtube.com/shorts/lmqTiLIuloA',  title: 'AI Brand Film – FinTech Campaign' },
-  { id: 'https://youtube.com/shorts/oiaAg64l5tY',  title: 'Generative Video – Food & Beverage' },
-  { id: 'https://youtube.com/shorts/6zH9tSeLV5c',  title: 'AI Real Estate Campaign' },
-  { id: 'https://youtube.com/shorts/UBPl3dIIBPk',  title: 'AI Sports & Energy Brand Ad' },
-  { id: 'https://youtube.com/shorts/wAIDI4kx3XE',  title: 'AI Travel & Hospitality Campaign' },
-  { id: 'https://youtube.com/shorts/AAFjH-Eg0rM',  title: 'Hyper-Realistic AI Product Spot' },
-  { id: 'https://youtube.com/shorts/vmHVnuD3aH0',  title: 'AI Motion – Brand Identity Spot' },
+  { id: 'https://youtube.com/shorts/Rj4eYEHXfVU?si=bx0eZiTp3DlFrwqT',  title: 'AI Brand Campaign – Cinematic Spot' },
+  { id: 'https://youtube.com/shorts/Pu66KCNLZxs?si=jidxeIDf8hk7PTan',  title: 'Product Reveal – AI Generated Creative' },
+  { id: 'https://youtube.com/shorts/iSnPq_Nz3sg?si=Ol0e3MAeLl58esaN',  title: 'AI Fashion Campaign – Dynamic Visual' },
+  { id: 'https://youtube.com/shorts/vmHVnuD3aH0?si=EECZWQ92RDa8VIm7',  title: 'AI Motion Graphics – Brand Story' },
+  { id: 'https://youtube.com/shorts/aXY_ykf-dWE?si=MCb0mVqNX4-iOM0e',  title: 'Generative AI Ad – E-Commerce Brand' },
+  { id: 'https://youtube.com/shorts/BN1ux2azoqQ?si=IIo5D4N8UzkDY9dI',  title: 'AI Visual Campaign – Luxury Product' },
+  { id: 'https://youtube.com/shorts/UQWm2vvMsFg?si=eiijkZspN2-Zr1Ky',  title: 'AI Advertising Reel – Tech Brand' },
+  { id: 'https://youtube.com/shorts/lmqTiLIuloA?si=N8b6tv7DhKj7xv8o',  title: 'AI Brand Film – FinTech Campaign' },
+  { id: 'https://youtube.com/shorts/oiaAg64l5tY?si=u09N_-eFt6UF0A8E',  title: 'Generative Video – Food & Beverage' },
+  { id: 'https://youtube.com/shorts/6zH9tSeLV5c?si=wA0tU3l_b2d1--fd',  title: 'AI Real Estate Campaign' },
+  { id: 'https://youtube.com/shorts/UBPl3dIIBPk?si=NTDvZOSYGgzyHuG3',  title: 'AI Sports & Energy Brand Ad' },
+  { id: 'https://youtube.com/shorts/wAIDI4kx3XE?si=lRRP6GVYJ8LxH7iu',  title: 'AI Travel & Hospitality Campaign' },
+  { id: 'https://youtube.com/shorts/AAFjH-Eg0rM?si=NaCJIOS0VCYZv67V',  title: 'Hyper-Realistic AI Product Spot' },
+  { id: 'https://youtube.com/shorts/vmHVnuD3aH0?si=FCahzEh8tTb-GSc4',  title: 'AI Motion – Brand Identity Spot' },
 ];
 
 const capabilities = [
@@ -233,97 +229,77 @@ const capabilities = [
   { icon: '🌐', label: 'Multilingual' },
 ];
 
-/* ─── Full collage section ─── */
-function ShortsCollage({ shorts }) {
+/* ─── Divider ─── */
+function RowDivider({ label }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+      <span style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: '10px', fontWeight: 500,
+        letterSpacing: '0.12em', textTransform: 'uppercase',
+        color: 'var(--text-light)', whiteSpace: 'nowrap',
+      }}>
+        {label}
+      </span>
+      <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+    </div>
+  );
+}
 
-      {/* ── BLOCK 1: 2 large + info panel + 2 large ── */}
-      <div className="collage-block-1">
+/* ─── New editorial collage grid ─── */
+function ShortsGrid({ shorts }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
-        {/* 2 large left */}
-        <div className="collage-2-left">
-          <ShortsCard {...shorts[0]} index={0} size="large" />
-          <ShortsCard {...shorts[1]} index={1} size="large" />
-        </div>
-
-        {/* Centre info panel */}
-        <div className="collage-info" style={{
-          background: '#18130D',
-          borderRadius: '18px',
-          padding: '32px 28px',
-          display: 'flex', flexDirection: 'column',
-          justifyContent: 'space-between',
-          border: '1px solid rgba(201,72,27,0.18)',
-          boxShadow: '0 8px 32px rgba(24,19,13,0.15)',
+      {/* ── Row 1: 4 featured cards ── */}
+      <div>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          marginBottom: '12px',
         }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#C9481B', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
-              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#C9481B' }}>
-                AI Production
-              </span>
-            </div>
-            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.4rem, 2.2vw, 2rem)', color: '#FDFCF8', lineHeight: 1.18, marginBottom: '14px' }}>
-              Campaigns built at the speed of{' '}
-              <em style={{ color: '#E06035', fontStyle: 'italic' }}>imagination</em>
-            </h3>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.42)', lineHeight: 1.75 }}>
-              From a single text prompt to a cinematic AI short — our pipeline delivers in 48 hours what studios take months to produce.
-            </p>
-          </div>
-
-          {/* Mini stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '28px' }}>
-            {[['14+','AI Campaigns'], ['40+','Brands'], ['5×','Avg ROAS'], ['48hr','Turnaround']].map(([v, l]) => (
-              <div key={l} style={{
-                background: 'rgba(253,252,248,0.05)', border: '1px solid rgba(253,252,248,0.07)',
-                borderRadius: '12px', padding: '14px 16px',
-              }}>
-                <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.6rem', color: '#C9481B', lineHeight: 1 }}>{v}</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: 'rgba(253,252,248,0.3)', marginTop: '4px', letterSpacing: '0.04em' }}>{l}</div>
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={() => {}}
-            className="btn-primary"
-            style={{ marginTop: '24px', fontSize: '13px', padding: '11px 20px', width: '100%' }}
-          >
-            Start Your Campaign →
-          </button>
+          <span style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: '10px', fontWeight: 600,
+            letterSpacing: '0.13em', textTransform: 'uppercase',
+            color: '#C9481B',
+            padding: '4px 10px',
+            background: 'rgba(201,72,27,0.07)',
+            border: '1px solid rgba(201,72,27,0.2)',
+            borderRadius: '99px',
+            display: 'flex', alignItems: 'center', gap: '6px',
+          }}>
+            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#C9481B', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
+            Featured Campaigns
+          </span>
         </div>
-
-        {/* 2 large right */}
-        <div className="collage-2-right">
-          <ShortsCard {...shorts[2]} index={2} size="large" />
-          <ShortsCard {...shorts[3]} index={3} size="large" />
+        <div className="sg-row-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', alignItems: 'start' }}>
+          {shorts.slice(0, 4).map((s, i) => (
+            <ShortsCard key={s.id + i} {...s} index={i} size="large" />
+          ))}
         </div>
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-light)', whiteSpace: 'nowrap' }}>
-          More AI Campaigns
-        </span>
-        <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-      </div>
+      <RowDivider label="More AI Campaigns" />
 
-      {/* ── BLOCK 2: 5 cards ── */}
-      <div className="collage-5">
+      {/* ── Row 2: 5 cards ── */}
+      <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
         {shorts.slice(4, 9).map((s, i) => (
           <ShortsCard key={s.id + i} {...s} index={i + 4} size="normal" />
         ))}
       </div>
 
-      {/* ── BLOCK 3: 5 cards ── */}
-      <div className="collage-5">
+      {/* ── Divider ── */}
+      <RowDivider label="Recent Work" />
+
+      {/* ── Row 3: 5 cards ── */}
+      <div className="sg-row-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
         {shorts.slice(9, 14).map((s, i) => (
           <ShortsCard key={s.id + i} {...s} index={i + 9} size="normal" />
         ))}
       </div>
+
     </div>
   );
 }
@@ -364,9 +340,9 @@ export default function AIAdvertising() {
         </div>
       </section>
 
-      {/* ── COLLAGE SECTION ── */}
+      {/* ── PORTFOLIO GRID SECTION ── */}
       <section style={{ background: 'var(--bg)', padding: 'clamp(48px, 7vw, 80px) 24px' }}>
-        <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
 
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '32px' }}>
@@ -390,7 +366,7 @@ export default function AIAdvertising() {
             </div>
           </div>
 
-          <ShortsCollage shorts={aiShorts} />
+          <ShortsGrid shorts={aiShorts} />
 
           {/* Callout */}
           <div style={{ marginTop: '40px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid var(--orange)', borderRadius: '14px', padding: '24px 28px' }}>
@@ -423,69 +399,28 @@ export default function AIAdvertising() {
 
       {/* ─── Responsive styles ─── */}
       <style>{`
-        /* Block 1: 2-col-left | info | 2-col-right */
-        .collage-block-1 {
-          display: grid;
-          grid-template-columns: 1fr 1.1fr 1fr;
-          gap: 16px;
-          align-items: stretch;
-        }
-        .collage-2-left,
-        .collage-2-right {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .collage-info {
-          /* fills row height automatically */
+        /* Row 4 (featured) */
+        .sg-row-4 { grid-template-columns: repeat(4, 1fr) !important; }
+
+        /* Row 5 (small) */
+        .sg-row-5 { grid-template-columns: repeat(5, 1fr) !important; }
+
+        /* ── Tablet 1100px ── */
+        @media (max-width: 1100px) {
+          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
+          .sg-row-5 { grid-template-columns: repeat(3, 1fr) !important; }
         }
 
-        /* Block 2 & 3: 5 equal columns */
-        .collage-5 {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-        }
-
-        /* ── Tablet 1024px ── */
-        @media (max-width: 1024px) {
-          .collage-block-1 {
-            grid-template-columns: 1fr 1fr !important;
-            grid-template-rows: auto auto;
-          }
-          .collage-2-left  { grid-column: 1; }
-          .collage-info    { grid-column: 1 / -1; order: -1; min-height: 220px; }
-          .collage-2-right { grid-column: 2; }
-          .collage-5 { grid-template-columns: repeat(4, 1fr) !important; }
-        }
-
-        /* ── Small tablet 768px ── */
+        /* ── Tablet 768px ── */
         @media (max-width: 768px) {
-          .collage-block-1 {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .collage-2-left,
-          .collage-2-right { grid-template-columns: 1fr 1fr; }
-          .collage-info { grid-column: 1 / -1; }
-          .collage-5 { grid-template-columns: repeat(3, 1fr) !important; }
+          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
+          .sg-row-5 { grid-template-columns: repeat(2, 1fr) !important; }
         }
 
-        /* ── Mobile 540px ── */
-        @media (max-width: 540px) {
-          .collage-block-1 {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .collage-2-left,
-          .collage-2-right { grid-template-columns: 1fr; }
-          .collage-2-right { display: none; }
-          .collage-5 { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-
-        /* ── Mobile small 380px ── */
-        @media (max-width: 380px) {
-          .collage-block-1 { grid-template-columns: 1fr !important; }
-          .collage-2-left { grid-template-columns: 1fr 1fr; }
-          .collage-5 { grid-template-columns: repeat(2, 1fr) !important; }
+        /* ── Mobile 480px ── */
+        @media (max-width: 480px) {
+          .sg-row-4 { grid-template-columns: repeat(2, 1fr) !important; }
+          .sg-row-5 { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </div>

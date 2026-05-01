@@ -25,7 +25,6 @@ const CARD_GRADIENTS = [
   ['#F2EEE8', '#E8E0D0'],
 ];
 
-/* ─── Modal — iframe embed + always-visible "Watch on YouTube" fallback ─── */
 function VideoModal({ videoId, title, onClose }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -62,7 +61,6 @@ function VideoModal({ videoId, title, onClose }) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '13px 18px', borderBottom: '1px solid #E8E2D8',
@@ -76,7 +74,6 @@ function VideoModal({ videoId, title, onClose }) {
             {title}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-            {/* Always-visible YouTube link — works even if embed is blocked */}
             <a
               href={ytUrl}
               target="_blank"
@@ -115,10 +112,9 @@ function VideoModal({ videoId, title, onClose }) {
           </div>
         </div>
 
-        {/* Iframe embed */}
         <div style={{ position: 'relative', aspectRatio: '16/9', background: '#18130D' }}>
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&origin=${encodeURIComponent(window.location.origin)}`}
+            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
@@ -126,7 +122,6 @@ function VideoModal({ videoId, title, onClose }) {
           />
         </div>
 
-        {/* Bottom note */}
         <div style={{
           padding: '10px 18px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -170,9 +165,11 @@ export default function VideoCard({ videoId, title, description, accentColor, ca
   const [thumbIdx, setThumbIdx] = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
 
+  // i.ytimg.com is YouTube's actual image CDN — more reliable than img.youtube.com
   const thumbSteps = [
-    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
-    `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
   ];
 
   return (
@@ -224,7 +221,6 @@ export default function VideoCard({ videoId, title, description, accentColor, ca
             opacity: hovered ? 1 : 0.35, transition: 'opacity 0.3s',
           }} />
 
-          {/* Play button */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{
               width: '52px', height: '52px', borderRadius: '50%',
