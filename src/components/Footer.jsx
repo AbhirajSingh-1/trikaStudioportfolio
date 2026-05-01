@@ -86,7 +86,7 @@ export default function Footer() {
               onClick={() => navigate('/')}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: '14px', display: 'block' }}
             >
-              <Logo size="md" dark={false} />
+              <Logo size="lg" variant="footer" />
             </button>
             <p style={{
               fontFamily: "'DM Sans', sans-serif",

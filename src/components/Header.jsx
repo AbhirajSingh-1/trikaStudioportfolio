@@ -84,7 +84,7 @@ export default function Header() {
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}
             aria-label="Trika Studio home"
           >
-            <Logo size="md" dark={true} />
+            <Logo size="lg" variant="header" />
           </button>
 
           {/* Desktop nav */}
