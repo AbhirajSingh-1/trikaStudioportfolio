@@ -33,10 +33,14 @@ const galleryImages = [
   { src: 'https://picsum.photos/seed/3d-villa-27/900/600', alt: 'Villa 3D', label: 'Luxury Villa Exterior' },
 ];
 
+/* ── Updated: 6 YouTube videos ── */
 const visualizationVideos = [
-  { id: 'ULSWOdTnmqY', title: '360° Product Visualization – Premium Watch', description: 'Cinematic 3D turntable render with photorealistic materials and lighting.' },
-  { id: 'jNQXAC9IVRw', title: 'Architectural Flythrough – Luxury Villa', description: 'Immersive pre-construction 3D walkthrough for a high-end residential project.' },
-  { id: 'dQw4w9WgXcQ', title: 'Automotive 3D Brand Film', description: 'Dynamic 3D animation showcasing vehicle design language and performance.' },
+  { id: '0_sqEtRAHBE', title: '3D Product Showcase – Premium Brand Film', description: 'Cinematic 3D animation with photorealistic materials and studio-grade lighting.' },
+  { id: 'iGSnMm3wmdQ', title: 'Architectural 3D Visualization – Luxury Project', description: 'Pre-construction 3D walkthrough for a high-end residential development.' },
+  { id: 'mOK8zJu2HcA', title: '3D Brand Film – Product Launch Reel', description: 'Dynamic 3D animation showcasing design language, detail and craftsmanship.' },
+  { id: '4DN2fCBi0DE', title: 'Interior Design 3D Visualization', description: 'Immersive interior 3D concepts that sell the space before a brick is laid.' },
+  { id: '4DN2fCBi0DE', title: 'Automotive 3D Render – Detail Reel', description: 'High-fidelity vehicle render with accurate materials and cinematic lighting.' },
+  { id: 'q8_Qu0lr0fA', title: 'Packaging & Product 3D Animation', description: 'Lifelike 3D packaging animation for e-commerce, retail and marketing.' },
 ];
 
 const services3D = [
@@ -55,84 +59,104 @@ const process = [
   { step: '04', label: 'Render & Deliver', icon: '✅', desc: 'Final output in any format' },
 ];
 
-// Lightbox rendered via portal so overflow:hidden on parents doesn't clip it
 function Lightbox({ img, onClose }) {
   return createPortal(
     <div
       onClick={onClose}
       style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0, bottom: 0,
-        zIndex: 99999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '16px',
         background: 'rgba(24,19,13,0.92)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        // Prevent body scroll issues
         overscrollBehavior: 'contain',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '860px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          // Ensure content fits in viewport
-          maxHeight: '90vh',
+          position: 'relative', width: '100%', maxWidth: '860px',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', maxHeight: '90vh',
         }}
       >
-        {/* Close button — inside the container, top-right */}
         <button
           onClick={onClose}
           style={{
-            position: 'absolute',
-            top: '-12px', right: '-12px',
-            width: '36px', height: '36px',
-            borderRadius: '50%',
-            background: '#FDFCF8',
-            border: 'none', cursor: 'pointer',
+            position: 'absolute', top: '-12px', right: '-12px',
+            width: '36px', height: '36px', borderRadius: '50%',
+            background: '#FDFCF8', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
-            zIndex: 2,
-            flexShrink: 0,
+            boxShadow: '0 4px 14px rgba(0,0,0,0.3)', zIndex: 2, flexShrink: 0,
           }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
-
         <img
-          src={img.src}
-          alt={img.alt}
-          style={{
-            width: '100%',
-            maxHeight: 'calc(90vh - 48px)',
-            objectFit: 'contain',
-            borderRadius: '14px',
-            boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
-            display: 'block',
-          }}
+          src={img.src} alt={img.alt}
+          style={{ width: '100%', maxHeight: 'calc(90vh - 48px)', objectFit: 'contain', borderRadius: '14px', boxShadow: '0 40px 100px rgba(0,0,0,0.5)', display: 'block' }}
         />
-        <p style={{
-          textAlign: 'center',
-          marginTop: '12px',
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: '13px',
-          color: 'rgba(253,252,248,0.65)',
-        }}>
+        <p style={{ textAlign: 'center', marginTop: '12px', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(253,252,248,0.65)' }}>
           {img.label}
         </p>
       </div>
     </div>,
     document.body
+  );
+}
+
+/* ── 6-video grid layout ── */
+function VideoGrid({ videos, accentColor }) {
+  return (
+    <>
+      {/* Desktop layout: 2 large top + 4 bottom */}
+      <div className="viz-vid-desktop">
+
+        {/* Row 1: 2 featured videos */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '14px', marginBottom: '14px' }}>
+          <VideoCard {...videos[0]} accentColor={accentColor} />
+          <VideoCard {...videos[1]} accentColor={accentColor} />
+        </div>
+
+        {/* Divider label */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px',
+        }}>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-light)', whiteSpace: 'nowrap' }}>
+            More Projects
+          </span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+        </div>
+
+        {/* Row 2: 4 smaller videos */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
+          {videos.slice(2).map((v, i) => (
+            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+          ))}
+        </div>
+      </div>
+
+      {/* Tablet layout: 2+2+2 */}
+      <div className="viz-vid-tablet">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          {videos.map((v, i) => (
+            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile layout: stacked */}
+      <div className="viz-vid-mobile">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {videos.map((v, i) => (
+            <VideoCard key={v.id + i} {...v} accentColor={accentColor} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -206,14 +230,9 @@ export default function Visualization() {
                 className="portfolio-item viz-masonry-item"
                 onClick={() => setLightboxImg(img)}
                 style={{
-                  position: 'relative',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  marginBottom: '12px',
-                  breakInside: 'avoid',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.3s ease',
+                  position: 'relative', borderRadius: '12px', overflow: 'hidden',
+                  cursor: 'pointer', marginBottom: '12px', breakInside: 'avoid',
+                  boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'scale(1)'; }}
@@ -231,34 +250,22 @@ export default function Visualization() {
 
       {/* ── VIDEO SECTION ── */}
       <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '32px', textAlign: 'center' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>3D Animation Reels</span>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+
+          {/* Header */}
+          <div style={{ marginBottom: '36px', textAlign: 'center' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '10px', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>
+              3D Animation Reels
+            </span>
             <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
               Watch Our Work in Motion
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '8px' }}>
-              3D visualization projects come alive with motion
+              6 cinematic 3D visualization projects — rendered to perfection
             </p>
           </div>
 
-          <div className="viz-videos-desktop">
-            <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '14px', alignItems: 'stretch' }}>
-              <VideoCard {...visualizationVideos[0]} accentColor="#7C3AED" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <VideoCard {...visualizationVideos[1]} accentColor="#7C3AED" />
-                <VideoCard {...visualizationVideos[2]} accentColor="#7C3AED" />
-              </div>
-            </div>
-          </div>
-
-          <div className="viz-videos-mobile">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {visualizationVideos.map(v => (
-                <VideoCard key={v.id} {...v} accentColor="#7C3AED" />
-              ))}
-            </div>
-          </div>
+          <VideoGrid videos={visualizationVideos} accentColor="#7C3AED" />
         </div>
       </section>
 
@@ -276,10 +283,8 @@ export default function Visualization() {
             {process.map(({ step, label, icon, desc }) => (
               <div key={step} style={{
                 textAlign: 'center', padding: '28px 18px',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: '16px',
-                transition: 'all 0.3s ease', cursor: 'default',
+                background: 'var(--bg-card)', border: '1px solid var(--border)',
+                borderRadius: '16px', transition: 'all 0.3s ease', cursor: 'default',
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(201,72,27,0.1)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
@@ -312,7 +317,6 @@ export default function Visualization() {
         </button>
       </section>
 
-      {/* ── LIGHTBOX — rendered via portal so it always centres correctly ── */}
       {lightboxImg && (
         <Lightbox img={lightboxImg} onClose={() => setLightboxImg(null)} />
       )}
@@ -321,30 +325,27 @@ export default function Visualization() {
         .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
         .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 
-        .viz-masonry-grid {
-          columns: 4;
-          column-gap: 12px;
-        }
-        .viz-masonry-item {
-          display: inline-block;
-          width: 100%;
-        }
+        .viz-masonry-grid { columns: 4; column-gap: 12px; }
+        .viz-masonry-item { display: inline-block; width: 100%; }
 
-        .viz-videos-desktop { display: block; }
-        .viz-videos-mobile  { display: none; }
+        /* Video grid responsive visibility */
+        .viz-vid-desktop { display: block; }
+        .viz-vid-tablet  { display: none; }
+        .viz-vid-mobile  { display: none; }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
+          .viz-vid-desktop { display: none !important; }
+          .viz-vid-tablet  { display: block !important; }
           .viz-masonry-grid { columns: 3 !important; }
+        }
+        @media (max-width: 768px) {
+          .viz-vid-tablet  { display: none !important; }
+          .viz-vid-mobile  { display: block !important; }
+          .viz-masonry-grid { columns: 2 !important; }
         }
         @media (max-width: 900px) {
           .services-3d-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .process-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .viz-masonry-grid { columns: 3 !important; }
-        }
-        @media (max-width: 768px) {
-          .viz-videos-desktop { display: none !important; }
-          .viz-videos-mobile  { display: block !important; }
-          .viz-masonry-grid { columns: 2 !important; }
         }
         @media (max-width: 540px) {
           .services-3d-grid { grid-template-columns: 1fr !important; }
@@ -358,4 +359,4 @@ export default function Visualization() {
       `}</style>
     </div>
   );
-}
+} 

@@ -1,5 +1,150 @@
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/* ─── Fade-in on scroll hook ─── */
+function useFadeIn(threshold = 0.08) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+
+  return { ref, visible };
+}
+
+/* ─── Single fade-in gallery image ─── */
+function GalleryImage({ src, alt, index }) {
+  const { ref, visible } = useFadeIn(0.05);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        width: '100%',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        boxShadow: '0 8px 40px rgba(24,19,13,0.1)',
+        transition: `opacity 0.7s ease ${index * 0.08}s, transform 0.7s ease ${index * 0.08}s`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(28px)',
+        border: '1px solid var(--border)',
+      }}
+    >
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        style={{
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+          objectFit: 'contain',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ─── PDF showcase section ─── */
+function PDFShowcase({ title, tag, tagColor, tagBg, tagBorder, description, images, accent }) {
+  const { ref: headerRef, visible: headerVisible } = useFadeIn(0.1);
+
+  return (
+    <section style={{ padding: 'clamp(60px, 8vw, 96px) 0', background: 'var(--bg)' }}>
+      {/* Section header */}
+      <div
+        ref={headerRef}
+        style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 24px',
+          textAlign: 'center',
+          marginBottom: 'clamp(32px, 5vw, 56px)',
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+          opacity: headerVisible ? 1 : 0,
+          transform: headerVisible ? 'translateY(0)' : 'translateY(24px)',
+        }}
+      >
+        <span className="section-tag" style={{
+          display: 'inline-flex', marginBottom: '16px',
+          color: tagColor, background: tagBg, borderColor: tagBorder,
+        }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: tagColor, display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
+          {tag}
+        </span>
+        <h2 style={{
+          fontFamily: "'Cormorant Garant', serif",
+          fontWeight: 700,
+          fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+          color: 'var(--text)',
+          marginBottom: '12px',
+          lineHeight: 1.1,
+        }}>
+          {title}
+        </h2>
+        <p style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: '14px',
+          color: 'var(--text-muted)',
+          maxWidth: '500px',
+          margin: '0 auto',
+          lineHeight: 1.75,
+        }}>
+          {description}
+        </p>
+
+        {/* Accent divider */}
+        <div style={{
+          width: '60px', height: '3px',
+          background: `linear-gradient(90deg, ${accent}, transparent)`,
+          borderRadius: '99px',
+          margin: '20px auto 0',
+        }} />
+      </div>
+
+      {/* Full-width images — edge-to-edge on mobile, constrained on wide screens */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'clamp(16px, 3vw, 28px)',
+        maxWidth: '1440px',
+        margin: '0 auto',
+        padding: '0 clamp(12px, 3vw, 40px)',
+      }}>
+        {images.map((img, i) => (
+          <GalleryImage key={i} src={img.src} alt={img.alt} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ─── Data ─── */
+const postDesigningImages = [
+  { src: '/post-1.webp', alt: 'Post Designing – Food & Beverage Campaigns' },
+  { src: '/post-2.webp', alt: 'Post Designing – Restaurant & Hospitality Brands' },
+  { src: '/post-3.webp', alt: 'Post Designing – Travel & Tourism Campaigns' },
+  { src: '/post-4.webp', alt: 'Post Designing – Fashion & Lifestyle Brands' },
+  { src: '/post-5.webp', alt: 'Post Designing – Tech & SaaS Brand Content' },
+];
+
+const smmImages = [
+  { src: '/smm-1.webp', alt: 'SMM Results – Analytics, Profiles & Campaign Overview' },
+  { src: '/smm-2.webp', alt: 'SMM Results – Ad Campaign Results & Instagram Engagement' },
+  { src: '/smm-3.webp', alt: 'SMM Results – Lead Generation Campaign Performance' },
+  { src: '/smm-4.webp', alt: 'SMM Results – Website Purchase Conversions' },
+  { src: '/smm-5.webp', alt: 'SMM Results – ROAS, Reach & Impression Data' },
+];
+
+/* ─── Page ─── */
 const marketingServices = [
   { icon: '📱', title: 'Social Media Marketing', description: 'Strategic content creation, community management, and paid social campaigns across Instagram, LinkedIn, YouTube, and Meta platforms.', color: '#3B82F6' },
   { icon: '📈', title: 'Performance Marketing', description: 'ROI-first paid media campaigns with AI-optimized bidding, audience targeting, and real-time budget allocation.', color: '#8B5CF6' },
@@ -19,28 +164,6 @@ const platforms = [
   { name: 'X / Twitter', icon: '🐦' },
   { name: 'Pinterest', icon: '📌' },
 ];
-
-const dmGallery = [
-  { src: 'https://picsum.photos/seed/dm-social-01/700/700', label: 'Social Media Campaign', cat: 'Social' },
-  { src: 'https://picsum.photos/seed/dm-insta-02/600/800', label: 'Instagram Reels Content', cat: 'Content' },
-  { src: 'https://picsum.photos/seed/dm-brand-03/800/600', label: 'Brand Awareness Campaign', cat: 'Branding' },
-  { src: 'https://picsum.photos/seed/dm-email-04/700/500', label: 'Email Campaign Creative', cat: 'Email' },
-  { src: 'https://picsum.photos/seed/dm-ads-05/600/700', label: 'Paid Social Ads', cat: 'Paid Ads' },
-  { src: 'https://picsum.photos/seed/dm-event-06/800/600', label: 'Event Marketing', cat: 'Events' },
-  { src: 'https://picsum.photos/seed/dm-content-07/700/700', label: 'Content Marketing', cat: 'Content' },
-  { src: 'https://picsum.photos/seed/dm-growth-08/600/600', label: 'Growth Campaign', cat: 'Growth' },
-  { src: 'https://picsum.photos/seed/dm-perf-09/800/500', label: 'Performance Creative', cat: 'Paid Ads' },
-];
-
-const catColors = {
-  Social:    { bg: '#EBF2FF', text: '#1D4ED8' },
-  Content:   { bg: '#ECFDF5', text: '#059669' },
-  Branding:  { bg: '#FDF0EB', text: '#C9481B' },
-  Email:     { bg: '#F5F3FF', text: '#7C3AED' },
-  'Paid Ads':{ bg: '#FFF7ED', text: '#C2410C' },
-  Events:    { bg: '#FDF4FF', text: '#A21CAF' },
-  Growth:    { bg: '#ECFDF5', text: '#059669' },
-};
 
 const points = [
   'Build a community of loyal brand advocates who market for you',
@@ -66,28 +189,13 @@ export default function DigitalMarketing() {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }} className="animate-pulse" />
             Growth Marketing
           </span>
-          <h1 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontWeight: 700,
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            lineHeight: 1.06, color: 'var(--text)',
-            marginBottom: '16px',
-          }}>
+          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '16px' }}>
             Digital <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Marketing</em>
           </h1>
-          <p style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            color: 'var(--text-muted)', fontWeight: 500, marginBottom: '16px',
-          }}>
+          <p style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: 'var(--text-muted)', fontWeight: 500, marginBottom: '16px' }}>
             Social Media Marketing & Management
           </p>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)',
-            color: 'var(--text-muted)', lineHeight: 1.75,
-            maxWidth: '560px', margin: '0 auto 36px',
-          }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)', color: 'var(--text-muted)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto 36px' }}>
             In today's attention economy, the brands that win are the ones that show up consistently, creatively, and strategically across every digital touchpoint.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -108,31 +216,15 @@ export default function DigitalMarketing() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="dm-services-grid">
             {marketingServices.map(({ icon, title, description, color }) => (
-              <div key={title} className="card"
-                style={{ padding: '28px 24px', cursor: 'default' }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = color;
-                  e.currentTarget.style.boxShadow = `0 8px 28px ${color}18`;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
+              <div key={title} className="card" style={{ padding: '28px 24px', cursor: 'default' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.boxShadow = `0 8px 28px ${color}18`; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <div style={{
-                  width: '48px', height: '48px', borderRadius: '14px',
-                  background: `${color}12`, border: `1px solid ${color}22`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.5rem', marginBottom: '16px',
-                }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '16px' }}>
                   {icon}
                 </div>
-                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.15rem', color: 'var(--text)', marginBottom: '8px' }}>
-                  {title}
-                </h4>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75 }}>
-                  {description}
-                </p>
+                <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.15rem', color: 'var(--text)', marginBottom: '8px' }}>{title}</h4>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75 }}>{description}</p>
                 <div style={{ marginTop: '16px', height: '2px', width: '36px', background: color, borderRadius: '99px' }} />
               </div>
             ))}
@@ -161,22 +253,14 @@ export default function DigitalMarketing() {
               <div key={i} style={{
                 display: 'flex', alignItems: 'flex-start', gap: '12px',
                 padding: '14px 16px',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: '12px',
-                transition: 'all 0.2s ease',
+                background: 'var(--bg-card)', border: '1px solid var(--border)',
+                borderRadius: '12px', transition: 'all 0.2s ease',
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#C9481B'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(201,72,27,0.1)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <div style={{
-                  width: '20px', height: '20px', borderRadius: '6px',
-                  background: 'rgba(201,72,27,0.1)', border: '1px solid rgba(201,72,27,0.2)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px',
-                }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="3">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <div style={{ width: '20px', height: '20px', borderRadius: '6px', background: 'rgba(201,72,27,0.1)', border: '1px solid rgba(201,72,27,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
                 </div>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text)', lineHeight: 1.6 }}>{item}</p>
               </div>
@@ -194,13 +278,11 @@ export default function DigitalMarketing() {
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {platforms.map(({ name, icon }) => (
               <div key={name} style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
-                padding: '10px 18px',
+                display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px',
                 background: 'var(--bg-card)', border: '1px solid var(--border)',
                 borderRadius: '10px', fontFamily: "'DM Sans', sans-serif",
                 fontSize: '13px', fontWeight: 500, color: 'var(--text)',
-                transition: 'all 0.2s ease', cursor: 'default',
-                boxShadow: 'var(--shadow-sm)',
+                transition: 'all 0.2s ease', cursor: 'default', boxShadow: 'var(--shadow-sm)',
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#C9481B'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
@@ -212,61 +294,110 @@ export default function DigitalMarketing() {
         </div>
       </section>
 
-      {/* ── CAMPAIGN GALLERY ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px', color: '#B45309', background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.28)' }}>Campaign Gallery</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
-              Creative Work That Converts
-            </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px' }}>
-              A selection of our digital marketing campaign creatives
-            </p>
-          </div>
+      {/* ═══════════════════════════════════════════════ */}
+      {/* ── SECTION BREAK — campaign gallery intro ── */}
+      {/* ═══════════════════════════════════════════════ */}
+      <div style={{ background: 'var(--bg-alt)', padding: 'clamp(48px, 6vw, 72px) 24px', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '16px' }}>Creative Work That Converts</span>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', marginBottom: '12px', lineHeight: 1.1 }}>
+            Our Portfolio &{' '}
+            <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Proven Results</em>
+          </h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.75 }}>
+            Scroll through our post designs and real campaign performance data — work that looks great and delivers measurable growth for every client.
+          </p>
 
-          <div className="dm-gallery-desktop" style={{ columns: 3, columnGap: '14px' }}>
-            {dmGallery.map((img, i) => (
-              <div key={i} className="portfolio-item" style={{
-                position: 'relative', borderRadius: '12px', overflow: 'hidden',
-                marginBottom: '14px', breakInside: 'avoid', cursor: 'pointer',
-                boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s ease',
+          {/* Two anchor links */}
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
+            <a href="#post-designing"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '10px 20px', borderRadius: '8px',
+                background: 'var(--orange)', color: '#fff',
+                fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500,
+                textDecoration: 'none', transition: 'all 0.2s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
-              >
-                <img src={img.src} alt={img.label} loading="lazy" style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: i % 3 === 0 ? '1/1' : i % 3 === 1 ? '3/4' : '4/3' }} />
-                <div className="portfolio-overlay" />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
-                  <span style={{ display: 'inline-block', fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, padding: '3px 10px', borderRadius: '99px', background: catColors[img.cat]?.bg || '#fff', color: catColors[img.cat]?.text || '#333', marginBottom: '6px' }}>{img.cat}</span>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>{img.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="dm-gallery-mobile">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              {dmGallery.map((img, i) => (
-                <div key={i} className="portfolio-item" style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer', boxShadow: 'var(--shadow-sm)', gridColumn: i === 0 ? '1 / -1' : 'auto' }}>
-                  <img src={img.src} alt={img.label} loading="lazy" style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: i === 0 ? '16/9' : i % 2 === 0 ? '3/4' : '1/1' }} />
-                  <div className="portfolio-overlay" />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px', opacity: 0, transition: 'opacity 0.3s ease', zIndex: 2 }} className="portfolio-label">
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500, color: '#fff' }}>{img.label}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--orange-light)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--orange)'}
+            >
+              🎨 Post Designs
+            </a>
+            <a href="#smm-results"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '10px 20px', borderRadius: '8px',
+                background: 'transparent',
+                border: '1.5px solid var(--border-dark)',
+                color: 'var(--text)',
+                fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500,
+                textDecoration: 'none', transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-alt)'; e.currentTarget.style.borderColor = 'var(--text)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-dark)'; }}
+            >
+              📊 Campaign Results
+            </a>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── CTA — cream background matching Visualization page ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center' }}>
+      {/* ── POST DESIGNING SHOWCASE ── */}
+      <div id="post-designing">
+        <PDFShowcase
+          title="Post Designing"
+          tag="Creative Design"
+          tagColor="#C9481B"
+          tagBg="rgba(201,72,27,0.08)"
+          tagBorder="rgba(201,72,27,0.25)"
+          description="Social media post designs crafted for F&B, hospitality, travel, fashion, and tech brands — scroll to explore our creative portfolio."
+          images={postDesigningImages}
+          accent="#C9481B"
+        />
+      </div>
+
+      {/* Divider between sections */}
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 24px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '20px',
+      }}>
+        <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+        <span style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: '10px',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--text-light)',
+          fontWeight: 500,
+          whiteSpace: 'nowrap',
+        }}>
+          Social Media Management
+        </span>
+        <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+      </div>
+
+      {/* ── SMM RESULTS SHOWCASE ── */}
+      <div id="smm-results">
+        <PDFShowcase
+          title="SMM Results & Analytics"
+          tag="Proven Performance"
+          tagColor="#10B981"
+          tagBg="rgba(16,185,129,0.08)"
+          tagBorder="rgba(16,185,129,0.25)"
+          description="Real campaign data — analytics dashboards, engagement numbers, ad spend results, lead generation metrics, and ROAS figures from live client accounts."
+          images={smmImages}
+          accent="#10B981"
+        />
+      </div>
+
+      {/* ── CTA ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(60px, 8vw, 96px) 24px', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>
-            Ready to Grow?
-          </span>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>Ready to Grow?</span>
           <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--text)', lineHeight: 1.08, marginBottom: '16px' }}>
             Ready to{' '}
             <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Dominate</em>
@@ -282,17 +413,9 @@ export default function DigitalMarketing() {
       </section>
 
       <style>{`
-        .portfolio-item:hover .portfolio-label { opacity: 1 !important; }
-        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
-        .dm-gallery-desktop { display: block; }
-        .dm-gallery-mobile  { display: none; }
         @media (max-width: 900px) {
           .dm-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .dm-why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-        }
-        @media (max-width: 768px) {
-          .dm-gallery-desktop { display: none !important; }
-          .dm-gallery-mobile  { display: block !important; }
         }
         @media (max-width: 540px) {
           .dm-services-grid { grid-template-columns: 1fr !important; }
