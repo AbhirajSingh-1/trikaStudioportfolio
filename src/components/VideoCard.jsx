@@ -8,14 +8,24 @@ function parseVideoId(input) {
     const url = new URL(input);
     if (url.searchParams.get('v')) return url.searchParams.get('v');
     if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('?')[0];
-    const embedMatch = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
-    if (embedMatch) return embedMatch[1];
-    const shortsMatch = url.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
-    if (shortsMatch) return shortsMatch[1];
-  } catch { /* not a URL */ }
+    const em = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+    if (em) return em[1];
+    const sh = url.pathname.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
+    if (sh) return sh[1];
+  } catch {}
   return input;
 }
 
+const CARD_GRADIENTS = [
+  ['#F7F2EA', '#EDE4D6'],
+  ['#EEE9F2', '#E0D8EC'],
+  ['#E8EEF4', '#D8E4EE'],
+  ['#F2EBE8', '#E8D8D0'],
+  ['#E8F2EE', '#D4E8DC'],
+  ['#F2EEE8', '#E8E0D0'],
+];
+
+/* ─── Modal — iframe embed + always-visible "Watch on YouTube" fallback ─── */
 function VideoModal({ videoId, title, onClose }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -28,6 +38,7 @@ function VideoModal({ videoId, title, onClose }) {
   }, [onClose]);
 
   const id = parseVideoId(videoId);
+  const ytUrl = `https://www.youtube.com/watch?v=${id}`;
 
   return createPortal(
     <div
@@ -43,7 +54,7 @@ function VideoModal({ videoId, title, onClose }) {
     >
       <div
         style={{
-          width: '100%', maxWidth: '920px',
+          width: '100%', maxWidth: '900px',
           borderRadius: '20px', overflow: 'hidden',
           background: '#FDFCF8',
           boxShadow: '0 40px 100px rgba(24,19,13,0.5)',
@@ -51,49 +62,91 @@ function VideoModal({ videoId, title, onClose }) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Modal header */}
+        {/* Header */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '14px 20px',
-          borderBottom: '1px solid #E8E2D8',
-          background: '#FDFCF8',
+          padding: '13px 18px', borderBottom: '1px solid #E8E2D8',
         }}>
           <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500, fontSize: '14px', color: '#18130D',
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+            fontSize: '14px', color: '#18130D',
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-            maxWidth: 'calc(100% - 48px)',
+            maxWidth: 'calc(100% - 120px)',
           }}>
             {title}
           </p>
-          <button
-            onClick={onClose}
-            style={{
-              width: '32px', height: '32px', borderRadius: '8px',
-              background: '#F4EFE6',
-              border: '1px solid #E8E2D8',
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0, transition: 'background 0.2s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = '#E8E2D8'}
-            onMouseLeave={e => e.currentTarget.style.background = '#F4EFE6'}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            {/* Always-visible YouTube link — works even if embed is blocked */}
+            <a
+              href={ytUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '5px',
+                padding: '6px 12px', borderRadius: '7px',
+                background: '#FF0000', color: '#fff',
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '11.5px', fontWeight: 600,
+                textDecoration: 'none', letterSpacing: '0.02em',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#CC0000'}
+              onMouseLeave={e => e.currentTarget.style.background = '#FF0000'}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                <path d="M5 3l14 9-14 9z"/>
+              </svg>
+              Watch on YouTube ↗
+            </a>
+            <button
+              onClick={onClose}
+              style={{
+                width: '30px', height: '30px', borderRadius: '8px',
+                background: '#F4EFE6', border: '1px solid #E8E2D8',
+                cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Video */}
-        <div style={{ aspectRatio: '16/9', width: '100%', background: '#18130D' }}>
+        {/* Iframe embed */}
+        <div style={{ position: 'relative', aspectRatio: '16/9', background: '#18130D' }}>
           <iframe
-            src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&origin=${encodeURIComponent(window.location.origin)}`}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            style={{ width: '100%', height: '100%', border: 'none', display: 'block', position: 'absolute', inset: 0 }}
           />
+        </div>
+
+        {/* Bottom note */}
+        <div style={{
+          padding: '10px 18px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: '6px',
+          borderTop: '1px solid #E8E2D8',
+        }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#B0A89C' }}>
+            If the video doesn't load,
+          </span>
+          <a
+            href={ytUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "'DM Sans', sans-serif", fontSize: '11px',
+              color: '#C9481B', fontWeight: 500, textDecoration: 'underline',
+            }}
+          >
+            watch directly on YouTube ↗
+          </a>
         </div>
       </div>
 
@@ -108,126 +161,108 @@ function VideoModal({ videoId, title, onClose }) {
   );
 }
 
-export default function VideoCard({ videoId, title, description, accentColor }) {
+export default function VideoCard({ videoId, title, description, accentColor, cardIndex = 0 }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
   const id = parseVideoId(videoId);
-  const [thumbSrc, setThumbSrc] = useState(`https://img.youtube.com/vi/${id}/maxresdefault.jpg`);
+  const [c1, c2] = CARD_GRADIENTS[cardIndex % CARD_GRADIENTS.length];
+  const [thumbIdx, setThumbIdx] = useState(0);
+  const [thumbFailed, setThumbFailed] = useState(false);
+
+  const thumbSteps = [
+    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
+    `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+  ];
 
   return (
     <>
       <div
-        className="media-card group cursor-pointer"
         onClick={() => setModalOpen(true)}
-        style={{ borderRadius: '16px', overflow: 'hidden' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          borderRadius: '16px', overflow: 'hidden', cursor: 'pointer',
+          background: '#fff', border: '1px solid #E8E2D8',
+          boxShadow: hovered ? '0 18px 48px rgba(24,19,13,0.14)' : '0 2px 12px rgba(24,19,13,0.06)',
+          transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
+          transition: 'all 0.32s cubic-bezier(0.34,1.2,0.64,1)',
+        }}
       >
-        {/* Thumbnail */}
-        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
-          <img
-            src={thumbSrc}
-            alt={title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease', display: 'block' }}
-            className="group-hover:scale-105"
-            onError={() => {
-              if (thumbSrc.includes('maxresdefault')) {
-                setThumbSrc(`https://img.youtube.com/vi/${id}/hqdefault.jpg`);
-              } else {
-                setThumbSrc('');
-              }
-            }}
-          />
-
-          {!thumbSrc && (
+        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden', background: `linear-gradient(135deg, ${c1}, ${c2})` }}>
+          {!thumbFailed ? (
+            <img
+              key={thumbSteps[thumbIdx]}
+              src={thumbSteps[thumbIdx]}
+              alt={title}
+              style={{
+                width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                transform: hovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.5s ease',
+              }}
+              onError={() => {
+                if (thumbIdx < thumbSteps.length - 1) setThumbIdx(i => i + 1);
+                else setThumbFailed(true);
+              }}
+            />
+          ) : (
             <div style={{
               width: '100%', height: '100%',
+              background: `linear-gradient(135deg, ${c1}, ${c2})`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'linear-gradient(135deg, #F4EFE6, #E8E2D8)',
             }}>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="4" fill="rgba(201,72,27,0.1)" stroke="rgba(201,72,27,0.2)" />
-                <path d="M8 5v14l11-7z" fill="#C9481B" />
+                <circle cx="12" cy="12" r="11" fill="rgba(201,72,27,0.1)" stroke="rgba(201,72,27,0.2)" strokeWidth="1.5"/>
+                <path d="M10 8l6 4-6 4V8z" fill="#C9481B"/>
               </svg>
             </div>
           )}
 
-          {/* Gradient */}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(24,19,13,0.6) 0%, transparent 60%)',
-            opacity: 0, transition: 'opacity 0.3s ease',
-          }} className="group-hover:opacity-100" />
+            background: 'linear-gradient(to top, rgba(24,19,13,0.5) 0%, transparent 55%)',
+            opacity: hovered ? 1 : 0.35, transition: 'opacity 0.3s',
+          }} />
 
           {/* Play button */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <div
-              style={{
-                width: '52px', height: '52px', borderRadius: '50%',
-                background: 'rgba(255,255,255,0.95)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 4px 20px rgba(24,19,13,0.25)',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              className="group-hover:scale-110 group-hover:shadow-lg"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill={accentColor || '#C9481B'}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{
+              width: '52px', height: '52px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.96)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+              transform: hovered ? 'scale(1.12)' : 'scale(1)',
+              transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+            }}>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill={accentColor || '#C9481B'}>
                 <path d="M5 3l14 9-14 9z"/>
               </svg>
             </div>
           </div>
 
-          {/* YT badge */}
           <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-            <span style={{
-              background: '#FF0000',
-              color: '#fff',
-              fontSize: '10px', fontWeight: 600,
-              fontFamily: "'DM Sans', sans-serif",
-              padding: '3px 8px', borderRadius: '4px',
-              letterSpacing: '0.04em',
-            }}>YT</span>
+            <span style={{ background: '#FF0000', color: '#fff', fontSize: '10px', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", padding: '3px 8px', borderRadius: '4px' }}>YT</span>
           </div>
         </div>
 
-        {/* Info */}
         <div style={{ padding: '14px 16px 16px' }}>
           <h4 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontWeight: 600, fontSize: '1rem', lineHeight: 1.3,
-            color: '#18130D',
-            marginBottom: '6px',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            transition: 'color 0.2s',
-          }} className="group-hover:text-orange">
-            {title}
-          </h4>
+            fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1rem',
+            lineHeight: 1.3, color: '#18130D', marginBottom: '5px',
+            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          }}>{title}</h4>
           {description && (
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '12px', color: '#7A7068', lineHeight: 1.6,
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}>
-              {description}
-            </p>
+              fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: '#7A7068', lineHeight: 1.6,
+              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+            }}>{description}</p>
           )}
           <div style={{
-            marginTop: '12px',
-            display: 'flex', alignItems: 'center', gap: '5px',
-            color: accentColor || '#C9481B',
-            fontSize: '11px', fontWeight: 500,
+            marginTop: '10px', display: 'flex', alignItems: 'center', gap: '5px',
+            color: accentColor || '#C9481B', fontSize: '11px', fontWeight: 500,
             fontFamily: "'DM Sans', sans-serif",
-            letterSpacing: '0.03em',
           }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M5 3l14 9-14 9z"/>
-            </svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9z"/></svg>
             <span>Watch video</span>
           </div>
         </div>
