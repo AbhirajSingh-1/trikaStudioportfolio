@@ -12,11 +12,11 @@ const team = [
   },
   {
     name: 'Tanvi Priya',
-    role: 'AI Specialist & Creative Director',
+    role: 'AI Specialist & Social Video Manager',
     avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
     initials: 'T',
     color: '#8B5CF6',
-    bio: "Trika's creative and technical force — bridging artistic direction and AI. She leads AI pipeline development and creative production, turning raw technology into breathtaking visual experiences.",
+    bio: "An innovative blend of creativity and technology, she drives Trika’s AI vision and social video strategy. From building intelligent AI pipelines to crafting visually compelling content, she transforms complex tech into engaging digital experiences that captivate audiences and elevate brand storytelling.",
     expertise: ['Generative AI', 'AI Video Production', 'Creative Direction', 'AI Avatar Design'],
   },
   {

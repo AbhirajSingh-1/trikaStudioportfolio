@@ -26,7 +26,7 @@ export default function Logo({ size = 'md', dark = true }) {
     >
       {/* "Tri" */}
       <span style={{ fontSize: s.name, fontWeight: 700, color: baseColor, letterSpacing: '-0.01em' }}>
-        Tri
+       🔱 Tri
       </span>
       {/* "k" — orange italic accent */}
       <span style={{ fontSize: s.name, fontWeight: 700, color: '#C9481B', letterSpacing: '-0.01em', fontStyle: 'italic' }}>

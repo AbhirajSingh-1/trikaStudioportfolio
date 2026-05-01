@@ -44,7 +44,7 @@ function AppInner() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/ai-advertising" element={<AIAdvertising />} />
-            <Route path="/3d-visualization" element={<Visualization />} />
+            <Route path="/visulization" element={<Visualization />} />
             <Route path="/digital-marketing" element={<DigitalMarketing />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />

@@ -13,7 +13,7 @@ const services = [
     num: '02',
     title: '3D Visualization',
     desc: 'Photorealistic product renders, architectural flythroughs, and immersive 3D brand films.',
-    path: '/3d-visualization',
+    path: '/visulization',
     color: '#8C5F30',
   },
   {

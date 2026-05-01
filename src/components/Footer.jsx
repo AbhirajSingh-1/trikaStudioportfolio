@@ -4,7 +4,7 @@ import Logo from './Logo';
 const navPages = [
   { label: 'Home', path: '/' },
   { label: 'AI Advertising', path: '/ai-advertising' },
-  { label: '3D Visualization', path: '/3d-visualization' },
+  { label: '3D Visualization', path: '/visulization' },
   { label: 'Digital Marketing', path: '/digital-marketing' },
   { label: 'About Us', path: '/about' },
   { label: 'Contact', path: '/contact' },
