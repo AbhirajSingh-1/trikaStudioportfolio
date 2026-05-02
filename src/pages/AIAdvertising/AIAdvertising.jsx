@@ -36,7 +36,8 @@ function ShortsModal({ videoId, title, onClose }) {
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          maxWidth: '380px',
+          maxWidth: 'min(380px, calc((100vh - 100px) * 9 / 16))',
+          maxHeight: 'calc(100vh - 32px)',
           borderRadius: '20px',
           overflow: 'hidden',
           background: '#FDFCF8',
@@ -97,7 +98,7 @@ function ShortsModal({ videoId, title, onClose }) {
         </div>
 
         {/* Portrait 9:16 embed */}
-        <div style={{ position: 'relative', aspectRatio: '9/16', background: '#000' }}>
+        <div style={{ position: 'relative', flex: 1, minHeight: 0, aspectRatio: '9/16', background: '#000' }}>
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
             title={title}
@@ -141,34 +142,35 @@ function ShortsModal({ videoId, title, onClose }) {
 /* ─────────────────────────────────────────────
    Individual Shorts Card
 ───────────────────────────────────────────── */
+const PALETTES = [
+  { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
+  { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
+  { bg: 'linear-gradient(150deg, #E6EFF6 0%, #CCDDE8 100%)', dot: '#2563EB' },
+  { bg: 'linear-gradient(150deg, #F2EBE6 0%, #E8D5C8 100%)', dot: '#C9481B' },
+  { bg: 'linear-gradient(150deg, #E6F2EC 0%, #CCE8D8 100%)', dot: '#059669' },
+  { bg: 'linear-gradient(150deg, #F6EEE6 0%, #ECD8C2 100%)', dot: '#C9481B' },
+  { bg: 'linear-gradient(150deg, #EAE6F2 0%, #D8D0EC 100%)', dot: '#7C3AED' },
+  { bg: 'linear-gradient(150deg, #E6EAF2 0%, #C8D4EC 100%)', dot: '#1D4ED8' },
+  { bg: 'linear-gradient(150deg, #F2F0E6 0%, #E8E0C8 100%)', dot: '#B45309' },
+  { bg: 'linear-gradient(150deg, #EEE6F2 0%, #E0CCE8 100%)', dot: '#9333EA' },
+  { bg: 'linear-gradient(150deg, #E6F2EE 0%, #CCE4DC 100%)', dot: '#10B981' },
+  { bg: 'linear-gradient(150deg, #F2EEE6 0%, #E8E0CC 100%)', dot: '#D97706' },
+  { bg: 'linear-gradient(150deg, #F0E6F2 0%, #E4CCE8 100%)', dot: '#C026D3' },
+  { bg: 'linear-gradient(150deg, #E6F0F2 0%, #CCE0E8 100%)', dot: '#0891B2' },
+];
+
 function ShortsCard({ videoId, title, index, size = 'normal' }) {
   const [hovered,     setHovered]     = useState(false);
   const [thumbIdx,    setThumbIdx]    = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
   const [modalOpen,   setModalOpen]   = useState(false);
 
+  // For better performance, prioritize mqdefault (smaller file) then hqdefault.
   const thumbSteps = [
-    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`,
     `https://i.ytimg.com/vi/${videoId}/default.jpg`,
-  ];
-
-  const PALETTES = [
-    { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
-    { bg: 'linear-gradient(150deg, #E6EFF6 0%, #CCDDE8 100%)', dot: '#2563EB' },
-    { bg: 'linear-gradient(150deg, #F2EBE6 0%, #E8D5C8 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #E6F2EC 0%, #CCE8D8 100%)', dot: '#059669' },
-    { bg: 'linear-gradient(150deg, #F6EEE6 0%, #ECD8C2 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #EAE6F2 0%, #D8D0EC 100%)', dot: '#7C3AED' },
-    { bg: 'linear-gradient(150deg, #E6EAF2 0%, #C8D4EC 100%)', dot: '#1D4ED8' },
-    { bg: 'linear-gradient(150deg, #F2F0E6 0%, #E8E0C8 100%)', dot: '#B45309' },
-    { bg: 'linear-gradient(150deg, #EEE6F2 0%, #E0CCE8 100%)', dot: '#9333EA' },
-    { bg: 'linear-gradient(150deg, #E6F2EE 0%, #CCE4DC 100%)', dot: '#10B981' },
-    { bg: 'linear-gradient(150deg, #F2EEE6 0%, #E8E0CC 100%)', dot: '#D97706' },
-    { bg: 'linear-gradient(150deg, #F0E6F2 0%, #E4CCE8 100%)', dot: '#C026D3' },
-    { bg: 'linear-gradient(150deg, #E6F0F2 0%, #CCE0E8 100%)', dot: '#0891B2' },
   ];
 
   const palette = PALETTES[index % PALETTES.length];
@@ -203,6 +205,7 @@ function ShortsCard({ videoId, title, index, size = 'normal' }) {
               src={thumbSteps[thumbIdx]}
               alt={title}
               loading="lazy"
+              decoding="async"
               onError={() => {
                 if (thumbIdx < thumbSteps.length - 1) setThumbIdx(i => i + 1);
                 else setThumbFailed(true);

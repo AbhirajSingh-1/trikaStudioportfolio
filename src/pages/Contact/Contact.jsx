@@ -1,494 +1,403 @@
-import { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-/* ─────────────────────────────────────────────
-   Inline portrait modal for YouTube Shorts
-───────────────────────────────────────────── */
-function ShortsModal({ videoId, title, onClose }) {
-  useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
-
-  const ytUrl = `https://www.youtube.com/shorts/${videoId}`;
-
-  return createPortal(
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 99999,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '16px',
-        background: 'rgba(24,19,13,0.88)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-      }}
-    >
-      {/* FIX: maxHeight caps the modal to viewport; flex column lets video fill remaining space */}
-      <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          maxWidth: '380px',
-          maxHeight: 'calc(100vh - 32px)',
-          borderRadius: '20px',
-          overflow: 'hidden',
-          background: '#FDFCF8',
-          boxShadow: '0 40px 100px rgba(24,19,13,0.55)',
-          animation: 'shorts-pop 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards',
-        }}
-      >
-        {/* Top bar */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '11px 14px', borderBottom: '1px solid #E8E2D8', gap: '8px',
-          flexShrink: 0,
-        }}>
-          <span style={{
-            background: '#FF0000', color: '#fff',
-            fontSize: '9px', fontWeight: 800,
-            fontFamily: "'DM Sans', sans-serif",
-            padding: '3px 8px', borderRadius: '4px',
-            letterSpacing: '0.07em', flexShrink: 0,
-          }}>▶ SHORTS</span>
-
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
-            fontSize: '12.5px', color: '#18130D',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-            flex: 1,
-          }}>{title}</p>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
-            <a
-              href={ytUrl} target="_blank" rel="noopener noreferrer"
-              onClick={e => e.stopPropagation()}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                padding: '5px 10px', borderRadius: '6px',
-                background: '#FF0000', color: '#fff',
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '10.5px', fontWeight: 600, textDecoration: 'none',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = '#CC0000'}
-              onMouseLeave={e => e.currentTarget.style.background = '#FF0000'}
-            >↗ YouTube</a>
-
-            <button
-              onClick={onClose}
-              style={{
-                width: '28px', height: '28px', borderRadius: '7px',
-                background: '#F4EFE6', border: '1px solid #E8E2D8',
-                cursor: 'pointer', display: 'flex',
-                alignItems: 'center', justifyContent: 'center',
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#18130D" strokeWidth="2.5">
-                <path d="M18 6L6 18M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* FIX: flex:1 + minHeight:0 lets video fill remaining space without overflowing */}
-        <div style={{ position: 'relative', flex: 1, minHeight: 0, background: '#000', overflow: 'hidden' }}>
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-            title={title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              border: 'none', display: 'block',
-            }}
-          />
-        </div>
-
-        {/* Fallback footer */}
-        <div style={{
-          padding: '8px 14px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px',
-          borderTop: '1px solid #E8E2D8',
-          flexShrink: 0,
-        }}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: '#B0A89C' }}>
-            Video not loading?
-          </span>
-          <a href={ytUrl} target="_blank" rel="noopener noreferrer"
-            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10.5px', color: '#C9481B', fontWeight: 500, textDecoration: 'underline' }}>
-            Open on YouTube ↗
-          </a>
-        </div>
-      </div>
-
-      <style>{`
-        @keyframes shorts-pop {
-          from { opacity: 0; transform: scale(0.92) translateY(14px); }
-          to   { opacity: 1; transform: scale(1)    translateY(0); }
-        }
-      `}</style>
-    </div>,
-    document.body
-  );
-}
-
-/* ─────────────────────────────────────────────
-   Individual Shorts Card
-───────────────────────────────────────────── */
-function ShortsCard({ videoId, title, index, size = 'normal' }) {
-  const [hovered,     setHovered]     = useState(false);
-  const [thumbIdx,    setThumbIdx]    = useState(0);
-  const [thumbFailed, setThumbFailed] = useState(false);
-  const [modalOpen,   setModalOpen]   = useState(false);
-
-  const thumbSteps = [
-    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-    `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
-    `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`,
-    `https://i.ytimg.com/vi/${videoId}/default.jpg`,
-  ];
-
-  const PALETTES = [
-    { bg: 'linear-gradient(150deg, #F7F0E6 0%, #EDE0CC 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #EDE8F2 0%, #DDD5E8 100%)', dot: '#8B5CF6' },
-    { bg: 'linear-gradient(150deg, #E6EFF6 0%, #CCDDE8 100%)', dot: '#2563EB' },
-    { bg: 'linear-gradient(150deg, #F2EBE6 0%, #E8D5C8 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #E6F2EC 0%, #CCE8D8 100%)', dot: '#059669' },
-    { bg: 'linear-gradient(150deg, #F6EEE6 0%, #ECD8C2 100%)', dot: '#C9481B' },
-    { bg: 'linear-gradient(150deg, #EAE6F2 0%, #D8D0EC 100%)', dot: '#7C3AED' },
-    { bg: 'linear-gradient(150deg, #E6EAF2 0%, #C8D4EC 100%)', dot: '#1D4ED8' },
-    { bg: 'linear-gradient(150deg, #F2F0E6 0%, #E8E0C8 100%)', dot: '#B45309' },
-    { bg: 'linear-gradient(150deg, #EEE6F2 0%, #E0CCE8 100%)', dot: '#9333EA' },
-    { bg: 'linear-gradient(150deg, #E6F2EE 0%, #CCE4DC 100%)', dot: '#10B981' },
-    { bg: 'linear-gradient(150deg, #F2EEE6 0%, #E8E0CC 100%)', dot: '#D97706' },
-    { bg: 'linear-gradient(150deg, #F0E6F2 0%, #E4CCE8 100%)', dot: '#C026D3' },
-    { bg: 'linear-gradient(150deg, #E6F0F2 0%, #CCE0E8 100%)', dot: '#0891B2' },
-  ];
-
-  const palette = PALETTES[index % PALETTES.length];
-  const isLarge = size === 'large';
-
-  return (
-    <>
-      <div
-        onClick={() => setModalOpen(true)}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          position: 'relative',
-          borderRadius: isLarge ? '18px' : '14px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          background: '#fff',
-          border: '1px solid #E8E2D8',
-          boxShadow: hovered
-            ? '0 24px 56px rgba(24,19,13,0.16), 0 4px 16px rgba(24,19,13,0.08)'
-            : '0 2px 14px rgba(24,19,13,0.07)',
-          transform: hovered ? 'translateY(-6px) scale(1.018)' : 'translateY(0) scale(1)',
-          transition: 'all 0.35s cubic-bezier(0.34,1.2,0.64,1)',
-        }}
-      >
-        {/* Thumbnail — portrait 9:16 */}
-        <div style={{ position: 'relative', aspectRatio: '9/16', overflow: 'hidden', background: palette.bg }}>
-
-          {!thumbFailed ? (
-            <img
-              key={thumbSteps[thumbIdx]}
-              src={thumbSteps[thumbIdx]}
-              alt={title}
-              loading="lazy"
-              onError={() => {
-                if (thumbIdx < thumbSteps.length - 1) setThumbIdx(i => i + 1);
-                else setThumbFailed(true);
-              }}
-              style={{
-                width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                transform: hovered ? 'scale(1.07)' : 'scale(1)',
-                transition: 'transform 0.6s ease',
-              }}
-            />
-          ) : (
-            <div style={{
-              width: '100%', height: '100%', background: palette.bg,
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center', gap: '14px', padding: '20px',
-            }}>
-              <svg width={isLarge ? 56 : 44} height={isLarge ? 56 : 44} viewBox="0 0 56 56" fill="none">
-                <circle cx="28" cy="28" r="26" fill={`${palette.dot}12`} stroke={`${palette.dot}25`} strokeWidth="1.5"/>
-                <circle cx="28" cy="28" r="16" fill={`${palette.dot}10`} stroke={`${palette.dot}20`} strokeWidth="1"/>
-                <path d="M22 18l16 10-16 10V18z" fill={`${palette.dot}70`}/>
-              </svg>
-              <p style={{
-                fontFamily: "'Cormorant Garant', serif",
-                fontSize: isLarge ? '13px' : '11px',
-                fontWeight: 600, color: '#5A524A',
-                textAlign: 'center', lineHeight: 1.4, maxWidth: '110px',
-              }}>{title}</p>
-            </div>
-          )}
-
-          {/* Gradient overlay */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(24,19,13,0.78) 0%, rgba(24,19,13,0.1) 50%, transparent 75%)',
-            opacity: thumbFailed ? 0 : (hovered ? 1 : 0.65),
-            transition: 'opacity 0.35s ease',
-          }} />
-
-          {/* Shorts badge */}
-          <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 2 }}>
-            <span style={{
-              background: '#FF0000', color: '#fff',
-              fontSize: '8.5px', fontWeight: 800,
-              fontFamily: "'DM Sans', sans-serif",
-              padding: '3px 7px', borderRadius: '4px',
-              letterSpacing: '0.07em',
-              display: 'flex', alignItems: 'center', gap: '3px',
-            }}>▶ SHORTS</span>
-          </div>
-
-          {/* Play button */}
-          <div style={{
-            position: 'absolute', inset: 0, zIndex: 1,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            pointerEvents: 'none',
-          }}>
-            <div style={{
-              width: isLarge ? '54px' : '44px',
-              height: isLarge ? '54px' : '44px',
-              borderRadius: '50%',
-              background: 'rgba(255,255,255,0.95)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 6px 24px rgba(0,0,0,0.22)',
-              transform: hovered ? 'scale(1.18)' : 'scale(1)',
-              transition: 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1)',
-            }}>
-              <svg width={isLarge ? 20 : 16} height={isLarge ? 20 : 16} viewBox="0 0 24 24" fill="#C9481B">
-                <path d="M5 3l14 9-14 9z"/>
-              </svg>
-            </div>
-          </div>
-
-          {/* Title overlay */}
-          {!thumbFailed && (
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2,
-              padding: isLarge ? '14px 14px 12px' : '10px 10px 9px',
-            }}>
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: isLarge ? '12px' : '10px',
-                fontWeight: 500, color: 'rgba(253,252,248,0.92)',
-                lineHeight: 1.4,
-                display: '-webkit-box', WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical', overflow: 'hidden',
-              }}>{title}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {modalOpen && (
-        <ShortsModal videoId={videoId} title={title} onClose={() => setModalOpen(false)} />
-      )}
-    </>
-  );
-}
-
-/* ─── Data ─── */
-const aiShorts = [
-  { id: 'Rj4eYEHXfVU', title: 'AI Brand Campaign – Cinematic Spot' },
-  { id: 'Pu66KCNLZxs', title: 'Product Reveal – AI Generated Creative' },
-  { id: 'iSnPq_Nz3sg', title: 'AI Fashion Campaign – Dynamic Visual' },
-  { id: 'vmHVnuD3aH0', title: 'AI Motion Graphics – Brand Story' },
-  { id: 'aXY_ykf-dWE', title: 'Generative AI Ad – E-Commerce Brand' },
-  { id: 'BN1ux2azoqQ', title: 'AI Visual Campaign – Luxury Product' },
-  { id: 'UQWm2vvMsFg', title: 'AI Advertising Reel – Tech Brand' },
-  { id: 'lmqTiLIuloA', title: 'AI Brand Film – FinTech Campaign' },
-  { id: 'oiaAg64l5tY', title: 'Generative Video – Food & Beverage' },
-  { id: 'vmHVnuD3aH0', title: 'AI Real Estate Campaign' },
-  { id: '6zH9tSeLV5c', title: 'AI Sports & Energy Brand Ad' },
-  { id: 'UBPl3dIIBPk', title: 'AI Travel & Hospitality Campaign' },
-  { id: 'wAIDI4kx3XE', title: 'Hyper-Realistic AI Product Spot' },
-  { id: 'AAFjH-Eg0rM', title: 'AI Motion – Brand Identity Spot' },
+const socials = [
+  {
+    name: 'Instagram',
+    handle: '@trikastudio',
+    href: 'https://www.instagram.com/trikastudio1?igsh=NnQzeHJseGM5ZXYz',
+    color: '#E1306C',
+    icon: (
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.75">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'LinkedIn',
+    handle: 'Trika Studio',
+    href: 'https://linkedin.com',
+    color: '#0077B5',
+    icon: (
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'YouTube',
+    handle: 'Trika Studio Official',
+    href: 'https://www.youtube.com/channel/UCSDYg2d1qGC4sPfiSfsGIuw',
+    color: '#FF0000',
+    icon: (
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Twitter / X',
+    handle: '@trikastudio_in',
+    href: 'https://twitter.com',
+    color: '#18181B',
+    icon: (
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    ),
+  },
 ];
 
-const capabilities = [
-  { icon: '🎬', label: 'Text-to-Video' },
-  { icon: '🤖', label: 'AI Avatars' },
-  { icon: '✨', label: 'AI Upscaling' },
-  { icon: '🎨', label: 'Style Transfer' },
-  { icon: '🗣️', label: 'Voice Cloning' },
-  { icon: '🌐', label: 'Multilingual' },
+const contactInfo = [
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="1.75">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    ),
+    label: 'Email',
+    value: 'helloTrikastudio@gmail.com',
+    sub: 'We reply within 24 hours',
+  },
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="1.75">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+    ),
+    label: 'Phone',
+    value: '+91 8707775873',
+    sub: 'Mon–Fri · 10am–7pm IST',
+  },
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9481B" strokeWidth="1.75">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    ),
+    label: 'Location',
+    value: 'AVL 36, Sector 36, Gurugram',
+    sub: 'Haryana, India',
+  },
 ];
 
-function RowDivider({ label }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-      <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-      <span style={{
-        fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 500,
-        letterSpacing: '0.12em', textTransform: 'uppercase',
-        color: 'var(--text-light)', whiteSpace: 'nowrap',
-      }}>{label}</span>
-      <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-    </div>
-  );
-}
+const services = [
+  'AI Advertising',
+  '3D Visualization',
+  'Social Media Marketing',
+  'AI Avatar Production',
+  'Performance Marketing',
+  'Brand Strategy',
+  'Content Production',
+  'Other',
+];
 
-function ShortsGrid({ shorts }) {
-  return (
-    <>
-      {/* Desktop (>1100px): sectioned rows */}
-      <div className="sg-desktop-layout">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-              <span style={{
-                fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600,
-                letterSpacing: '0.13em', textTransform: 'uppercase', color: '#C9481B',
-                padding: '4px 10px', background: 'rgba(201,72,27,0.07)',
-                border: '1px solid rgba(201,72,27,0.2)', borderRadius: '99px',
-                display: 'flex', alignItems: 'center', gap: '6px',
-              }}>
-                <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#C9481B', display: 'inline-block', animation: 'pulse-dot 2s infinite' }} />
-                Featured Campaigns
-              </span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', alignItems: 'start' }}>
-              {shorts.slice(0, 4).map((s, i) => (
-                <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i} size="large" />
-              ))}
-            </div>
-          </div>
+const budgets = ['Under ₹50,000', '₹50K – ₹2L', '₹2L – ₹5L', '₹5L – ₹10L', '₹10L+'];
 
-          <RowDivider label="More AI Campaigns" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
-            {shorts.slice(4, 9).map((s, i) => (
-              <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 4} size="normal" />
-            ))}
-          </div>
+const inputStyle = {
+  width: '100%',
+  background: '#F8F5F0',
+  border: '1.5px solid #E8E2D8',
+  borderRadius: '10px',
+  padding: '12px 15px',
+  fontFamily: "'DM Sans', sans-serif",
+  fontSize: '14px',
+  color: '#18130D',
+  outline: 'none',
+  transition: 'border-color 0.2s, box-shadow 0.2s',
+};
 
-          <RowDivider label="Recent Work" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
-            {shorts.slice(9, 14).map((s, i) => (
-              <ShortsCard key={s.id + i} videoId={s.id} title={s.title} index={i + 9} size="normal" />
-            ))}
-          </div>
-        </div>
-      </div>
+const labelStyle = {
+  display: 'block',
+  fontFamily: "'DM Sans', sans-serif",
+  fontSize: '11px',
+  fontWeight: 600,
+  letterSpacing: '0.1em',
+  textTransform: 'uppercase',
+  color: '#7A7068',
+  marginBottom: '7px',
+};
 
-      {/* Mobile / Tablet (≤1100px): flat 2-column grid */}
-      <div className="sg-mobile-layout">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px', alignItems: 'start' }}>
-          {shorts.map((s, i) => (
-            <ShortsCard key={s.id + '-m-' + i} videoId={s.id} title={s.title} index={i} size="normal" />
-          ))}
-        </div>
-      </div>
-    </>
-  );
-}
+export default function Contact() {
+  const [form, setForm] = useState({ name: '', email: '', company: '', service: '', budget: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [focused, setFocused] = useState('');
 
-export default function AIAdvertising() {
-  const navigate = useNavigate();
+  const handleChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const subject = encodeURIComponent(`New Project Inquiry from ${form.name} (${form.company || 'N/A'})`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\n` +
+      `Email: ${form.email}\n` +
+      `Company: ${form.company || 'N/A'}\n` +
+      `Service Interested In: ${form.service || 'N/A'}\n` +
+      `Budget Range: ${form.budget || 'N/A'}\n\n` +
+      `Project Details:\n${form.message}`
+    );
+
+    window.location.href = `mailto:helloTrikastudio@gmail.com?subject=${subject}&body=${body}`;
+
+    await new Promise(r => setTimeout(r, 1000));
+    setLoading(false);
+    setSubmitted(true);
+  };
+
+  const focusStyle = { borderColor: '#C9481B', boxShadow: '0 0 0 3px rgba(201,72,27,0.08)' };
 
   return (
     <div style={{ background: 'var(--bg)' }}>
 
-      <section className="page-hero">
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto' }}>
-           
-          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
-            AI <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Advertising</em>
+      {/* ── HERO ── */}
+      <section className="page-hero" style={{ paddingBottom: 'clamp(40px, 6vw, 64px)' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} className="animate-pulse" />
+            Let's Connect
+          </span>
+          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '14px' }}>
+            Start a <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Conversation</em>
           </h1>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(0.88rem, 1.8vw, 1rem)', color: 'var(--text-muted)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto 28px' }}>
-            We harness the power of generative AI to create advertising content that was previously impossible — at the speed of thought and the scale of machines.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(0.88rem, 1.8vw, 1rem)', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto' }}>
+            Whether you have a brief ready or just a spark of an idea — we'd love to hear from you. No hard sells, just genuine conversation.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center' }}>
-            {capabilities.map(({ icon, label }) => (
-              <div key={label} style={{
-                display: 'flex', alignItems: 'center', gap: '7px',
-                padding: '7px 14px', background: 'var(--bg-card)',
-                border: '1px solid var(--border)', borderRadius: '99px',
-                fontFamily: "'DM Sans', sans-serif", fontSize: '12.5px', fontWeight: 500,
-                color: 'var(--text)', boxShadow: 'var(--shadow-sm)',
-              }}>
-                <span>{icon}</span><span>{label}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      <section style={{ background: 'var(--bg)', padding: 'clamp(48px, 7vw, 80px) 24px' }}>
-        <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '32px' }}>
-            <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>AI Video Portfolio</span>
-              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1 }}>
-                Generative AI Video Production
-              </h2>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '6px' }}>
-                14 AI shorts — click any to play inline
-              </p>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '8px 14px', background: 'rgba(201,72,27,0.06)', border: '1px solid rgba(201,72,27,0.18)', borderRadius: '99px' }}>
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#C9481B', animation: 'pulse-dot 2s infinite' }} />
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, color: '#C9481B' }}>14 AI Shorts</span>
+      {/* ── MAIN CONTENT ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(40px, 6vw, 72px) 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 'clamp(24px, 4vw, 48px)' }} className="contact-grid">
+
+          {/* ── Sidebar ── */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+            {/* Contact info */}
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px' }}>
+              <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.25rem', color: 'var(--text)', marginBottom: '20px' }}>Contact Details</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {contactInfo.map(({ icon, label, value, sub }) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{
+                      width: '38px', height: '38px', flexShrink: 0,
+                      borderRadius: '10px',
+                      background: 'rgba(201,72,27,0.07)',
+                      border: '1px solid rgba(201,72,27,0.15)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      {icon}
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', fontWeight: 500, color: 'var(--text)' }}>{value}</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11.5px', color: 'var(--text-light)', marginTop: '1px' }}>{sub}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <button className="btn-outline" style={{ flexShrink: 0 }} onClick={() => navigate('/contact')}>
-                Start a Project →
-              </button>
+            </div>
+
+            {/* Socials */}
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px' }}>
+              <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)', marginBottom: '16px' }}>Follow Our Work</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {socials.map(({ name, handle, href, color, icon }) => (
+                  <a key={name} href={href} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '10px', textDecoration: 'none', transition: 'background 0.2s', border: '1px solid transparent' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-alt)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
+                  >
+                    <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `${color}12`, border: `1px solid ${color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
+                      {icon}
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500, color: 'var(--text)' }}>{name}</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11.5px', color: 'var(--text-muted)' }}>{handle}</div>
+                    </div>
+                    <svg style={{ marginLeft: 'auto', color: 'var(--text-light)' }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Online badge */}
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px 18px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22C55E', display: 'inline-block', flexShrink: 0, animation: 'pulse-dot 2s infinite' }} />
+              <div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500, color: 'var(--text)' }}>We respond within 24 hours</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11.5px', color: 'var(--text-muted)' }}>Mon – Fri, 10am – 7pm IST</div>
+              </div>
             </div>
           </div>
 
-          <ShortsGrid shorts={aiShorts} />
+          {/* ── Form ── */}
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '20px', padding: 'clamp(24px, 4vw, 40px)' }}>
 
-          <div style={{ marginTop: '40px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: '4px solid var(--orange)', borderRadius: '14px', padding: '24px 28px' }}>
-            <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.3rem', color: 'var(--text)', marginBottom: '8px' }}>
-              What is AI Video Creation?
-            </h3>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
-              AI video creation uses generative models — text-to-video, image-to-video, and NeRF-based rendering — to produce cinematic advertising content from simple text prompts. At Trika Studio, we fine-tune these models on your brand guidelines so every frame is on-brand, on-budget, and ahead of schedule.
-            </p>
+            {submitted ? (
+              <div style={{ textAlign: 'center', padding: 'clamp(40px, 8vw, 80px) 20px' }}>
+                <div style={{
+                  width: '72px', height: '72px', borderRadius: '50%',
+                  background: 'rgba(34,197,94,0.1)',
+                  border: '1.5px solid rgba(34,197,94,0.25)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 20px',
+                }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.8rem', color: 'var(--text)', marginBottom: '10px' }}>
+                  Message Received! 🎉
+                </h3>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', maxWidth: '320px', margin: '0 auto 28px', lineHeight: 1.7 }}>
+                  Thank you for reaching out. Our team will review your brief and get back to you within 24 hours.
+                </p>
+                <button className="btn-outline" style={{ fontSize: '13px' }}
+                  onClick={() => { setSubmitted(false); setForm({ name: '', email: '', company: '', service: '', budget: '', message: '' }); }}>
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.5rem', color: 'var(--text)', marginBottom: '4px' }}>
+                  Tell Us About Your Project
+                </h3>
+
+                {/* Name + Email */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }} className="form-row-2">
+                  <div>
+                    <label style={labelStyle}>Your Name *</label>
+                    <input
+                      type="text" name="name" required value={form.name} onChange={handleChange}
+                      placeholder="e.g. Rahul Sharma"
+                      style={{ ...inputStyle, ...(focused === 'name' ? focusStyle : {}) }}
+                      onFocus={() => setFocused('name')}
+                      onBlur={() => setFocused('')}
+                    />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Email Address *</label>
+                    <input
+                      type="email" name="email" required value={form.email} onChange={handleChange}
+                      placeholder="e.g. hello@yourbrand.com"
+                      style={{ ...inputStyle, ...(focused === 'email' ? focusStyle : {}) }}
+                      onFocus={() => setFocused('email')}
+                      onBlur={() => setFocused('')}
+                    />
+                  </div>
+                </div>
+
+                {/* Company */}
+                <div>
+                  <label style={labelStyle}>Company / Brand Name</label>
+                  <input
+                    type="text" name="company" value={form.company} onChange={handleChange}
+                    placeholder="e.g. Your Company Pvt. Ltd."
+                    style={{ ...inputStyle, ...(focused === 'company' ? focusStyle : {}) }}
+                    onFocus={() => setFocused('company')}
+                    onBlur={() => setFocused('')}
+                  />
+                </div>
+
+                {/* Service + Budget */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }} className="form-row-2">
+                  <div>
+                    <label style={labelStyle}>Service Required</label>
+                    <div style={{ position: 'relative' }}>
+                      <select
+                        name="service" value={form.service} onChange={handleChange}
+                        style={{
+                          ...inputStyle,
+                          appearance: 'none',
+                          cursor: 'pointer',
+                          color: form.service ? '#18130D' : '#B0A89C',
+                          ...(focused === 'service' ? focusStyle : {}),
+                        }}
+                        onFocus={() => setFocused('service')}
+                        onBlur={() => setFocused('')}
+                      >
+                        <option value="" disabled>Select a service</option>
+                        {services.map(s => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                      <svg style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-muted)' }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Budget Range</label>
+                    <div style={{ position: 'relative' }}>
+                      <select
+                        name="budget" value={form.budget} onChange={handleChange}
+                        style={{
+                          ...inputStyle,
+                          appearance: 'none',
+                          cursor: 'pointer',
+                          color: form.budget ? '#18130D' : '#B0A89C',
+                          ...(focused === 'budget' ? focusStyle : {}),
+                        }}
+                        onFocus={() => setFocused('budget')}
+                        onBlur={() => setFocused('')}
+                      >
+                        <option value="" disabled>Select budget range</option>
+                        {budgets.map(b => <option key={b} value={b}>{b}</option>)}
+                      </select>
+                      <svg style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-muted)' }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label style={labelStyle}>Project Details *</label>
+                  <textarea
+                    name="message" required value={form.message} onChange={handleChange} rows={5}
+                    placeholder="Describe your project goals, timeline, and anything that helps us understand your vision..."
+                    style={{
+                      ...inputStyle,
+                      resize: 'none',
+                      ...(focused === 'message' ? focusStyle : {}),
+                    }}
+                    onFocus={() => setFocused('message')}
+                    onBlur={() => setFocused('')}
+                  />
+                </div>
+
+                <button type="submit" disabled={loading} className="btn-primary" style={{ padding: '14px', fontSize: '15px', marginTop: '4px', opacity: loading ? 0.75 : 1 }}>
+                  {loading ? (
+                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <svg style={{ animation: 'spin 0.9s linear infinite' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : 'Send Message →'}
+                </button>
+              </form>
+            )}
           </div>
-        </div>
-      </section>
-
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Create</span>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '14px' }}>
-            Ready to create your{' '}
-            <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>own AI campaign?</em>
-          </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px', lineHeight: 1.7 }}>
-            Join 40+ brands already using Trika Studio's AI production pipeline.
-          </p>
-          <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>
-            Start Your Project →
-          </button>
         </div>
       </section>
 
       <style>{`
-        .sg-desktop-layout { display: block; }
-        .sg-mobile-layout  { display: none;  }
-        @media (max-width: 1100px) {
-          .sg-desktop-layout { display: none  !important; }
-          .sg-mobile-layout  { display: block !important; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 900px) {
+          .contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 540px) {
+          .form-row-2 { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

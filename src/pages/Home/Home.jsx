@@ -133,9 +133,10 @@ function ShortsPortfolioCard({ item, onClick, style = {} }) {
   const [thumbFailed, setThumbFailed] = useState(false);
   const [hovered, setHovered]         = useState(false);
 
+  // Prioritize mqdefault for better performance
   const thumbSteps = [
-    `https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`,
+    `https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`,
     `https://i.ytimg.com/vi/${item.videoId}/sddefault.jpg`,
   ];
 
@@ -165,6 +166,7 @@ function ShortsPortfolioCard({ item, onClick, style = {} }) {
           src={thumbSteps[thumbIdx]}
           alt={item.label}
           loading="lazy"
+          decoding="async"
           style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
           onError={() => {
             if (thumbIdx < thumbSteps.length - 1) setThumbIdx(i => i + 1);
@@ -248,7 +250,7 @@ function ImagePortfolioCard({ item, onClick, style = {} }) {
         borderRadius: '14px',
         overflow: 'hidden',
         cursor: 'pointer',
-        height: '100%',
+        height: item.cat === 'meta ads' ? 'auto' : '100%',
         minHeight: '180px',
         boxShadow: hovered ? '0 20px 48px rgba(24,19,13,0.18)' : '0 3px 14px rgba(24,19,13,0.09)',
         transform: hovered ? 'translateY(-5px) scale(1.01)' : 'translateY(0) scale(1)',
@@ -260,7 +262,13 @@ function ImagePortfolioCard({ item, onClick, style = {} }) {
         src={item.src}
         alt={item.label}
         loading="lazy"
-        style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
+        decoding="async"
+        style={{ 
+          width: '100%', 
+          height: item.cat === 'meta ads' ? 'auto' : '100%', 
+          display: 'block', 
+          objectFit: 'cover'
+        }}
       />
       <div className="portfolio-overlay" />
       <div className="portfolio-label" style={{
@@ -354,10 +362,25 @@ function BentoGrid({ items, onItemClick }) {
 /* ─── FIX: Filtered grid — uniform CSS grid with aspect-ratio cells, no column-count ─── */
 function MasonryGrid({ items, onItemClick }) {
   return (
-    <div
-      style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
-      className="portfolio-filter-grid"
-    >
+    <>
+      <style>{`
+        .portfolio-filter-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+        @media (max-width: 900px) {
+          .portfolio-filter-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 600px) {
+          .portfolio-filter-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+      <div className="portfolio-filter-grid">
       {items.map((item, i) =>
         item.type === 'shorts' ? (
           <div key={i} style={{ aspectRatio: '3/4' }}>
@@ -378,6 +401,7 @@ function MasonryGrid({ items, onItemClick }) {
         )
       )}
     </div>
+    </>
   );
 }
 
