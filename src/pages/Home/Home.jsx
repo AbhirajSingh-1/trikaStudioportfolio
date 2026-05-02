@@ -55,7 +55,7 @@ const portfolioItems = [
     redirectTo: '/visulization',
   },
   {
-    src: '/smm-2.webp',
+    src: '/sm.png',
     label: 'Social Media Campaign',
     cat: 'Social Media',
     redirectTo: '/digital-marketing',
@@ -67,9 +67,9 @@ const portfolioItems = [
     redirectTo: '/digital-marketing',
   },
   {
-    src: '/smm-4.webp',
+    src: '/metaAds.png',
     label: 'Brand Identity Design',
-    cat: 'Branding',
+    cat: 'meta ads',
     redirectTo: '/digital-marketing',
   },
 ];
@@ -92,14 +92,14 @@ const filterRoutes = {
   'Social Media':     '/digital-marketing',
   'AI Advertising':   '/ai-advertising',
   '3D Visualization': '/visulization',
-  'Branding':         '/digital-marketing',
+  'meta ads':         '/digital-marketing',
 };
 
 const catColors = {
   'Social Media':     { bg: '#FEF3E2', text: '#A85B18' },
   'AI Advertising':   { bg: '#FDE8E3', text: '#C9481B' },
   '3D Visualization': { bg: '#EAF3E8', text: '#3A6B35' },
-  'Branding':         { bg: '#E6EFF8', text: '#2A5785' },
+  'meta ads':         { bg: '#E6EFF8', text: '#2A5785' },
 };
 
 /* 14 brand logo image files from /public — jpg format */
@@ -387,7 +387,7 @@ export default function Home() {
   const servicesRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const filters = ['All', 'AI Advertising', '3D Visualization', 'Social Media', 'Branding'];
+  const filters = ['All', 'AI Advertising', '3D Visualization', 'Social Media', 'meta ads'];
 
   const filtered = activeFilter === 'All'
     ? portfolioItems

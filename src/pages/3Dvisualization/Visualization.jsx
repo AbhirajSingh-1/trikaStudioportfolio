@@ -9,7 +9,7 @@ const galleryImages = [
   { src: '/02.webp',                                    alt: 'Social media post design variant 2',    label: 'Social media post design (variant 2)' },
   { src: '/01.webp',                                    alt: 'Social media post design variant 3',    label: 'Social media post design (variant 3)' },
   { src: '/07.webp',                                    alt: 'Promotional creative layout',           label: 'Promotional creative layout' },
-  { src: '/1.webp',                                     alt: 'Branding visual concept',               label: 'Branding visual concept' },
+  { src: '/1.webp',                                     alt: 'meta ads visual concept',               label: 'meta ads visual concept' },
   { src: '/08.webp',                                    alt: 'Marketing campaign post',               label: 'Marketing campaign post' },
   { src: '/04.webp',                                    alt: 'Creative advertisement design',         label: 'Creative advertisement design' },
   { src: '/06.webp',                                    alt: 'Social media banner layout',            label: 'Social media banner layout' },
@@ -20,7 +20,7 @@ const galleryImages = [
   { src: '/Image_6.webp',                               alt: 'Social media creative product focus',   label: 'Social media creative (product focus)' },
   { src: '/D5_Scene 1 1_20240130_125857.webp',          alt: 'Interior render scene 1',               label: 'Interior render (scene 1)' },
   { src: '/Image_13 (1).webp',                          alt: 'Marketing post variation',              label: 'Marketing post variation' },
-  { src: '/Image(1).webp',                              alt: 'Branding creative layout',              label: 'Branding creative layout' },
+  { src: '/Image(1).webp',                              alt: 'meta ads creative layout',              label: 'meta ads creative layout' },
   { src: '/Image.webp',                                 alt: 'General social media design',           label: 'General social media design' },
   { src: '/Image_5.webp',                               alt: 'Advertisement visual campaign',         label: 'Advertisement visual (campaign)' },
   { src: '/Image_9 (1).webp',                           alt: 'Promotional design variation',          label: 'Promotional design variation' },
@@ -29,7 +29,7 @@ const galleryImages = [
   { src: '/Image_9 (2).webp',                           alt: 'Promotional creative alternate',        label: 'Promotional creative (alternate)' },
   { src: '/Image_9.webp',                               alt: 'Marketing design main version',         label: 'Marketing design (main version)' },
   { src: '/Image_3(1).webp',                            alt: 'Social media post variant',             label: 'Social media post (variant)' },
-  { src: '/Image_13.webp',                              alt: 'Branding design main version',          label: 'Branding design (main version)' },
+  { src: '/Image_13.webp',                              alt: 'meta ads design main version',          label: 'meta ads design (main version)' },
   { src: '/Image_2(1).webp',                            alt: 'Creative layout product highlight',     label: 'Creative layout (product highlight)' },
   { src: '/Scene 2_1.webp',                             alt: '3D interior visualization scene 2',     label: '3D interior visualization (scene 2)' },
 ];
@@ -73,7 +73,7 @@ const services3D = [
   { icon: '🏗️', title: 'Architectural Rendering', desc: 'Pre-construction 3D renders and animations for residential and commercial projects.' },
   { icon: '🚗', title: 'Automotive 3D', desc: 'High-fidelity vehicle renders with accurate materials, lighting, and environments.' },
   { icon: '🏠', title: 'Interior Design', desc: 'Immersive interior 3D visualizations that sell spaces before a single brick is laid.' },
-  { icon: '📦', title: 'Packaging & Branding', desc: 'Lifelike 3D packaging renders for e-commerce, retail, and marketing materials.' },
+  { icon: '📦', title: 'Packaging & meta ads', desc: 'Lifelike 3D packaging renders for e-commerce, retail, and marketing materials.' },
   { icon: '⚙️', title: 'Technical Animation', desc: 'Exploded views and mechanism animations for products, machinery, and engineering.' },
 ];
 
