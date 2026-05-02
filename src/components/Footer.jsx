@@ -11,16 +11,16 @@ const navPages = [
 ];
 
 const contactInfo = [
-  { icon: '✉', text: 'hello@trikastudio.in' },
-  { icon: '📞', text: '+91 98765 43210' },
-  { icon: '📍', text: 'Sector 44, Gurugram, Haryana' },
+  { icon: '✉', text: 'helloTrikastudio@gmail.com' },
+  { icon: '📞', text: '+91 8707775873' },
+  { icon: '📍', text: 'AVL 36, Sector 36, Gurugram, Haryana' },
   { icon: '🕐', text: 'Mon–Fri · 10am – 7pm IST' },
 ];
 
 const socials = [
   {
     label: 'Instagram',
-    href: 'https://instagram.com',
+    href: 'https://www.instagram.com/trikastudio1?igsh=NnQzeHJseGM5ZXYz',
     icon: (
       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -41,7 +41,7 @@ const socials = [
   },
   {
     label: 'YouTube',
-    href: 'https://youtube.com',
+    href: 'https://www.youtube.com/channel/UCSDYg2d1qGC4sPfiSfsGIuw',
     icon: (
       <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />

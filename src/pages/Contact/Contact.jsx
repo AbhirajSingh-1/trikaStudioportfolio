@@ -4,7 +4,7 @@ const socials = [
   {
     name: 'Instagram',
     handle: '@trikastudio',
-    href: 'https://instagram.com',
+    href: 'https://www.instagram.com/trikastudio1?igsh=NnQzeHJseGM5ZXYz',
     color: '#E1306C',
     icon: (
       <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.75">
@@ -29,7 +29,7 @@ const socials = [
   {
     name: 'YouTube',
     handle: 'Trika Studio Official',
-    href: 'https://youtube.com',
+    href: 'https://www.youtube.com/channel/UCSDYg2d1qGC4sPfiSfsGIuw',
     color: '#FF0000',
     icon: (
       <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@ const contactInfo = [
       </svg>
     ),
     label: 'Email',
-    value: 'hello@trikastudio.in',
+    value: 'helloTrikastudio@gmail.com',
     sub: 'We reply within 24 hours',
   },
   {
@@ -70,7 +70,7 @@ const contactInfo = [
       </svg>
     ),
     label: 'Phone',
-    value: '+91 98765 43210',
+    value: '+91 8707775873',
     sub: 'Mon–Fri · 10am–7pm IST',
   },
   {
@@ -81,8 +81,8 @@ const contactInfo = [
       </svg>
     ),
     label: 'Location',
-    value: 'Sector 44, Gurugram',
-    sub: 'Haryana, India — 122003',
+    value: 'AVL 36, Sector 36, Gurugram',
+    sub: 'Haryana, India',
   },
 ];
 

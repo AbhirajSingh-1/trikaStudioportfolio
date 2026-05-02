@@ -4,30 +4,30 @@ const team = [
   {
     name: 'Siddhartha Raj',
     role: 'Founder & CEO',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    avatar: '/siddhartha.png',
     initials: 'SR',
     color: '#C9481B',
     bio: 'A visionary entrepreneur with over a decade of experience at the intersection of technology, creativity, and business strategy. Founded Trika Studio to democratize AI-powered creative capabilities for brands of every scale.',
     expertise: ['Business Strategy', 'AI Product Vision', 'Brand Architecture', 'Investor Relations'],
   },
   {
-    name: 'Tanvi Priya',
-    role: 'AI Specialist & Social Video Manager',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    initials: 'T',
-    color: '#8B5CF6',
-    bio: "An innovative blend of creativity and technology, she drives Trika’s AI vision and social video strategy. From building intelligent AI pipelines to crafting visually compelling content, she transforms complex tech into engaging digital experiences that captivate audiences and elevate brand storytelling.",
-    expertise: ['Generative AI', 'AI Video Production', 'Creative Direction', 'AI Avatar Design'],
-  },
-  {
-    name: 'Sagar Randi',
+    name: 'Sagar Anand',
     role: 'Head of Performance Marketing',
-    avatar: 'https://randomuser.me/api/portraits/men/67.jpg',
+    avatar: '/sagar.webp',
     initials: 'SA',
     color: '#10B981',
-    bio: 'Specializes in data-driven marketing strategies, performance campaigns, and scaling brands through precision paid media. Sagar has managed over ₹15Cr in ad spend across India.',
+    bio: 'Specializes in data-driven marketing strategies, performance campaigns, and scaling brands through precision paid media. Sagar has managed over ₹1Cr in ad spend across India.',
     expertise: ['Performance Marketing', 'Paid Ads', 'Growth Strategy', 'Analytics'],
   },
+  {
+    name: 'Tanvi Priya',
+    role: 'AI Specialist & Social Video Manager',
+    avatar: '/tanvi.jpeg',
+    initials: 'T',
+    color: '#8B5CF6',
+    bio: "An innovative blend of creativity and technology, she drives Trika's AI vision and social video strategy. From building intelligent AI pipelines to crafting visually compelling content, she transforms complex tech into engaging digital experiences that captivate audiences and elevate brand storytelling.",
+    expertise: ['Generative AI', 'AI Video Production', 'Creative Direction', 'AI Avatar Design'],
+  }
 ];
 
 const values = [
@@ -71,7 +71,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── STATS BAR — cream background matching Visualization page ── */}
+      {/* ── STATS BAR ── */}
       <section style={{ background: 'var(--bg-alt)', padding: '36px 24px', borderTop: '3px solid var(--orange)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', textAlign: 'center' }} className="about-stats-grid">
           {stats.map(({ value, label }) => (
@@ -164,8 +164,6 @@ export default function About() {
         </div>
       </section>
 
-       
-
       {/* ── TEAM ── */}
       <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
@@ -191,22 +189,78 @@ export default function About() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${color}18`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <div style={{ position: 'relative', height: '200px', background: `linear-gradient(135deg, ${color}15, ${color}05)`, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Avatar area */}
+                <div style={{
+                  position: 'relative',
+                  height: '220px',
+                  background: `linear-gradient(135deg, ${color}15, ${color}05)`,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {/* Decorative circles */}
                   <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', background: `${color}08`, top: '-20px', right: '-20px' }} />
                   <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', background: `${color}06`, bottom: '-10px', left: '-10px' }} />
-                  <img src={avatar} alt={name} style={{ width: '110px', height: '110px', borderRadius: '50%', objectFit: 'cover', border: `3px solid ${color}40`, boxShadow: `0 8px 28px ${color}20`, position: 'relative', zIndex: 1 }}
-                    onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
-                  <div style={{ display: 'none', width: '110px', height: '110px', borderRadius: '50%', background: `linear-gradient(135deg, ${color}40, ${color}20)`, border: `3px solid ${color}40`, alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '2rem', color: color, position: 'relative', zIndex: 1 }}>
+
+                  <img
+                    src={avatar}
+                    alt={name}
+                    style={{
+                      width: '130px',
+                      height: '130px',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      objectPosition: 'center top',
+                      border: `3px solid ${color}40`,
+                      boxShadow: `0 8px 28px ${color}20`,
+                      position: 'relative',
+                      zIndex: 1,
+                      display: 'block',
+                    }}
+                    onError={e => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  {/* Initials fallback */}
+                  <div style={{
+                    display: 'none',
+                    width: '130px',
+                    height: '130px',
+                    borderRadius: '50%',
+                    background: `linear-gradient(135deg, ${color}40, ${color}20)`,
+                    border: `3px solid ${color}40`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: "'Cormorant Garant', serif",
+                    fontWeight: 700,
+                    fontSize: '2.2rem',
+                    color: color,
+                    position: 'relative',
+                    zIndex: 1,
+                  }}>
                     {initials}
                   </div>
                 </div>
+
+                {/* Content */}
                 <div style={{ padding: '22px 22px 24px' }}>
                   <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.25rem', color: 'var(--text)', marginBottom: '3px' }}>{name}</h3>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, color: color, marginBottom: '14px', letterSpacing: '0.02em' }}>{role}</p>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '16px' }}>{bio}</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {expertise.map(tag => (
-                      <span key={tag} style={{ fontSize: '10.5px', padding: '3px 10px', borderRadius: '99px', background: `${color}10`, color: color, border: `1px solid ${color}25`, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>{tag}</span>
+                      <span key={tag} style={{
+                        fontSize: '10.5px',
+                        padding: '3px 10px',
+                        borderRadius: '99px',
+                        background: `${color}10`,
+                        color: color,
+                        border: `1px solid ${color}25`,
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontWeight: 500,
+                      }}>{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -216,7 +270,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── CTA — cream background matching Visualization page ── */}
+      {/* ── CTA ── */}
       <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '560px', margin: '0 auto' }}>
           <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Connect</span>

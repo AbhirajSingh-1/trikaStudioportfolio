@@ -26,7 +26,34 @@ const services = [
   },
 ];
 
+/* AI Advertising + 3D Visualization FIRST, Social Media LAST */
 const portfolioItems = [
+  {
+    type: 'shorts',
+    videoId: 'Rj4eYEHXfVU',
+    label: 'AI Brand Campaign – Cinematic Spot',
+    cat: 'AI Advertising',
+    redirectTo: '/ai-advertising',
+  },
+  {
+    src: '/Scene 2_1.webp',
+    label: '3D Interior Visualization',
+    cat: '3D Visualization',
+    redirectTo: '/visulization',
+  },
+  {
+    type: 'shorts',
+    videoId: 'aXY_ykf-dWE',
+    label: 'Generative AI Ad – E-Commerce Brand',
+    cat: 'AI Advertising',
+    redirectTo: '/ai-advertising',
+  },
+  {
+    src: '/D5_Scene 1 1_20240130_125857.webp',
+    label: 'Architectural Interior Render',
+    cat: '3D Visualization',
+    redirectTo: '/visulization',
+  },
   {
     src: '/smm-2.webp',
     label: 'Social Media Campaign',
@@ -40,32 +67,6 @@ const portfolioItems = [
     redirectTo: '/digital-marketing',
   },
   {
-    type: 'shorts',
-    videoId: 'Rj4eYEHXfVU',
-    label: 'AI Brand Campaign – Cinematic Spot',
-    cat: 'AI Advertising',
-    redirectTo: '/ai-advertising',
-  },
-  {
-    type: 'shorts',
-    videoId: 'aXY_ykf-dWE',
-    label: 'Generative AI Ad – E-Commerce Brand',
-    cat: 'AI Advertising',
-    redirectTo: '/ai-advertising',
-  },
-  {
-    src: '/Scene 2_1.webp',
-    label: '3D Interior Visualization',
-    cat: '3D Visualization',
-    redirectTo: '/visulization',
-  },
-  {
-    src: '/D5_Scene 1 1_20240130_125857.webp',
-    label: 'Architectural Interior Render',
-    cat: '3D Visualization',
-    redirectTo: '/visulization',
-  },
-  {
     src: '/smm-4.webp',
     label: 'Brand Identity Design',
     cat: 'Branding',
@@ -73,32 +74,64 @@ const portfolioItems = [
   },
 ];
 
+/*
+  Bento grid layout for "All" filter (7 items, 4-column grid):
+  Row 1: [AI Ad 1 – 2×2] | [3D Viz 1 – 2×1]
+  Row 2:                  | [AI Ad 2 – 1×1] | [3D Viz 2 – 1×1]
+  Row 3: [SMM 1 – 1×1] | [SMM 2 – 2×1] | [Branding – 1×1]
+*/
+const bentoCells = [
+  { col: '1 / 3', row: '1 / 3' }, // AI Ad 1 – large hero
+  { col: '3 / 5', row: '1 / 2' }, // 3D Viz 1 – wide
+  { col: '3 / 4', row: '2 / 3' }, // AI Ad 2
+  { col: '4 / 5', row: '2 / 3' }, // 3D Viz 2
+  { col: '1 / 2', row: '3 / 4' }, // SMM 1
+  { col: '2 / 4', row: '3 / 4' }, // SMM 2 – wide
+  { col: '4 / 5', row: '3 / 4' }, // Branding
+];
+
 /* Maps each filter to its destination page */
 const filterRoutes = {
-  'Social Media':    '/digital-marketing',
-  'AI Advertising':  '/ai-advertising',
-  '3D Visualization':'/visulization',
-  'Branding':        '/digital-marketing',
+  'Social Media':     '/digital-marketing',
+  'AI Advertising':   '/ai-advertising',
+  '3D Visualization': '/visulization',
+  'Branding':         '/digital-marketing',
 };
 
 const catColors = {
-  'Social Media':    { bg: '#FEF3E2', text: '#A85B18' },
-  'AI Advertising':  { bg: '#FDE8E3', text: '#C9481B' },
-  '3D Visualization':{ bg: '#EAF3E8', text: '#3A6B35' },
-  'Branding':        { bg: '#E6EFF8', text: '#2A5785' },
+  'Social Media':     { bg: '#FEF3E2', text: '#A85B18' },
+  'AI Advertising':   { bg: '#FDE8E3', text: '#C9481B' },
+  '3D Visualization': { bg: '#EAF3E8', text: '#3A6B35' },
+  'Branding':         { bg: '#E6EFF8', text: '#2A5785' },
 };
 
-const brandLogos = Array.from({ length: 14 }, (_, i) => `/brandlogo${i + 1}.png`);
-
-const whyPoints = [
-  { icon: '⚡', title: 'AI-First Pipeline',       desc: 'Every workflow supercharged with the latest generative AI models.' },
-  { icon: '🎯', title: 'Results-Obsessed',         desc: 'Beautiful work that also converts — data-backed creative decisions.' },
-  { icon: '🤝', title: 'True Partnership',          desc: 'We integrate deeply with your team as a strategic extension.' },
-  { icon: '🌟', title: 'Uncompromising Quality',   desc: 'We only ship work we are proud to put our name on.' },
+/* 14 brand logo image files from /public — jpg format */
+const brandLogos = [
+  '/brandlogo1.jpg',
+  '/brandlogo2.jpg',
+  '/brandlogo3.jpg',
+  '/brandlogo4.jpg',
+  '/brandlogo5.jpg',
+  '/brandlogo6.jpg',
+  '/brandlogo7.jpg',
+  '/brandlogo8.jpg',
+  '/brandlogo9.jpg',
+  '/brandlogo10.jpg',
+  '/brandlogo11.jpg',
+  '/brandlogo12.jpg',
+  '/brandlogo13.jpg',
+  '/brandlogo14.jpg',
 ];
 
-/* ─── YouTube Shorts thumbnail card (for portfolio grid) ─── */
-function ShortsPortfolioCard({ item, onClick }) {
+const whyPoints = [
+  { icon: '⚡', title: 'AI-First Pipeline',     desc: 'Every workflow supercharged with the latest generative AI models.' },
+  { icon: '🎯', title: 'Results-Obsessed',       desc: 'Beautiful work that also converts — data-backed creative decisions.' },
+  { icon: '🤝', title: 'True Partnership',        desc: 'We integrate deeply with your team as a strategic extension.' },
+  { icon: '🌟', title: 'Uncompromising Quality', desc: 'We only ship work we are proud to put our name on.' },
+];
+
+/* ─── YouTube Shorts thumbnail card (portfolio grid) ─── */
+function ShortsPortfolioCard({ item, onClick, style = {} }) {
   const [thumbIdx, setThumbIdx]       = useState(0);
   const [thumbFailed, setThumbFailed] = useState(false);
   const [hovered, setHovered]         = useState(false);
@@ -117,17 +150,16 @@ function ShortsPortfolioCard({ item, onClick }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative',
-        borderRadius: '12px',
+        borderRadius: '14px',
         overflow: 'hidden',
-        marginBottom: '14px',
-        breakInside: 'avoid',
         cursor: 'pointer',
-        boxShadow: hovered
-          ? '0 16px 40px rgba(24,19,13,0.14)'
-          : '0 2px 12px rgba(24,19,13,0.08)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+        height: '100%',
+        minHeight: '180px',
+        boxShadow: hovered ? '0 20px 48px rgba(24,19,13,0.18)' : '0 3px 14px rgba(24,19,13,0.09)',
+        transform: hovered ? 'translateY(-5px) scale(1.01)' : 'translateY(0) scale(1)',
+        transition: 'box-shadow 0.32s ease, transform 0.32s ease',
         background: '#F0EAE4',
+        ...style,
       }}
     >
       {!thumbFailed ? (
@@ -136,7 +168,7 @@ function ShortsPortfolioCard({ item, onClick }) {
           src={thumbSteps[thumbIdx]}
           alt={item.label}
           loading="lazy"
-          style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: '4/3' }}
+          style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
           onError={() => {
             if (thumbIdx < thumbSteps.length - 1) setThumbIdx(i => i + 1);
             else setThumbFailed(true);
@@ -144,7 +176,7 @@ function ShortsPortfolioCard({ item, onClick }) {
         />
       ) : (
         <div style={{
-          width: '100%', aspectRatio: '4/3',
+          width: '100%', height: '100%',
           background: 'linear-gradient(135deg, #F7F0E6, #EDE0CC)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
@@ -152,13 +184,13 @@ function ShortsPortfolioCard({ item, onClick }) {
         </div>
       )}
 
-      {/* YT Shorts badge */}
-      <div style={{ position: 'absolute', top: '8px', left: '8px', zIndex: 3 }}>
+      {/* SHORTS badge */}
+      <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 3 }}>
         <span style={{
           background: '#FF0000', color: '#fff',
           fontSize: '8px', fontWeight: 800,
           fontFamily: "'DM Sans', sans-serif",
-          padding: '2px 7px', borderRadius: '3px', letterSpacing: '0.06em',
+          padding: '3px 8px', borderRadius: '4px', letterSpacing: '0.07em',
         }}>▶ SHORTS</span>
       </div>
 
@@ -169,49 +201,42 @@ function ShortsPortfolioCard({ item, onClick }) {
         pointerEvents: 'none',
       }}>
         <div style={{
-          width: '44px', height: '44px', borderRadius: '50%',
-          background: 'rgba(255,255,255,0.92)',
+          width: '48px', height: '48px', borderRadius: '50%',
+          background: 'rgba(255,255,255,0.93)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-          transform: hovered ? 'scale(1.12)' : 'scale(1)',
-          transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+          boxShadow: '0 4px 18px rgba(0,0,0,0.22)',
+          transform: hovered ? 'scale(1.14)' : 'scale(1)',
+          transition: 'transform 0.32s cubic-bezier(0.34,1.56,0.64,1)',
         }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C9481B"><path d="M5 3l14 9-14 9z" /></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#C9481B"><path d="M5 3l14 9-14 9z" /></svg>
         </div>
       </div>
 
       <div className="portfolio-overlay" />
-      <div
-        className="portfolio-label"
-        style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
-          padding: '18px 14px 14px', opacity: 0,
-          transition: 'opacity 0.32s ease', zIndex: 4,
-        }}
-      >
+      <div className="portfolio-label" style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        padding: '20px 14px 14px', opacity: 0,
+        transition: 'opacity 0.32s ease', zIndex: 4,
+      }}>
         <div style={{
-          display: 'inline-block', fontSize: '10px', fontWeight: 500,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
+          display: 'inline-block', fontSize: '9px', fontWeight: 600,
+          letterSpacing: '0.09em', textTransform: 'uppercase',
           padding: '3px 9px', borderRadius: '99px',
           background: catColors['AI Advertising'].bg,
           color: catColors['AI Advertising'].text,
           marginBottom: '5px', fontFamily: "'DM Sans', sans-serif",
-        }}>
-          AI Advertising
-        </div>
+        }}>AI Advertising</div>
         <div style={{
           fontFamily: "'Cormorant Garant', serif", fontWeight: 600,
           fontSize: '0.95rem', color: '#fff', lineHeight: 1.3,
-        }}>
-          {item.label}
-        </div>
+        }}>{item.label}</div>
       </div>
     </div>
   );
 }
 
 /* ─── Regular image portfolio card ─── */
-function ImagePortfolioCard({ item, onClick }) {
+function ImagePortfolioCard({ item, onClick, style = {} }) {
   const [hovered, setHovered] = useState(false);
   const col = catColors[item.cat] || { bg: '#fff', text: '#333' };
 
@@ -223,49 +248,125 @@ function ImagePortfolioCard({ item, onClick }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative',
-        borderRadius: '12px',
+        borderRadius: '14px',
         overflow: 'hidden',
-        marginBottom: '14px',
-        breakInside: 'avoid',
         cursor: 'pointer',
-        boxShadow: hovered
-          ? '0 16px 40px rgba(24,19,13,0.14)'
-          : '0 2px 12px rgba(24,19,13,0.08)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+        height: '100%',
+        minHeight: '180px',
+        boxShadow: hovered ? '0 20px 48px rgba(24,19,13,0.18)' : '0 3px 14px rgba(24,19,13,0.09)',
+        transform: hovered ? 'translateY(-5px) scale(1.01)' : 'translateY(0) scale(1)',
+        transition: 'box-shadow 0.32s ease, transform 0.32s ease',
+        ...style,
       }}
     >
       <img
         src={item.src}
         alt={item.label}
         loading="lazy"
-        style={{ width: '100%', display: 'block', objectFit: 'cover', height: 'auto' }}
+        style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
       />
       <div className="portfolio-overlay" />
-      <div
-        className="portfolio-label"
-        style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
-          padding: '18px 14px 14px', opacity: 0,
-          transition: 'opacity 0.32s ease', zIndex: 2,
-        }}
-      >
+      <div className="portfolio-label" style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        padding: '20px 14px 14px', opacity: 0,
+        transition: 'opacity 0.32s ease', zIndex: 2,
+      }}>
         <div style={{
-          display: 'inline-block', fontSize: '10px', fontWeight: 500,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
+          display: 'inline-block', fontSize: '9px', fontWeight: 600,
+          letterSpacing: '0.09em', textTransform: 'uppercase',
           padding: '3px 9px', borderRadius: '99px',
           background: col.bg, color: col.text,
           marginBottom: '5px', fontFamily: "'DM Sans', sans-serif",
-        }}>
-          {item.cat}
-        </div>
+        }}>{item.cat}</div>
         <div style={{
           fontFamily: "'Cormorant Garant', serif", fontWeight: 600,
           fontSize: '0.95rem', color: '#fff', lineHeight: 1.3,
-        }}>
-          {item.label}
-        </div>
+        }}>{item.label}</div>
       </div>
+    </div>
+  );
+}
+
+/* ─── Bento collage grid (All filter) ─── */
+function BentoGrid({ items, onItemClick }) {
+  return (
+    <>
+      {/* Desktop bento (≥ 768px) */}
+      <div className="bento-collage-desktop" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateRows: 'repeat(3, 240px)',
+        gap: '12px',
+      }}>
+        {items.map((item, i) => {
+          const cell = bentoCells[i] || {};
+          const cardStyle = { gridColumn: cell.col, gridRow: cell.row };
+          return item.type === 'shorts' ? (
+            <ShortsPortfolioCard
+              key={`bento-${i}`}
+              item={item}
+              style={cardStyle}
+              onClick={() => onItemClick(item)}
+            />
+          ) : (
+            <ImagePortfolioCard
+              key={`bento-${i}`}
+              item={item}
+              style={cardStyle}
+              onClick={() => onItemClick(item)}
+            />
+          );
+        })}
+      </div>
+
+      {/* Tablet bento (480-767px): 2 columns */}
+      <div className="bento-collage-tablet" style={{
+        display: 'none',
+        gridTemplateColumns: '1fr 1fr',
+        gridAutoRows: '220px',
+        gap: '10px',
+      }}>
+        {items.map((item, i) =>
+          item.type === 'shorts' ? (
+            <ShortsPortfolioCard key={`t-${i}`} item={item} onClick={() => onItemClick(item)} />
+          ) : (
+            <ImagePortfolioCard key={`t-${i}`} item={item} onClick={() => onItemClick(item)} />
+          )
+        )}
+      </div>
+
+      {/* Mobile (< 480px): single column */}
+      <div className="bento-collage-mobile" style={{
+        display: 'none',
+        gridTemplateColumns: '1fr',
+        gridAutoRows: '220px',
+        gap: '10px',
+      }}>
+        {items.map((item, i) =>
+          item.type === 'shorts' ? (
+            <ShortsPortfolioCard key={`m-${i}`} item={item} onClick={() => onItemClick(item)} />
+          ) : (
+            <ImagePortfolioCard key={`m-${i}`} item={item} onClick={() => onItemClick(item)} />
+          )
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ─── Filtered masonry grid ─── */
+function MasonryGrid({ items, onItemClick }) {
+  return (
+    <div style={{ columns: 'auto', columnCount: 3, columnGap: '12px' }} className="portfolio-masonry">
+      {items.map((item, i) => (
+        <div key={i} style={{ breakInside: 'avoid', marginBottom: '12px' }}>
+          {item.type === 'shorts' ? (
+            <ShortsPortfolioCard item={item} onClick={() => onItemClick(item)} style={{ height: 'auto', minHeight: '200px' }} />
+          ) : (
+            <ImagePortfolioCard item={item} onClick={() => onItemClick(item)} style={{ height: 'auto', minHeight: '180px' }} />
+          )}
+        </div>
+      ))}
     </div>
   );
 }
@@ -276,7 +377,7 @@ export default function Home() {
   const servicesRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const filters = ['All', 'Social Media', 'AI Advertising', '3D Visualization', 'Branding'];
+  const filters = ['All', 'AI Advertising', '3D Visualization', 'Social Media', 'Branding'];
 
   const filtered = activeFilter === 'All'
     ? portfolioItems
@@ -299,23 +400,20 @@ export default function Home() {
     <div className="container-safe" style={{ background: 'var(--bg)' }}>
 
       {/* ═══════════ HERO ═══════════ */}
-      <section
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          /* reduced top padding — fixes the blank-space-at-top issue */
-          paddingTop:    'clamp(20px, 4vw, 40px)',
-          paddingBottom: 'clamp(36px, 5vw, 60px)',
-          paddingLeft:   '24px',
-          paddingRight:  '24px',
-          marginTop:     '68px', /* exact header height */
-          textAlign:     'center',
-          position:      'relative',
-          overflow:      'hidden',
-        }}
-      >
+      <section style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingTop:    'clamp(20px, 4vw, 40px)',
+        paddingBottom: 'clamp(28px, 4vw, 48px)',
+        paddingLeft:   '24px',
+        paddingRight:  '24px',
+        marginTop:     '68px',
+        textAlign:     'center',
+        position:      'relative',
+        overflow:      'hidden',
+      }}>
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage:
@@ -326,18 +424,17 @@ export default function Home() {
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '0 auto' }}>
 
-          {/* Headline */}
           <h1
             className="animate-slide-up"
             style={{
-              fontFamily:      "'Cormorant Garant', serif",
-              fontWeight:      700,
-              fontSize:        'clamp(2rem, 5.5vw, 4.2rem)',
-              lineHeight:      1.08,
-              letterSpacing:   '-0.02em',
-              color:           'var(--text)',
-              marginBottom:    '20px',
-              animationDelay:  '0.1s',
+              fontFamily:       "'Cormorant Garant', serif",
+              fontWeight:       700,
+              fontSize:         'clamp(2rem, 5.5vw, 4.2rem)',
+              lineHeight:       1.08,
+              letterSpacing:    '-0.02em',
+              color:            'var(--text)',
+              marginBottom:     '20px',
+              animationDelay:   '0.1s',
               animationFillMode:'both',
             }}
           >
@@ -346,7 +443,6 @@ export default function Home() {
             {' '}Digital Experiences
           </h1>
 
-          {/* Sub copy */}
           <p
             className="animate-slide-up"
             style={{
@@ -365,7 +461,6 @@ export default function Home() {
             <strong style={{ color: 'var(--text)', fontWeight: 500 }}>cutting-edge technology</strong>.
           </p>
 
-          {/* CTAs */}
           <div
             className="animate-slide-up"
             style={{
@@ -377,7 +472,6 @@ export default function Home() {
               animationFillMode:'both',
             }}
           >
-            {/* "View Our Work" now scrolls to services */}
             <button className="btn-primary" onClick={handleViewOurWork}>
               View Our Work →
             </button>
@@ -390,7 +484,7 @@ export default function Home() {
           <div
             className="animate-fade-in"
             style={{
-              marginTop:        '36px',
+              marginTop:        '32px',
               display:          'flex',
               flexWrap:         'wrap',
               gap:              '8px',
@@ -415,15 +509,24 @@ export default function Home() {
               </span>
             ))}
           </div>
-
-          {/* Minimal scroll cue (much smaller than before) */}
-          <div style={{ marginTop: 'clamp(24px, 4vw, 40px)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-light)', fontFamily: "'DM Sans', sans-serif" }}>
-              Scroll
-            </span>
-            <div style={{ width: '1px', height: '24px', background: 'linear-gradient(to bottom, var(--border-dark), transparent)' }} />
-          </div>
+          {/* ── Scroll cue REMOVED — no extra space below chips ── */}
         </div>
+      </section>
+
+      {/* ═══════════ 0303 SHOWCASE IMAGE (moved BEFORE services) ═══════════ */}
+      <section style={{ background: 'var(--bg)', lineHeight: 0, overflow: 'hidden' }}>
+        <img
+          src="/0303.png"
+          alt="Trika Studio – Creative Showcase"
+          style={{
+            width:          '100%',
+            height:         'auto',
+            display:        'block',
+            objectFit:      'cover',
+            maxHeight:      'clamp(200px, 50vw, 640px)',
+            objectPosition: 'center',
+          }}
+        />
       </section>
 
       {/* ═══════════ SERVICES ═══════════ */}
@@ -476,25 +579,101 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════ 0303 SHOWCASE IMAGE ═══════════ */}
-      <section style={{ background: 'var(--bg)', lineHeight: 0, overflow: 'hidden' }}>
-        <img
-          src="/0303.png"
-          alt="Trika Studio – Creative Showcase"
-          style={{
-            width:      '100%',
-            height:     'auto',
-            display:    'block',
-            objectFit:  'cover',
-            maxHeight:  'clamp(200px, 50vw, 640px)',
-            objectPosition: 'center',
-          }}
-        />
+      {/* ═══════════ BRAND LOGO MARQUEE ═══════════ */}
+      <section style={{
+        padding:      '52px 0',
+        background:   'var(--bg)',
+        borderTop:    '1px solid var(--border)',
+        borderBottom: '1px solid var(--border)',
+        overflow:     'hidden',
+      }}>
+        <p style={{
+          textAlign:     'center',
+          fontSize:      '10.5px',
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color:         'var(--text-light)',
+          fontFamily:    "'DM Sans', sans-serif",
+          marginBottom:  '28px',
+          fontWeight:    500,
+        }}>
+          Trusted by forward-thinking brands
+        </p>
+
+        {/* ── Marquee wrapper ── */}
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Left fade */}
+          <div style={{
+            position: 'absolute', left: 0, top: 0, bottom: 0, width: '120px',
+            background: 'linear-gradient(90deg, var(--bg) 0%, transparent 100%)',
+            zIndex: 2, pointerEvents: 'none',
+          }} />
+          {/* Right fade */}
+          <div style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: '120px',
+            background: 'linear-gradient(270deg, var(--bg) 0%, transparent 100%)',
+            zIndex: 2, pointerEvents: 'none',
+          }} />
+
+          {/* Track — duplicate logos for seamless loop */}
+          <div className="marquee-track">
+            {[...brandLogos, ...brandLogos].map((logo, i) => (
+              <div
+                key={i}
+                aria-hidden={i >= brandLogos.length ? 'true' : undefined}
+                style={{
+                  display:        'flex',
+                  alignItems:     'center',
+                  justifyContent: 'center',
+                  flexShrink:     0,
+                  padding:        '10px 18px',
+                  borderRadius:   '14px',
+                  background:     'var(--bg-card)',
+                  border:         '1px solid var(--border)',
+                  transition:     'all 0.25s ease',
+                  cursor:         'default',
+                  minWidth:       '110px',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--orange)';
+                  e.currentTarget.style.boxShadow   = '0 6px 20px rgba(201,72,27,0.15)';
+                  e.currentTarget.style.transform    = 'translateY(-3px)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.boxShadow   = 'none';
+                  e.currentTarget.style.transform    = 'translateY(0)';
+                }}
+              >
+                <img
+                  src={logo}
+                  alt={i < brandLogos.length ? `Brand partner ${i + 1}` : ''}
+                  loading="lazy"
+                  style={{
+                    height:    'clamp(40px, 5vw, 64px)',
+                    width:     'auto',
+                    maxWidth:  '140px',
+                    objectFit: 'contain',
+                    display:   'block',
+                  }}
+                  onError={e => {
+                    const src = e.currentTarget.src;
+                    if (src.endsWith('.jpg')) {
+                      e.currentTarget.src = src.replace('.jpg', '.jpeg');
+                    } else {
+                      e.currentTarget.parentElement.style.display = 'none';
+                    }
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ═══════════ PORTFOLIO ═══════════ */}
       <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--bg-alt)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
 
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
@@ -503,7 +682,7 @@ export default function Home() {
               Our Creative Work
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem', color: 'var(--text-muted)', maxWidth: '440px', margin: '0 auto' }}>
-              A curated selection of campaigns, 3D renders, and brand experiences.
+              A curated selection of AI campaigns, 3D renders, and brand experiences.
             </p>
           </div>
 
@@ -517,7 +696,7 @@ export default function Home() {
                   fontFamily:   "'DM Sans', sans-serif",
                   fontSize:     '12px',
                   fontWeight:   500,
-                  padding:      '6px 15px',
+                  padding:      '7px 16px',
                   borderRadius: '99px',
                   border:       activeFilter === f ? 'none' : '1px solid var(--border-dark)',
                   background:   activeFilter === f ? 'var(--orange)' : 'transparent',
@@ -531,28 +710,16 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Masonry grid */}
-          <div style={{ columns: 'auto', columnCount: 4, columnGap: '14px' }} className="portfolio-grid">
-            {filtered.map((item, i) =>
-              item.type === 'shorts' ? (
-                <ShortsPortfolioCard
-                  key={`${item.videoId}-${i}`}
-                  item={item}
-                  onClick={() => handleItemClick(item)}
-                />
-              ) : (
-                <ImagePortfolioCard
-                  key={`${item.src}-${i}`}
-                  item={item}
-                  onClick={() => handleItemClick(item)}
-                />
-              )
-            )}
-          </div>
+          {/* Grid: bento for All, masonry for filtered */}
+          {activeFilter === 'All' ? (
+            <BentoGrid items={filtered} onItemClick={handleItemClick} />
+          ) : (
+            <MasonryGrid items={filtered} onItemClick={handleItemClick} />
+          )}
 
-          {/* "View All Work" — hidden when filter is "All" */}
+          {/* View All button (only when a filter is active) */}
           {activeFilter !== 'All' && filterRoutes[activeFilter] && (
-            <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <div style={{ textAlign: 'center', marginTop: '32px' }}>
               <button className="btn-outline" onClick={handleViewAllWork}>
                 View All {activeFilter} Work →
               </button>
@@ -561,96 +728,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════ BRAND LOGO MARQUEE ═══════════ */}
-      <section style={{
-        padding:      '52px 0',
-        background:   'var(--bg)',
-        borderTop:    '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
-        overflow:     'hidden',
-      }}>
-        <p style={{
-          textAlign:      'center',
-          fontSize:       '10.5px',
-          letterSpacing:  '0.14em',
-          textTransform:  'uppercase',
-          color:          'var(--text-light)',
-          fontFamily:     "'DM Sans', sans-serif",
-          marginBottom:   '28px',
-          fontWeight:     500,
-        }}>
-          Trusted by forward-thinking brands
-        </p>
-
-        {/* Marquee track — duplicate logos for seamless loop */}
-        <div style={{ position: 'relative' }}>
-          {/* Left fade */}
-          <div style={{
-            position:   'absolute', left: 0, top: 0, bottom: 0, width: '120px',
-            background: 'linear-gradient(90deg, var(--bg) 0%, transparent 100%)',
-            zIndex:     2, pointerEvents: 'none',
-          }} />
-          {/* Right fade */}
-          <div style={{
-            position:   'absolute', right: 0, top: 0, bottom: 0, width: '120px',
-            background: 'linear-gradient(270deg, var(--bg) 0%, transparent 100%)',
-            zIndex:     2, pointerEvents: 'none',
-          }} />
-
-          <div className="marquee-track">
-            {/* First set */}
-            {brandLogos.map((logo, i) => (
-              <div key={`a-${i}`} className="marquee-logo">
-                <img
-                  src={logo}
-                  alt={`Brand partner ${i + 1}`}
-                  style={{
-                    height:    'clamp(28px, 3.5vw, 44px)',
-                    width:     'auto',
-                    maxWidth:  '130px',
-                    objectFit: 'contain',
-                    filter:    'grayscale(100%) opacity(0.55)',
-                    transition:'filter 0.3s ease',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.filter = 'grayscale(0%) opacity(1)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%) opacity(0.55)'; }}
-                  onError={e => { e.currentTarget.style.display = 'none'; }}
-                />
-              </div>
-            ))}
-            {/* Duplicate set for infinite loop */}
-            {brandLogos.map((logo, i) => (
-              <div key={`b-${i}`} className="marquee-logo" aria-hidden="true">
-                <img
-                  src={logo}
-                  alt=""
-                  style={{
-                    height:    'clamp(28px, 3.5vw, 44px)',
-                    width:     'auto',
-                    maxWidth:  '130px',
-                    objectFit: 'contain',
-                    filter:    'grayscale(100%) opacity(0.55)',
-                    transition:'filter 0.3s ease',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.filter = 'grayscale(0%) opacity(1)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%) opacity(0.55)'; }}
-                  onError={e => { e.currentTarget.style.display = 'none'; }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══════════ WHY TRIKA ═══════════ */}
       <section style={{ padding: 'clamp(56px, 8vw, 96px) 24px', background: 'var(--bg)' }}>
         <div style={{
-          maxWidth:             '1100px',
-          margin:               '0 auto',
-          display:              'grid',
-          gridTemplateColumns:  '1fr 1fr',
-          gap:                  'clamp(36px, 6vw, 72px)',
-          alignItems:           'center',
+          maxWidth:            '1100px',
+          margin:              '0 auto',
+          display:             'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap:                 'clamp(36px, 6vw, 72px)',
+          alignItems:          'center',
         }} className="why-grid">
           <div>
             <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Why Trika Studio</span>
@@ -710,14 +796,23 @@ export default function Home() {
       {/* ═══════════ STYLES ═══════════ */}
       <style>{`
         /* Portfolio hover reveals */
-        .portfolio-item:hover .portfolio-overlay  { opacity: 1 !important; }
-        .portfolio-item:hover .portfolio-label    { opacity: 1 !important; }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1 !important; }
+        .portfolio-item:hover .portfolio-label   { opacity: 1 !important; }
 
-        /* Portfolio grid columns */
-        .portfolio-grid { column-count: 4; }
-        @media (max-width: 1024px) { .portfolio-grid { column-count: 3 !important; } }
-        @media (max-width:  768px) { .portfolio-grid { column-count: 2 !important; } }
-        @media (max-width:  380px) { .portfolio-grid { column-count: 1 !important; } }
+        /* Masonry responsive */
+        .portfolio-masonry { column-count: 3; }
+        @media (max-width: 768px) { .portfolio-masonry { column-count: 2 !important; } }
+        @media (max-width: 420px) { .portfolio-masonry { column-count: 1 !important; } }
+
+        /* Bento responsive */
+        @media (max-width: 767px) {
+          .bento-collage-desktop { display: none !important; }
+          .bento-collage-tablet  { display: grid !important; }
+        }
+        @media (max-width: 479px) {
+          .bento-collage-tablet  { display: none !important; }
+          .bento-collage-mobile  { display: grid !important; }
+        }
 
         /* Why grid */
         @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr !important; } }
@@ -727,30 +822,21 @@ export default function Home() {
 
         /* ── Marquee ── */
         .marquee-track {
-          display:         flex;
-          align-items:     center;
-          gap:             clamp(32px, 5vw, 64px);
-          width:           max-content;
-          animation:       marquee-scroll 32s linear infinite;
-          will-change:     transform;
-          padding:         0 clamp(16px, 3vw, 40px);
+          display:      flex;
+          align-items:  center;
+          gap:          clamp(12px, 2vw, 24px);
+          width:        max-content;
+          animation:    marquee-scroll 18s linear infinite;
+          will-change:  transform;
+          padding:      6px clamp(12px, 2vw, 24px);
         }
         .marquee-track:hover { animation-play-state: paused; }
-
-        .marquee-logo {
-          display:         flex;
-          align-items:     center;
-          justify-content: center;
-          flex-shrink:     0;
-          padding:         6px 0;
-        }
 
         @keyframes marquee-scroll {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
 
-        /* Pause on reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .marquee-track { animation: none; }
         }
