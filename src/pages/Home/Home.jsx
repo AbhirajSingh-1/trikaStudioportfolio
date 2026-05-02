@@ -28,11 +28,11 @@ const services = [
 const portfolioItems = [
   { src: 'https://picsum.photos/seed/trika-food-1/600/500',   label: 'Food & Beverage Campaign',    cat: 'Social Media', tall: false },
   { src: 'https://picsum.photos/seed/trika-tech-2/600/700',   label: 'Tech Product Launch',          cat: 'AI Advertising', tall: true },
-  { src: 'https://picsum.photos/seed/trika-arch-3/600/450',   label: 'Architectural Visualization',  cat: '3D Render', tall: false },
+  { src: 'https://picsum.photos/seed/trika-arch-3/600/450',   label: 'Architectural Visualization',  cat: '3D-visulization', tall: false },
   { src: 'https://picsum.photos/seed/trika-fash-4/600/600',   label: 'Fashion Brand Identity',       cat: 'Branding', tall: false },
   { src: 'https://picsum.photos/seed/trika-rest-5/600/650',   label: 'Restaurant Social Pack',       cat: 'Social Media', tall: true },
   { src: 'https://picsum.photos/seed/trika-chai-6/600/450',   label: 'Beverage Ad Campaign',         cat: 'AI Advertising', tall: false },
-  { src: 'https://picsum.photos/seed/trika-real-7/600/500',   label: 'Real Estate 3D Walkthrough',   cat: '3D Render', tall: false },
+  { src: 'https://picsum.photos/seed/trika-real-7/600/500',   label: 'Real Estate 3D Walkthrough',   cat: '3D-Visulization', tall: false },
   { src: 'https://picsum.photos/seed/trika-app-8/600/480',    label: 'App Brand Campaign',           cat: 'Performance', tall: false },
 ];
 
