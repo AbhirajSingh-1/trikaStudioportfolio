@@ -72,8 +72,8 @@ export default function About() {
       </section>
 
       {/* ── STATS BAR ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: '36px 24px', borderTop: '3px solid var(--orange)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', textAlign: 'center' }} className="about-stats-grid">
+      <section style={{ background: 'var(--bg-alt)', padding: '24px 24px', borderTop: '3px solid var(--orange)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', textAlign: 'center' }} className="about-stats-grid">
           {stats.map(({ value, label }) => (
             <div key={label}>
               <div style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--orange)', lineHeight: 1 }}>{value}</div>
@@ -84,16 +84,16 @@ export default function About() {
       </section>
 
       {/* ── ABOUT DESCRIPTION ── */}
-      <section style={{ background: 'var(--bg)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+      <section style={{ background: 'var(--bg)', padding: 'clamp(36px, 5vw, 60px) 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(32px, 5vw, 64px)', alignItems: 'start' }} className="about-desc-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(28px, 4vw, 56px)', alignItems: 'start' }} className="about-desc-grid">
             <div>
-              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>Who We Are</span>
-              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.08, marginBottom: '20px' }}>
+              <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '16px' }}>Who We Are</span>
+              <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--text)', lineHeight: 1.08, marginBottom: '18px' }}>
                 A New Kind of{' '}
                 <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Creative Agency</em>
               </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
                   'Trika Studio is an AI-first creative agency headquartered in Gurugram, India. We work at the convergence of artificial intelligence, cinematic 3D production, and data-driven marketing to help ambitious brands punch far above their weight class.',
                   "What sets us apart isn't just the technology — it's how we use it. Our team of AI engineers, creative directors, 3D artists, and growth strategists work in a seamlessly integrated studio where machine intelligence amplifies human creativity.",
@@ -104,14 +104,14 @@ export default function About() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {[
                 { label: 'Our Mission', icon: '🎯', text: 'To democratize access to world-class AI-powered creative capabilities, enabling every ambitious brand to compete at the highest level of digital excellence.' },
                 { label: 'Our Vision', icon: '🔭', text: "To become Asia's most innovative AI creative studio — a benchmark for what's possible when technology, creativity, and strategy converge." },
                 { label: 'Our Purpose', icon: '💡', text: 'We create digital experiences that make people feel something. In a world of infinite content, the brands that win are the ones that move people.' },
               ].map(({ label, icon, text }) => (
                 <div key={label} style={{
-                  padding: '22px',
+                  padding: '18px 20px',
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border)',
                   borderRadius: '16px',
@@ -120,7 +120,7 @@ export default function About() {
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(201,72,27,0.08)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                     <span style={{ fontSize: '1.3rem' }}>{icon}</span>
                     <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.1rem', color: 'var(--text)' }}>{label}</h4>
                   </div>
@@ -133,18 +133,18 @@ export default function About() {
       </section>
 
       {/* ── VALUES ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(32px, 4vw, 52px) 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>Our Values</span>
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>Our Values</span>
             <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)' }}>
               What We <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Stand For</em>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }} className="values-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }} className="values-grid">
             {values.map(({ icon, title, desc }) => (
               <div key={title} style={{
-                padding: '28px 22px',
+                padding: '22px 18px',
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 borderRadius: '16px',
@@ -155,7 +155,7 @@ export default function About() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(201,72,27,0.1)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <span style={{ fontSize: '2rem', display: 'block', marginBottom: '14px' }}>{icon}</span>
+                <span style={{ fontSize: '2rem', display: 'block', marginBottom: '12px' }}>{icon}</span>
                 <h4 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 600, fontSize: '1.05rem', color: 'var(--text)', marginBottom: '8px' }}>{title}</h4>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.7 }}>{desc}</p>
               </div>
@@ -165,11 +165,11 @@ export default function About() {
       </section>
 
       {/* ── TEAM ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+      <section style={{ background: 'var(--bg)', padding: 'clamp(32px, 4vw, 52px) 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '14px' }}>The Team</span>
-            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', marginBottom: '10px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '12px' }}>The Team</span>
+            <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', marginBottom: '8px' }}>
               The Minds Behind <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Trika Studio</em>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', maxWidth: '440px', margin: '0 auto' }}>
@@ -192,14 +192,13 @@ export default function About() {
                 {/* Avatar area */}
                 <div style={{
                   position: 'relative',
-                  height: '220px',
+                  height: '200px',
                   background: `linear-gradient(135deg, ${color}15, ${color}05)`,
                   overflow: 'hidden',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                  {/* Decorative circles */}
                   <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', background: `${color}08`, top: '-20px', right: '-20px' }} />
                   <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', background: `${color}06`, bottom: '-10px', left: '-10px' }} />
 
@@ -207,8 +206,8 @@ export default function About() {
                     src={avatar}
                     alt={name}
                     style={{
-                      width: '130px',
-                      height: '130px',
+                      width: '120px',
+                      height: '120px',
                       borderRadius: '50%',
                       objectFit: 'cover',
                       objectPosition: 'center top',
@@ -226,8 +225,8 @@ export default function About() {
                   {/* Initials fallback */}
                   <div style={{
                     display: 'none',
-                    width: '130px',
-                    height: '130px',
+                    width: '120px',
+                    height: '120px',
                     borderRadius: '50%',
                     background: `linear-gradient(135deg, ${color}40, ${color}20)`,
                     border: `3px solid ${color}40`,
@@ -245,10 +244,10 @@ export default function About() {
                 </div>
 
                 {/* Content */}
-                <div style={{ padding: '22px 22px 24px' }}>
+                <div style={{ padding: '18px 20px 22px' }}>
                   <h3 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: '1.25rem', color: 'var(--text)', marginBottom: '3px' }}>{name}</h3>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, color: color, marginBottom: '14px', letterSpacing: '0.02em' }}>{role}</p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '16px' }}>{bio}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, color: color, marginBottom: '12px', letterSpacing: '0.02em' }}>{role}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '14px' }}>{bio}</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {expertise.map(tag => (
                       <span key={tag} style={{
@@ -271,13 +270,13 @@ export default function About() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(56px, 8vw, 90px) 24px', textAlign: 'center' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: 'clamp(40px, 5vw, 64px) 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '18px' }}>Let's Connect</span>
-          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '14px' }}>
+          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '16px' }}>Let's Connect</span>
+          <h2 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text)', lineHeight: 1.1, marginBottom: '12px' }}>
             Want to work <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>with us?</em>
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px' }}>
             We'd love to hear about your project.
           </p>
           <button className="btn-primary" style={{ padding: '13px 32px', fontSize: '15px' }} onClick={() => navigate('/contact')}>

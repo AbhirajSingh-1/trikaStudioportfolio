@@ -76,18 +76,15 @@ const portfolioItems = [
 
 /*
   Bento grid layout for "All" filter (7 items, 4-column grid):
-  Row 1: [AI Ad 1 – 2×2] | [3D Viz 1 – 2×1]
-  Row 2:                  | [AI Ad 2 – 1×1] | [3D Viz 2 – 1×1]
-  Row 3: [SMM 1 – 1×1] | [SMM 2 – 2×1] | [Branding – 1×1]
 */
 const bentoCells = [
-  { col: '1 / 3', row: '1 / 3' }, // AI Ad 1 – large hero
-  { col: '3 / 5', row: '1 / 2' }, // 3D Viz 1 – wide
-  { col: '3 / 4', row: '2 / 3' }, // AI Ad 2
-  { col: '4 / 5', row: '2 / 3' }, // 3D Viz 2
-  { col: '1 / 2', row: '3 / 4' }, // SMM 1
-  { col: '2 / 4', row: '3 / 4' }, // SMM 2 – wide
-  { col: '4 / 5', row: '3 / 4' }, // Branding
+  { col: '1 / 3', row: '1 / 3' },
+  { col: '3 / 5', row: '1 / 2' },
+  { col: '3 / 4', row: '2 / 3' },
+  { col: '4 / 5', row: '2 / 3' },
+  { col: '1 / 2', row: '3 / 4' },
+  { col: '2 / 4', row: '3 / 4' },
+  { col: '4 / 5', row: '3 / 4' },
 ];
 
 /* Maps each filter to its destination page */
@@ -354,19 +351,32 @@ function BentoGrid({ items, onItemClick }) {
   );
 }
 
-/* ─── Filtered masonry grid ─── */
+/* ─── FIX: Filtered grid — uniform CSS grid with aspect-ratio cells, no column-count ─── */
 function MasonryGrid({ items, onItemClick }) {
   return (
-    <div style={{ columns: 'auto', columnCount: 3, columnGap: '12px' }} className="portfolio-masonry">
-      {items.map((item, i) => (
-        <div key={i} style={{ breakInside: 'avoid', marginBottom: '12px' }}>
-          {item.type === 'shorts' ? (
-            <ShortsPortfolioCard item={item} onClick={() => onItemClick(item)} style={{ height: 'auto', minHeight: '200px' }} />
-          ) : (
-            <ImagePortfolioCard item={item} onClick={() => onItemClick(item)} style={{ height: 'auto', minHeight: '180px' }} />
-          )}
-        </div>
-      ))}
+    <div
+      style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
+      className="portfolio-filter-grid"
+    >
+      {items.map((item, i) =>
+        item.type === 'shorts' ? (
+          <div key={i} style={{ aspectRatio: '3/4' }}>
+            <ShortsPortfolioCard
+              item={item}
+              onClick={() => onItemClick(item)}
+              style={{ height: '100%', minHeight: 'unset' }}
+            />
+          </div>
+        ) : (
+          <div key={i} style={{ aspectRatio: '4/3' }}>
+            <ImagePortfolioCard
+              item={item}
+              onClick={() => onItemClick(item)}
+              style={{ height: '100%', minHeight: 'unset' }}
+            />
+          </div>
+        )
+      )}
     </div>
   );
 }
@@ -509,11 +519,10 @@ export default function Home() {
               </span>
             ))}
           </div>
-          {/* ── Scroll cue REMOVED — no extra space below chips ── */}
         </div>
       </section>
 
-      {/* ═══════════ 0303 SHOWCASE IMAGE (moved BEFORE services) ═══════════ */}
+      {/* ═══════════ SHOWCASE IMAGE ═══════════ */}
       <section style={{ background: 'var(--bg)', lineHeight: 0, overflow: 'hidden' }}>
         <img
           src="/0303.png"
@@ -600,22 +609,18 @@ export default function Home() {
           Trusted by forward-thinking brands
         </p>
 
-        {/* ── Marquee wrapper ── */}
         <div style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Left fade */}
           <div style={{
             position: 'absolute', left: 0, top: 0, bottom: 0, width: '120px',
             background: 'linear-gradient(90deg, var(--bg) 0%, transparent 100%)',
             zIndex: 2, pointerEvents: 'none',
           }} />
-          {/* Right fade */}
           <div style={{
             position: 'absolute', right: 0, top: 0, bottom: 0, width: '120px',
             background: 'linear-gradient(270deg, var(--bg) 0%, transparent 100%)',
             zIndex: 2, pointerEvents: 'none',
           }} />
 
-          {/* Track — duplicate logos for seamless loop */}
           <div className="marquee-track">
             {[...brandLogos, ...brandLogos].map((logo, i) => (
               <div
@@ -710,14 +715,14 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Grid: bento for All, masonry for filtered */}
+          {/* Grid */}
           {activeFilter === 'All' ? (
             <BentoGrid items={filtered} onItemClick={handleItemClick} />
           ) : (
             <MasonryGrid items={filtered} onItemClick={handleItemClick} />
           )}
 
-          {/* View All button (only when a filter is active) */}
+          {/* View All button */}
           {activeFilter !== 'All' && filterRoutes[activeFilter] && (
             <div style={{ textAlign: 'center', marginTop: '32px' }}>
               <button className="btn-outline" onClick={handleViewAllWork}>
@@ -799,10 +804,16 @@ export default function Home() {
         .portfolio-item:hover .portfolio-overlay { opacity: 1 !important; }
         .portfolio-item:hover .portfolio-label   { opacity: 1 !important; }
 
-        /* Masonry responsive */
-        .portfolio-masonry { column-count: 3; }
-        @media (max-width: 768px) { .portfolio-masonry { column-count: 2 !important; } }
-        @media (max-width: 420px) { .portfolio-masonry { column-count: 1 !important; } }
+        /* FIX: On touch devices (mobile/tablet) always show labels — no hover available */
+        @media (hover: none) {
+          .portfolio-label   { opacity: 1 !important; }
+          .portfolio-overlay { opacity: 0.55 !important; }
+        }
+
+        /* FIX: Filter grid responsive */
+        .portfolio-filter-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (max-width: 768px) { .portfolio-filter-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 420px) { .portfolio-filter-grid { grid-template-columns: 1fr !important; } }
 
         /* Bento responsive */
         @media (max-width: 767px) {
