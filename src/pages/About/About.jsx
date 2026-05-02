@@ -61,10 +61,7 @@ export default function About() {
       {/* ── HERO ── */}
       <section className="page-hero">
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ display: 'inline-flex', marginBottom: '20px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} className="animate-pulse" />
-            Our Story
-          </span>
+          
           <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
             About <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Trika Studio</em>
           </h1>

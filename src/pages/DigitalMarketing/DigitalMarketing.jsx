@@ -185,10 +185,7 @@ export default function DigitalMarketing() {
       {/* ── HERO ── */}
       <section className="page-hero">
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '760px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ marginBottom: '20px', display: 'inline-flex', color: '#B45309', background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.28)' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }} className="animate-pulse" />
-            Growth Marketing
-          </span>
+           
           <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '16px' }}>
             Digital <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Marketing</em>
           </h1>

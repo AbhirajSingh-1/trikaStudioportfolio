@@ -92,12 +92,7 @@ export default function Home() {
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '0 auto' }}>
           {/* Tag */}
-          <div className="animate-fade-in" style={{ marginBottom: '22px', animationFillMode: 'both' }}>
-            <span className="section-tag">
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} className="animate-pulse" />
-              AI-First Digital Agency · Gurugram
-            </span>
-          </div>
+           
 
           {/* Main headline */}
           <h1

@@ -404,10 +404,7 @@ export default function AIAdvertising() {
 
       <section className="page-hero">
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ marginBottom: '18px', display: 'inline-flex' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9481B', display: 'inline-block' }} className="animate-pulse" />
-            AI-Powered Creative
-          </span>
+           
           <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
             AI <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Advertising</em>
           </h1>

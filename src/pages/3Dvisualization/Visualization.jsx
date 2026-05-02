@@ -193,10 +193,7 @@ export default function Visualization() {
       {/* ── HERO ── */}
       <section className="page-hero">
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
-          <span className="section-tag" style={{ marginBottom: '18px', display: 'inline-flex', color: '#7C3AED', background: 'rgba(124,58,237,0.08)', borderColor: 'rgba(124,58,237,0.22)' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#7C3AED', display: 'inline-block' }} className="animate-pulse" />
-            3D & Visual Production
-          </span>
+           
           <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 700, fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.06, color: 'var(--text)', marginBottom: '18px' }}>
             3D <em style={{ color: 'var(--orange)', fontStyle: 'italic' }}>Visualization</em>
           </h1>
